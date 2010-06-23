@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="webMethods Optimize Analytic Engine" default="build" basedir=".">
+
+    <property file="build.properties" />
+	
+	<property name="lib.dir" value="${basedir}/lib" />
+	
+	<!-- Include Ant Contrib library tasks into the build script. -->
+	<taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${lib.dir}/ant-contrib.jar" />
+	
+	<target name="clean">
+		<delete dir="${build.output.dir}" />
+	</target>
+	
+	<target name="checkOut"/>
+	
+	<target name="build">
+		<mkdir dir="${build.output.dir}" />
+		<mkdir dir="${assets.source.dir}" />
+		
+		<!-- Build separately each asset under the assets source directory. -->
+		<foreach target="build.asset" param="asset.dir">
+			<path>
+				<dirset dir="${assets.source.dir}" includes="*/"/>
+			</path>
+			<param name="asset.dir" value="${foreach.dir}" />
+		</foreach>
+	</target>
+	
+	<target name="build.asset">
+		<basename property="asset.name" file="${asset.dir}" />
+		<echo message="Building asset: ${asset.name}" />
+		
+		<!-- Package asset (composite) in a ZIP archive. -->
+		<zip destfile="${build.output.dir}/${asset.name}.zip" basedir="${asset.dir}" update="true" />
+		
+		<!-- Copy asset's composite XML file into the build output directory. -->
+		<copy todir="${build.output.dir}">
+			<fileset dir="${asset.dir}" includes="*.composite" />
+		</copy>
+	</target>
+	
+</project>
