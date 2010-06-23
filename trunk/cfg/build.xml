@@ -1,44 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="webMethods Optimize Analytic Engine" default="build" basedir=".">
+<project name="wm.optimize.ae.assets.build" default="build" basedir=".">
+	
+	<description description="webMethods Optimize Analytic Engine's Assets Build" />
 
-    <property file="build.properties" />
-	
+	<property file="build.properties" />
+
 	<property name="lib.dir" value="${basedir}/../lib" />
-	
+
 	<!-- Include Ant Contrib library tasks into the build script. -->
 	<taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${lib.dir}/ant-contrib.jar" />
-	
+
+	<!-- Include Ant SVN library tasks into the build script. -->
+	<taskdef resource="org/apache/ant/svn/antlib.xml" classpath="${lib.dir}/ant-svn.jar" />
+
 	<target name="clean">
 		<delete dir="${build.output.dir}" />
 	</target>
-	
-	<target name="checkOut"/>
-	
-	<target name="build">
+
+	<target name="prepare">
 		<mkdir dir="${build.output.dir}" />
-		<mkdir dir="${assets.source.dir}" />
-		
+		<mkdir dir="${assets.dir}" />
+	</target>
+
+	<target name="checkout" depends="prepare">
+		<svn svnurl="${svn.url}" dest="${build.output.dir}" />
+		<delete includeemptydirs="true">
+			<fileset dir="${assets.dir}" includes="**/.svn/" defaultexcludes="false" />
+		</delete>
+	</target>
+
+	<target name="build" depends="prepare">
+
 		<!-- Build separately each asset under the assets source directory. -->
 		<foreach target="build.asset" param="asset.dir">
 			<path>
-				<dirset dir="${assets.source.dir}" includes="*/"/>
+				<dirset dir="${assets.dir}" includes="*/" />
 			</path>
 			<param name="asset.dir" value="${foreach.dir}" />
 		</foreach>
 	</target>
-	
+
 	<target name="build.asset">
 		<basename property="asset.name" file="${asset.dir}" />
 		<echo message="Building asset: ${asset.name}" />
-		
+
 		<!-- Package asset (composite) in a ZIP archive. -->
 		<zip destfile="${build.output.dir}/${asset.name}.zip" basedir="${asset.dir}" update="true" />
-		
+
 		<!-- Copy asset's composite XML file into the build output directory. -->
 		<copy todir="${build.output.dir}">
 			<fileset dir="${asset.dir}" includes="*.composite" />
 		</copy>
 	</target>
-	
+
+	<target name="delete.assets">
+		<!-- Delete the assets directory. It is not needed because during each build
+			all assets are checked out from SVN. -->
+		<delete dir="${assets.dir}" />
+	</target>
+
+	<!-- Uploads (copies) all built assets to central repository (file system). -->
+	<target name="upload.to.repository">
+		<echo message="Uploading assets to the central repository has not been implemented yet." />
+	</target>
+
+	<target name="all" depends="clean, checkout, build, delete.assets, upload.to.repository">
+		<echo message="All assets have been built and uploaded to the central repository." />
+	</target>
+
 </project>
