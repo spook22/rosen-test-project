@@ -1,0 +1,7 @@
+<rule ruleName="BB IKPI (1-min) BasePrice Above Normal 3 intervals"	description="BB IKPI (1-min) BasePrice Above Normal 3 intervals"	ruleType="kpi"	enabled="true"	sticky="false"	sixSigmaOn="true"	dataFilterViewID="SD Above BasePrice KPI Filter"	author="Administrator" 	customer="" 	severity="" 	derivedName="$BAMCompany.BAMCompany BB IKPI (1-min) BasePrice Above Normal 3 intervals">
+<expression intervalsToReach="3">
+<kpi propertyKey ="diagnosis.AboveNormal" category ="BAMOnlyCarl" >BAMBasePrice by BAMRegion SUM for min309578313 $</kpi>
+<greaterThan/>
+<number>0</number>
+</expression>
+</rule>

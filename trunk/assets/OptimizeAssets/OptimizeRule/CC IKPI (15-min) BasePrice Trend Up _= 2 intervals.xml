@@ -1,0 +1,7 @@
+<rule ruleName="CC IKPI (15-min) BasePrice Trend Up &gt;= 2 intervals"	description="CC IKPI (15-min) BasePrice Trend Up &gt;= 2 intervals"	ruleType="kpi"	enabled="false"	sticky="false"	sixSigmaOn="true"	dataFilterViewID="BAMCompany 1-10-1 Only"	author="Administrator" 	sla="true" 	derivedName="$BAMCompany.BAMCompany IKPI (15-min) BasePrice Trend Up &gt;= 2 intervals">
+<expression intervalsToReach="1">
+<kpi propertyKey ="diagnosis.TrendUp" category ="BAMOnlyCarl" >BAMBasePrice by BAMRegion SUM for 15 min309578313 $</kpi>
+<greaterThanOrEqualTo/>
+<number>2</number>
+</expression>
+</rule>

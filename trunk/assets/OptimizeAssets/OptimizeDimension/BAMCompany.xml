@@ -1,0 +1,10 @@
+<DimensionDefinition name= "BAMCompany" BaseType= "BAMCompany" lastRevisionName= "null" revisionTime= "1279797681218" revision= "1" lastRevision= "0" author= "Internal" description= "null" userDefined= "true" >
+	<IdentityAttributes>
+		<Attribute AttributeName="BAMCompany" AttributeDisplayName ="BAMCompany"/>
+	</IdentityAttributes>
+	<PropertyAttributes>
+	</PropertyAttributes>
+	<RequiredAttributes>
+		<Attribute>BAMCompany</Attribute>
+	</RequiredAttributes>
+</DimensionDefinition>
