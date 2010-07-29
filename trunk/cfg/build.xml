@@ -6,8 +6,6 @@
 
 	<property file="build.properties" />
 
-	<property name="lib.dir" value="${basedir}/../lib" />
-
 	<!-- Include Ant Contrib library tasks into the build script. -->
 	<taskdef resource="net/sf/antcontrib/antlib.xml" classpath="${lib.dir}/ant-contrib.jar" />
 
