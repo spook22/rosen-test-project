@@ -1,7 +1,0 @@
-<rule ruleName="CC CKPI (30-min) BP_MAP2 (VIST0) * AOP1_MAP2 (VIST0) = 0"	description="CC CKPI (30-min) BP_MAP2 (VIST0) * AOP1_MAP2 (VIST0) = 0"	ruleType="kpi"	enabled="false"	sticky="false"	sixSigmaOn="true"	dataFilterViewID="F_Missing Only"	author="Administrator" 	sla="true" 	derivedName="$BAMCompany.BAMCompany CKPI (30-min) BP_MAP2 (VIST0) * AOP1_MAP2 (VIST0) = 0">
-<expression intervalsToReach="1">
-<kpi propertyKey ="reading.value" category ="BAMOnlyCarl" >BP_MAP2 (VIST0) * AOP1_MAP2 (VIST0) (30-min)</kpi>
-<equalTo/>
-<number>0</number>
-</expression>
-</rule>

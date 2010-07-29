@@ -1,7 +1,0 @@
-<rule ruleName="OrderAmountAboveNormal_1time"	description="Order Amount Exceeded Rule"	ruleType="kpi"	enabled="true"	sticky="false"	sixSigmaOn="false"	dataFilterViewID=""	author="Administrator" 	customer="" 	severity="Low" 	derivedName="OrderAmountAboveNormal_$Region.RegionName">
-<expression intervalsToReach="1">
-<kpi propertyKey ="diagnosis.AboveNormal" category ="OrderToCash" >Order Amount By Region</kpi>
-<greaterThan/>
-<number>0</number>
-</expression>
-</rule>
