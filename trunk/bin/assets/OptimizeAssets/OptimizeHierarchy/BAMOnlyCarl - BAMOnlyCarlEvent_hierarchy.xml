@@ -1,0 +1,17 @@
+<Hierarchy name= "BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy" lastRevisionName= "null" revisionTime= "1279797682077" revision= "1" lastRevision= "0" author= "Internal" description= "null" userDefined= "yes" >
+	<Attribute>
+		<Setting dimName= "BAMCompany" dimVersion= "1" dimAttributeName= "BAMCompany" />
+		<Attribute>
+			<Setting dimName= "BAMRegion" dimVersion= "1" dimAttributeName= "BAMRegion" />
+			<Attribute>
+				<Setting dimName= "BAMMake" dimVersion= "1" dimAttributeName= "BAMMake" />
+				<Attribute>
+					<Setting dimName= "BAMModel" dimVersion= "1" dimAttributeName= "BAMModel" />
+					<Attribute>
+						<Setting dimName= "BAMWarranty" dimVersion= "1" dimAttributeName= "BAMWarranty" />
+					</Attribute>
+				</Attribute>
+			</Attribute>
+		</Attribute>
+	</Attribute>
+</Hierarchy>

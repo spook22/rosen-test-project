@@ -1,0 +1,7 @@
+<rule ruleName="CC IKPI (5-min) BaseMargin &gt;= $600"	description="CC IKPI (5-min) BaseMargin &gt;= $600"	ruleType="kpi"	enabled="false"	sticky="false"	sixSigmaOn="true"	dataFilterViewID="BAMCompany 1-10-1 Only"	author="Administrator" 	sla="true" 	derivedName="$BAMCompany.BAMCompany IKPI (5-min) BaseMargin &gt;= $600">
+<expression intervalsToReach="1">
+<kpi propertyKey ="reading.value" category ="BAMOnlyCarl" >BAMBaseMargin by BAMRegion AVG for 5 min (legacy)309578313 $</kpi>
+<greaterThanOrEqualTo/>
+<number>600</number>
+</expression>
+</rule>

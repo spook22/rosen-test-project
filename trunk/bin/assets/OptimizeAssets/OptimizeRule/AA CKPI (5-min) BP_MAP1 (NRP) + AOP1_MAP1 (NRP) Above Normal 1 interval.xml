@@ -1,0 +1,7 @@
+<rule ruleName="AA CKPI (5-min) BP_MAP1 (NRP) + AOP1_MAP1 (NRP) Above Normal 1 interval"	description="AA CKPI (5-min) BP_MAP1 (NRP) + AOP1_MAP1 (NRP) Above Normal 1 interval"	ruleType="kpi"	enabled="false"	sticky="false"	sixSigmaOn="true"	dataFilterViewID="SD Above BasePrice KPI Filter"	author="Administrator" 	sla="true" 	derivedName="$BAMCompany.BAMCompany CKPI (5-min) BP_MAP1 (NRP) + AOP1_MAP1 (NRP) Above Normal 1 interval">
+<expression intervalsToReach="1">
+<kpi propertyKey ="diagnosis.AboveNormal" category ="BAMOnlyCarl" >BP_MAP1 (NRP) + AOP1_MAP1 (NRP) (5-min)</kpi>
+<greaterThan/>
+<number>1</number>
+</expression>
+</rule>

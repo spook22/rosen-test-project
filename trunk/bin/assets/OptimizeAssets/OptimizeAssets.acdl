@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<acdl_composite targetNamespace="testNamespace" runtimeVersion="testVersion" name="OptimizeAssets">
+    <asset name="A_ Monitors Only" isDeployable="true">
+        <implementation.generic type="OptimizeDataFilter"/>
+        <dependsOn>OptimizeDimension.BAMCompany</dependsOn>
+    </asset>
+    <asset name="A_ Monitors Plus" isDeployable="true">
+        <implementation.generic type="OptimizeDataFilter"/>
+        <dependsOn>OptimizeDimension.BAMCompany</dependsOn>
+    </asset>
+    <asset name="BAMCompany 1-10-1 Only" isDeployable="true">
+        <implementation.generic type="OptimizeDataFilter"/>
+        <dependsOn>OptimizeDimension.BAMCompany</dependsOn>
+    </asset>
+    <asset name="Event Trending Down Filter &gt;= 5 intervals" isDeployable="true">
+        <implementation.generic type="OptimizeDataFilter"/>
+        <dependsOn>OptimizeDimension.BAMCompany</dependsOn>
+    </asset>
+    <asset name="F_Missing Only" isDeployable="true">
+        <implementation.generic type="OptimizeDataFilter"/>
+        <dependsOn>OptimizeDimension.BAMCompany</dependsOn>
+    </asset>
+    <asset name="KPI Trending Up Filter = 3 intervals" isDeployable="true">
+        <implementation.generic type="OptimizeDataFilter"/>
+        <dependsOn>OptimizeDimension.BAMCompany</dependsOn>
+    </asset>
+    <asset name="SD Above BasePrice KPI Filter" isDeployable="true">
+        <implementation.generic type="OptimizeDataFilter"/>
+        <dependsOn>OptimizeDimension.BAMCompany</dependsOn>
+    </asset>
+    <asset name="SD Below BasePrice KPI Filter" isDeployable="true">
+        <implementation.generic type="OptimizeDataFilter"/>
+        <dependsOn>OptimizeDimension.BAMCompany</dependsOn>
+    </asset>
+    <asset name="BAMCompany" isDeployable="true">
+        <implementation.generic type="OptimizeDimension"/>
+    </asset>
+    <asset name="BAMMake" isDeployable="true">
+        <implementation.generic type="OptimizeDimension"/>
+    </asset>
+    <asset name="BAMModel" isDeployable="true">
+        <implementation.generic type="OptimizeDimension"/>
+    </asset>
+    <asset name="BAMRegion" isDeployable="true">
+        <implementation.generic type="OptimizeDimension"/>
+    </asset>
+    <asset name="BAMWarranty" isDeployable="true">
+        <implementation.generic type="OptimizeDimension"/>
+    </asset>
+    <asset name="Branch" isDeployable="true">
+        <implementation.generic type="OptimizeDimension"/>
+    </asset>
+    <asset name="Customer" isDeployable="true">
+        <implementation.generic type="OptimizeDimension"/>
+    </asset>
+    <asset name="MyTestDimension" isDeployable="true">
+        <implementation.generic type="OptimizeDimension"/>
+    </asset>
+    <asset name="MyTestDimension&amp;" isDeployable="true">
+        <implementation.generic type="OptimizeDimension"/>
+    </asset>
+    <asset name="Region" isDeployable="true">
+        <implementation.generic type="OptimizeDimension"/>
+    </asset>
+    <asset name="Website" isDeployable="true">
+        <implementation.generic type="OptimizeDimension"/>
+    </asset>
+    <asset name="WebsiteDimension" isDeployable="true">
+        <implementation.generic type="OptimizeDimension"/>
+    </asset>
+    <asset name="BAMOnlyCarl - BAMOnlyCarlEvent" isDeployable="true">
+        <implementation.generic type="OptimizeEventMap"/>
+        <dependsOn>OptimizeDimension.BAMCompany</dependsOn>
+        <dependsOn>OptimizeDimension.BAMMake</dependsOn>
+        <dependsOn>OptimizeDimension.BAMModel</dependsOn>
+        <dependsOn>OptimizeDimension.BAMRegion</dependsOn>
+        <dependsOn>OptimizeDimension.BAMWarranty</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="BAMOnlyCarl2 - BAMOnlyCarlEvent2" isDeployable="true">
+        <implementation.generic type="OptimizeEventMap"/>
+        <dependsOn>OptimizeDimension.BAMCompany</dependsOn>
+        <dependsOn>OptimizeDimension.BAMMake</dependsOn>
+        <dependsOn>OptimizeDimension.BAMModel</dependsOn>
+        <dependsOn>OptimizeDimension.BAMRegion</dependsOn>
+        <dependsOn>OptimizeDimension.BAMWarranty</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="OrderToCash_Booked" isDeployable="true">
+        <implementation.generic type="OptimizeEventMap"/>
+        <dependsOn>OptimizeDimension.Branch</dependsOn>
+        <dependsOn>OptimizeDimension.Customer</dependsOn>
+        <dependsOn>OptimizeDimension.Region</dependsOn>
+        <dependsOn>OptimizeDimension.WebsiteDimension</dependsOn>
+        <dependsOn>OptimizeEventMap.OrderToCash_Booked</dependsOn>
+        <dependsOn>OptimizeHierarchy.OrderToCashHierarchy</dependsOn>
+    </asset>
+    <asset name="BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy" isDeployable="true">
+        <implementation.generic type="OptimizeHierarchy"/>
+        <dependsOn>OptimizeDimension.BAMCompany</dependsOn>
+        <dependsOn>OptimizeDimension.BAMMake</dependsOn>
+        <dependsOn>OptimizeDimension.BAMModel</dependsOn>
+        <dependsOn>OptimizeDimension.BAMRegion</dependsOn>
+        <dependsOn>OptimizeDimension.BAMWarranty</dependsOn>
+    </asset>
+    <asset name="BAMOnlyCarl2 - BAMOnlyCarlEvent2_hierarchy" isDeployable="true">
+        <implementation.generic type="OptimizeHierarchy"/>
+        <dependsOn>OptimizeDimension.BAMCompany</dependsOn>
+        <dependsOn>OptimizeDimension.BAMMake</dependsOn>
+        <dependsOn>OptimizeDimension.BAMModel</dependsOn>
+        <dependsOn>OptimizeDimension.BAMRegion</dependsOn>
+        <dependsOn>OptimizeDimension.BAMWarranty</dependsOn>
+    </asset>
+    <asset name="OrderToCashHierarchy" isDeployable="true">
+        <implementation.generic type="OptimizeHierarchy"/>
+        <dependsOn>OptimizeDimension.Branch</dependsOn>
+        <dependsOn>OptimizeDimension.Customer</dependsOn>
+        <dependsOn>OptimizeDimension.Region</dependsOn>
+    </asset>
+    <asset name="BAMOnlyCarl_ID" isDeployable="true">
+        <implementation.generic type="OptimizeProcessConfig"/>
+    </asset>
+    <asset name="OrderToCashProject/OrderToCash" isDeployable="true">
+        <implementation.generic type="OptimizeProcessConfig"/>
+    </asset>
+    <asset name="AA CKPI (1-min) BP_MAP1 (NRP) + AOP1_MAP1 (NRP) = $10,000" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.BAMCompany 1-10-1 Only</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="AA CKPI (1-min) BP_MAP1 (NRP) + AOP1_MAP1 (NRP) &gt; $19,000" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.BAMCompany 1-10-1 Only</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="AA CKPI (1-min) BP_MAP1 (NRP) + AOP1_MAP1 (NRP) Above Normal 3 intervals" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.SD Above BasePrice KPI Filter</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="AA CKPI (1-min) BP_MAP1 (NRP) + AOP1_MAP1 (NRP) Below Normal 3 intervals" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.BAMCompany 1-10-1 Only</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="AA CKPI (1-min) BP_MAP1 (NRP) + AOP1_MAP1 (NRP) Trend Down &gt; 5" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.BAMCompany 1-10-1 Only</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="AA CKPI (1-min) BP_MAP1 (NRP) + AOP1_MAP1 (NRP) Trend Up &gt;= 3" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.BAMCompany 1-10-1 Only</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="AA CKPI (5-min) BP_MAP1 (NRP) * AOP1_MAP1 (NRP) &gt;= $2,500,000" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.A_ Monitors Only</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="AA CKPI (5-min) BP_MAP1 (NRP) + AOP1_MAP1 (NRP) = $5,000" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.A_ Monitors Only</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="AA CKPI (5-min) BP_MAP1 (NRP) + AOP1_MAP1 (NRP) Above Normal 1 interval" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.SD Above BasePrice KPI Filter</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="AA CKPI (5-min) BP_MAP1 (NRP) + AOP1_MAP1 (NRP) Below Normal 1 interval" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.A_ Monitors Plus</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="AA CKPI (5-min) BP_MAP1 (NRP) + AOP1_MAP1 (NRP) Trend Down &gt;= 2" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.Event Trending Down Filter &gt;= 5 intervals</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="AA CKPI (5-min) BP_MAP1 (NRP) + AOP1_MAP1 (NRP) Trend Up = 3" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.KPI Trending Up Filter = 3 intervals</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="BB IKPI (1-min) BasePrice = $4,000 Event" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.BAMCompany 1-10-1 Only</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="BB IKPI (1-min) BasePrice &gt; $9,000 KPI" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.BAMCompany 1-10-1 Only</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="BB IKPI (1-min) BasePrice &gt;= $9,000 Event" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.BAMCompany 1-10-1 Only</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="BB IKPI (1-min) BasePrice Above Normal 3 intervals" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.SD Above BasePrice KPI Filter</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="BB IKPI (1-min) BasePrice Below Normal 3 intervals" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.SD Below BasePrice KPI Filter</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="BB IKPI (1-min) BasePrice Trend Down &gt;= 5 intervals" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.Event Trending Down Filter &gt;= 5 intervals</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="BB IKPI (1-min) BasePrice Trend Up = 3 intervals" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.KPI Trending Up Filter = 3 intervals</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="CC CKPI (10-min) BM_MAP1 (Avg) - AOM_MAP2 (Avg) &gt;= $500" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.BAMCompany 1-10-1 Only</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="CC CKPI (15-min) BP_MAP1 (NRP) - AOP1_MAP2 (VIST0) Above Normal 1 interval" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.BAMCompany 1-10-1 Only</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="CC CKPI (30-min) BP_MAP2 (VIST0) * AOP1_MAP2 (VIST0) = 0" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.F_Missing Only</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="CC CKPI (60-min) BP_MAP2 (VIST0) / AOP2_MAP1 (VIST0) Trend Up &gt;= 2 intervals" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.BAMCompany 1-10-1 Only</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="CC IKPI (10-min) BaseMargin &gt; $500" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.BAMCompany 1-10-1 Only</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="CC IKPI (15-min) BasePrice Trend Up &gt;= 2 intervals" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.BAMCompany 1-10-1 Only</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="CC IKPI (30-min) BasePrice SD Below 1/2 Normal 1 interval" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.BAMCompany 1-10-1 Only</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="CC IKPI (5-min) BaseMargin &gt;= $600" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeDataFilter.BAMCompany 1-10-1 Only</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl2 - BAMOnlyCarlEvent2</dependsOn>
+        <dependsOn>OptimizeHierarchy.BAMOnlyCarl - BAMOnlyCarlEvent_hierarchy</dependsOn>
+    </asset>
+    <asset name="ConstantFailingRule" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeEventMap.BAMOnlyCarl - BAMOnlyCarlEvent</dependsOn>
+    </asset>
+    <asset name="OrderAmountAboveNormal_1time" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeEventMap.OrderToCash_Booked</dependsOn>
+        <dependsOn>OptimizeHierarchy.OrderToCashHierarchy</dependsOn>
+    </asset>
+    <asset name="OrderAmountBelowNormal_1time" isDeployable="true">
+        <implementation.generic type="OptimizeRule"/>
+        <dependsOn>OptimizeEventMap.OrderToCash_Booked</dependsOn>
+        <dependsOn>OptimizeHierarchy.OrderToCashHierarchy</dependsOn>
+    </asset>
+</acdl_composite>

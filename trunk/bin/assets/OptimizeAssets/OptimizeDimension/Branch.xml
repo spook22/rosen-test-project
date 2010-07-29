@@ -1,0 +1,10 @@
+<DimensionDefinition name= "Branch" BaseType= "Branch" lastRevisionName= "null" revisionTime= "1279801643433" revision= "1" lastRevision= "0" author= "Administrator" description= "null" userDefined= "true" >
+	<IdentityAttributes>
+		<Attribute AttributeName="BranchName" AttributeDisplayName ="BranchName"/>
+	</IdentityAttributes>
+	<PropertyAttributes>
+	</PropertyAttributes>
+	<RequiredAttributes>
+		<Attribute>BranchName</Attribute>
+	</RequiredAttributes>
+</DimensionDefinition>

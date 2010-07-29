@@ -1,0 +1,7 @@
+<DimensionFilter name="F_Missing Only" description="F_Missing Only">
+<Filter dimension="BAMCompany" type="EMPTY" >
+<dimensionInstance>
+<attribute name="BAMCompany" value="F_MissingRPM"/>
+</dimensionInstance>
+</Filter>
+</DimensionFilter>

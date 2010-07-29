@@ -1,0 +1,4 @@
+<processModelProperties id="OrderToCashProject/OrderToCash">
+<error type="Step Out Of Sequence" condition="7" conditionValue="0" cancelsProcess="false" ruleCreated="false" alertCreated="false"/>
+<error type="System Error" condition="8" conditionValue="0" cancelsProcess="false" ruleCreated="false" alertCreated="false"/>
+</processModelProperties>

@@ -1,0 +1,7 @@
+<rule ruleName="BB IKPI (1-min) BasePrice = $4,000 Event"	description="BB IKPI (1-min) BasePrice = $4,000 Event"	ruleType="event"	enabled="false"	sticky="false"	sixSigmaOn="true"	dataFilterViewID="BAMCompany 1-10-1 Only"	author="Administrator" 	sla="true" 	derivedName="$BAMCompany.BAMCompany IKPI (1-min) BasePrice = $4,000 Event">
+<expression intervalsToReach="1">
+<kpi propertyKey ="reading.value" category ="BAMOnlyCarl" selectedOption ="op.eventvalue" >BAMBasePrice by BAMRegion SUM for min309578313 $</kpi>
+<equalTo/>
+<number>4000</number>
+</expression>
+</rule>
