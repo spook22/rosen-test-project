@@ -35,7 +35,7 @@
 		<foreach target="build.assets.project" param="assets.project.dir">
 			<path>
 				<!-- Include only those directories that are located directly under tha main assets directory. -->
-				<dirset dir="${assets.dir}" includes="/*/" />
+				<dirset dir="${assets.dir}" includes="/*" />
 			</path>
 		</foreach>
 	</target>
