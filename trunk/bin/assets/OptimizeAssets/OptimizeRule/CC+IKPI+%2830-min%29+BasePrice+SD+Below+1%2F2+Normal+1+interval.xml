@@ -1,0 +1,7 @@
+<rule ruleName="CC IKPI (30-min) BasePrice SD Below 1/2 Normal 1 interval"	description="CC IKPI (30-min) BasePrice SD Below 1/2 Normal 1 interval"	ruleType="kpi"	enabled="false"	sticky="false"	sixSigmaOn="true"	dataFilterViewID="BAMCompany 1-10-1 Only"	author="Administrator" 	derivedName="$BAMCompany.BAMCompany IKPI (30-min) BasePrice SD Below 1/2 Normal 1 interval">
+<expression intervalsToReach="1">
+<kpi propertyKey ="diagnosis.BelowNormal" category ="BAMOnlyCarl" >BAMBasePrice by BAMRegion SUM for half an hour309578313 $</kpi>
+<greaterThan/>
+<number>0.5</number>
+</expression>
+</rule>

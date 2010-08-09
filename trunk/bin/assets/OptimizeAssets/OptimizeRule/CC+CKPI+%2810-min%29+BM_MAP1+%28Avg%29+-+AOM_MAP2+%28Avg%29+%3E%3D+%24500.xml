@@ -1,0 +1,7 @@
+<rule ruleName="CC CKPI (10-min) BM_MAP1 (Avg) - AOM_MAP2 (Avg) &gt;= $500"	description="CC CKPI (10-min) BM_MAP1 (Avg) - AOM_MAP2 (Avg) &gt;= $500"	ruleType="kpi"	enabled="false"	sticky="false"	sixSigmaOn="true"	dataFilterViewID="BAMCompany 1-10-1 Only"	author="Administrator" 	derivedName="$BAMCompany.BAMCompany CKPI (10-min) BM_MAP1 (Avg) - AOM_MAP2 (Avg) &gt;= $500">
+<expression intervalsToReach="1">
+<kpi propertyKey ="reading.value" category ="BAMOnlyCarl" >BM_MAP1 (Avg) - AOM_MAP2 (Avg) (10-min)</kpi>
+<greaterThanOrEqualTo/>
+<number>500</number>
+</expression>
+</rule>

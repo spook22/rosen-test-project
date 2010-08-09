@@ -1,0 +1,10 @@
+<DimensionDefinition name= "MyTestDimension" BaseType= "MyTestDimension" lastRevisionName= "null" revisionTime= "1279196898954" revision= "1" lastRevision= "0" author= "Administrator" description= "null" userDefined= "true" >
+	<IdentityAttributes>
+		<Attribute AttributeName="MyTestAttribute" AttributeDisplayName ="MyTestAttribute"/>
+	</IdentityAttributes>
+	<PropertyAttributes>
+	</PropertyAttributes>
+	<RequiredAttributes>
+		<Attribute>MyTestAttribute</Attribute>
+	</RequiredAttributes>
+</DimensionDefinition>

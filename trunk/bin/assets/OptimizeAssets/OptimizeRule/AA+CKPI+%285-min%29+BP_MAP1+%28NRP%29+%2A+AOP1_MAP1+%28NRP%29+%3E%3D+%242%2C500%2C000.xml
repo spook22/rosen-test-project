@@ -1,0 +1,7 @@
+<rule ruleName="AA CKPI (5-min) BP_MAP1 (NRP) * AOP1_MAP1 (NRP) &gt;= $2,500,000"	description="AA CKPI (5-min) BP_MAP1 (NRP) * AOP1_MAP1 (NRP) &gt;= $2,500,000"	ruleType="kpi"	enabled="false"	sticky="false"	sixSigmaOn="true"	dataFilterViewID="A_ Monitors Only"	author="Administrator" 	derivedName="$BAMCompany.BAMCompany CKPI (5-min) BP_MAP1 (NRP) * AOP1_MAP1 (NRP) &gt;= $2.500,000">
+<expression intervalsToReach="1">
+<kpi propertyKey ="reading.value" category ="BAMOnlyCarl" >BP_MAP1 (NRP) * AOP1_MAP1 (NRP) (5-min)</kpi>
+<greaterThanOrEqualTo/>
+<number>2500000</number>
+</expression>
+</rule>

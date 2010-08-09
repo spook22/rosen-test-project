@@ -1,0 +1,7 @@
+<rule ruleName="AA CKPI (1-min) BP_MAP1 (NRP) + AOP1_MAP1 (NRP) Trend Up &gt;= 3"	description="AA CKPI (1-min) BP_MAP1 (NRP) + AOP1_MAP1 (NRP) Trend Up &gt;= 3"	ruleType="kpi"	enabled="false"	sticky="false"	sixSigmaOn="true"	dataFilterViewID="BAMCompany 1-10-1 Only"	author="Administrator" 	sla="true" 	derivedName="$BAMCompany.BAMCompany CKPI (1-min) BP_MAP1 (NRP) + AOP1_MAP1 (NRP) Trend Up &gt;= 3">
+<expression intervalsToReach="1">
+<kpi propertyKey ="diagnosis.TrendUp" category ="BAMOnlyCarl" >BP_MAP1 (NRP) + AOP1_MAP1 (NRP) (1-min)</kpi>
+<greaterThanOrEqualTo/>
+<number>3</number>
+</expression>
+</rule>

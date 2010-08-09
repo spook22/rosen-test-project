@@ -1,0 +1,16 @@
+<DimensionFilter name="SD Below BasePrice KPI Filter" description="SD Below BasePrice KPI Filter">
+<Filter dimension="BAMCompany" type="EMPTY" >
+<dimensionInstance>
+<attribute name="BAMCompany" value="BAMCompany SD Same"/>
+</dimensionInstance>
+<dimensionInstance>
+<attribute name="BAMCompany" value="BAMCompany SD Up"/>
+</dimensionInstance>
+<dimensionInstance>
+<attribute name="BAMCompany" value="BAMCompany Random"/>
+</dimensionInstance>
+<dimensionInstance>
+<attribute name="BAMCompany" value="BAMCompany 1-10-1"/>
+</dimensionInstance>
+</Filter>
+</DimensionFilter>
