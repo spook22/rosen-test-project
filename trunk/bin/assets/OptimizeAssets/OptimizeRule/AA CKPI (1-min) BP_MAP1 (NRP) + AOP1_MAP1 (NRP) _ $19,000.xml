@@ -1,7 +1,0 @@
-<rule ruleName="AA CKPI (1-min) BP_MAP1 (NRP) + AOP1_MAP1 (NRP) &gt; $19,000"	description="AA CKPI (1-min) BP_MAP1 (NRP) + AOP1_MAP1 (NRP) &gt; $19,000"	ruleType="kpi"	enabled="false"	sticky="false"	sixSigmaOn="true"	dataFilterViewID="BAMCompany 1-10-1 Only"	author="Administrator" 	sla="true" 	derivedName="$BAMCompany.BAMCompany CKPI (1-min) BP_MAP1 (NRP) + AOP1_MAP1 (NRP) &gt; $19,000">
-<expression intervalsToReach="1">
-<kpi propertyKey ="reading.value" category ="BAMOnlyCarl" >BP_MAP1 (NRP) + AOP1_MAP1 (NRP) (1-min)</kpi>
-<greaterThan/>
-<number>19000</number>
-</expression>
-</rule>

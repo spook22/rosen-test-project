@@ -1,7 +1,0 @@
-<DimensionFilter name="BAMCompany 1-10-1 Only" description="BAMCompany 1-10-1 Only">
-<Filter dimension="BAMCompany" type="EMPTY" >
-<dimensionInstance>
-<attribute name="BAMCompany" value="BAMCompany 1-10-1"/>
-</dimensionInstance>
-</Filter>
-</DimensionFilter>
