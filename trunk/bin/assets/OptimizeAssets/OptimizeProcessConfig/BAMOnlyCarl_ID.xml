@@ -1,4 +1,0 @@
-<processModelProperties id="BAMOnlyCarl_ID">
-<error type="System Error" condition="8" conditionValue="0" cancelsProcess="false" ruleCreated="false" alertCreated="false"/>
-<error type="Step Out Of Sequence" condition="7" conditionValue="0" cancelsProcess="false" ruleCreated="false" alertCreated="false"/>
-</processModelProperties>

@@ -1,7 +1,0 @@
-<rule ruleName="ConstantFailingRule"	description="1"	ruleType="kpi"	enabled="false"	sticky="false"	sixSigmaOn="false"	dataFilterViewID=""	author="Administrator" 	customer="" 	severity="" 	derivedName="">
-<expression intervalsToReach="1">
-<kpi propertyKey ="reading.value" category ="BAMOnlyCarl" >BAMBasePrice No Hierarchy</kpi>
-<greaterThan/>
-<number>0</number>
-</expression>
-</rule>

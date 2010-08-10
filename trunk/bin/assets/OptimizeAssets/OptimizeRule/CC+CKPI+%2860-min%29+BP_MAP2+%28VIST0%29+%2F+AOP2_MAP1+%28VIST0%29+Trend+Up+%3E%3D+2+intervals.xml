@@ -1,7 +1,0 @@
-<rule ruleName="CC CKPI (60-min) BP_MAP2 (VIST0) / AOP2_MAP1 (VIST0) Trend Up &gt;= 2 intervals"	description="CC CKPI (60-min) BP_MAP2 (VIST0) / AOP2_MAP1 (VIST0) Trend Up &gt;= 2 intervals"	ruleType="kpi"	enabled="false"	sticky="false"	sixSigmaOn="true"	dataFilterViewID="BAMCompany 1-10-1 Only"	author="Administrator" 	derivedName="$BAMCompany.BAMCompany CKPI (60-min) BP_MAP2 (VIST0) / AOP2_MAP1 (VIST0) Trend Up &gt;= 2 intervals">
-<expression intervalsToReach="1">
-<kpi propertyKey ="diagnosis.TrendUp" category ="BAMOnlyCarl" >BP_MAP2 (VIST0) / AOP2_MAP1 (VIST0) (60-min)</kpi>
-<greaterThanOrEqualTo/>
-<number>2</number>
-</expression>
-</rule>

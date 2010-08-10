@@ -1,7 +1,0 @@
-<rule ruleName="BB IKPI (1-min) BasePrice Trend Down &gt;= 5 intervals"	description="BB IKPI (1-min) BasePrice Trend Down &gt;= 5 intervals"	ruleType="event"	enabled="false"	sticky="false"	sixSigmaOn="true"	dataFilterViewID="Event Trending Down Filter &gt;= 5 intervals"	author="Administrator" 	derivedName="$BAMCompany.BAMCompany IKPI (1-min) BasePrice Trend Down &gt;= 5 intervals">
-<expression intervalsToReach="1">
-<kpi propertyKey ="diagnosis.TrendDown" category ="BAMOnlyCarl" selectedOption ="op.eventvalue" >BAMBasePrice by BAMRegion SUM for min309578313 $</kpi>
-<greaterThanOrEqualTo/>
-<number>5</number>
-</expression>
-</rule>

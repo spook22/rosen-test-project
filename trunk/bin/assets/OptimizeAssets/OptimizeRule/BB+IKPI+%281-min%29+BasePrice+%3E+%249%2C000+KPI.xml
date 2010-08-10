@@ -1,7 +1,0 @@
-<rule ruleName="BB IKPI (1-min) BasePrice &gt; $9,000 KPI"	description="BB IKPI (1-min) BasePrice &gt; $9,000 KPI"	ruleType="kpi"	enabled="false"	sticky="false"	sixSigmaOn="true"	dataFilterViewID="BAMCompany 1-10-1 Only"	author="Administrator" 	sla="true" 	derivedName="$BAMCompany.BAMCompany IKPI (1-min) BasePrice &gt; $9,000 KPI">
-<expression intervalsToReach="1">
-<kpi propertyKey ="reading.value" category ="BAMOnlyCarl" >BAMBasePrice by BAMRegion SUM for min309578313 $</kpi>
-<greaterThan/>
-<number>9000</number>
-</expression>
-</rule>
