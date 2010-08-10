@@ -1,0 +1,10 @@
+<DimensionDefinition name= "WebsiteDimension" BaseType= "WebsiteDimension" lastRevisionName= "null" revisionTime= "1279801643433" revision= "1" lastRevision= "0" author= "Administrator" description= "null" userDefined= "true" >
+	<IdentityAttributes>
+		<Attribute AttributeName="URL" AttributeDisplayName ="URL"/>
+	</IdentityAttributes>
+	<PropertyAttributes>
+	</PropertyAttributes>
+	<RequiredAttributes>
+		<Attribute>URL</Attribute>
+	</RequiredAttributes>
+</DimensionDefinition>

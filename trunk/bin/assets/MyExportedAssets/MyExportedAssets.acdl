@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<acdl_composite targetNamespace="http://namespaces.softwareag.com/webMethods/BAM" runtimeVersion="8.2.0" name="MyExportedAssets">
+    <asset name="Branch" displayName="Branch" isDeployable="true">
+        <implementation.generic type="OptimizeDimension"/>
+    </asset>
+    <asset name="Customer" displayName="Customer" isDeployable="true">
+        <implementation.generic type="OptimizeDimension"/>
+    </asset>
+    <asset name="Region" displayName="Region" isDeployable="true">
+        <implementation.generic type="OptimizeDimension"/>
+    </asset>
+    <asset name="WebsiteDimension" displayName="WebsiteDimension" isDeployable="true">
+        <implementation.generic type="OptimizeDimension"/>
+    </asset>
+    <asset name="OrderToCash_Booked" displayName="OrderToCash_Booked" isDeployable="true">
+        <implementation.generic type="OptimizeEventMap"/>
+        <dependsOn>OptimizeDimension:Branch</dependsOn>
+        <dependsOn>OptimizeDimension:Customer</dependsOn>
+        <dependsOn>OptimizeDimension:Region</dependsOn>
+        <dependsOn>OptimizeDimension:WebsiteDimension</dependsOn>
+        <dependsOn>OptimizeEventMap:OrderToCash_Booked</dependsOn>
+        <dependsOn>OptimizeHierarchy:OrderToCashHierarchy</dependsOn>
+    </asset>
+    <asset name="OrderToCashHierarchy" displayName="OrderToCashHierarchy" isDeployable="true">
+        <implementation.generic type="OptimizeHierarchy"/>
+        <dependsOn>OptimizeDimension:Branch</dependsOn>
+        <dependsOn>OptimizeDimension:Customer</dependsOn>
+        <dependsOn>OptimizeDimension:Region</dependsOn>
+    </asset>
+</acdl_composite>
