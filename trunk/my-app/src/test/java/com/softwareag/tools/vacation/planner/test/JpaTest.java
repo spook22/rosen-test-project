@@ -8,6 +8,8 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.softwareag.tools.vacation.planner.model.Person;
@@ -18,15 +20,32 @@ public class JpaTest {
 
 	private static final String PERSISTENCE_UNIT_NAME = "vacation.planner";
 
-	private void info(Object message) {
+	private static void info(Object message) {
 		if (LOGGER.isInfoEnabled()) {
 			LOGGER.info(message);
 		}
 	}
 
-	private void showPeople(EntityManager em) {
+	private EntityManagerFactory factory;
+
+	private EntityManager manager;
+
+	@Before
+	public void setUp() {
+		factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+		manager = factory.createEntityManager();
+		TestUtil.createSchema(manager);
+	}
+
+	@After
+	public void tearDown() {
+		manager.close();
+		factory.close();
+	}
+
+	private void showPeople() {
 		// Read the existing entries and write to console
-		Query query = em.createQuery("select p from Person p");
+		Query query = manager.createQuery("select p from Person p");
 		@SuppressWarnings("unchecked")
 		List<Person> people = query.getResultList();
 		for (Person person : people) {
@@ -37,24 +56,18 @@ public class JpaTest {
 
 	@Test
 	public void test() {
-		EntityManagerFactory factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
+		showPeople();
 		try {
-			EntityManager em = factory.createEntityManager();
-			showPeople(em);
-			try {
-				// Create new Person
-				em.getTransaction().begin();
-				Person newPerson = new Person();
-				newPerson.setName("Rosen Spasov");
-				em.persist(newPerson);
-				em.getTransaction().commit();
-			} catch (RuntimeException e) {
-				em.getTransaction().rollback();
-			}
-			showPeople(em);
-		} finally {
-			factory.close();
+			// Create new Person
+			manager.getTransaction().begin();
+			Person newPerson = new Person();
+			newPerson.setName("Rosen Spasov");
+			manager.persist(newPerson);
+			manager.getTransaction().commit();
+		} catch (RuntimeException e) {
+			manager.getTransaction().rollback();
 		}
+		showPeople();
 	}
 
 }
