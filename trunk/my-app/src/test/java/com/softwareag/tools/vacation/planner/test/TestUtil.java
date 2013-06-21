@@ -40,8 +40,13 @@ public class TestUtil {
 	public static void createSchema(EntityManager manager) {
 		try {
 			String sqlString = readResource("import.sql");
-			Query query = manager.createNativeQuery("begin " + sqlString + " end;");
-			query.executeUpdate();
+			Query query = manager.createNativeQuery(sqlString);
+			try {
+				manager.getTransaction().begin();
+				query.executeUpdate();
+			} finally {
+				manager.getTransaction().rollback();
+			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
