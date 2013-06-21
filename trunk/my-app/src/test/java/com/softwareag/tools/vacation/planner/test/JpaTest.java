@@ -1,5 +1,7 @@
 package com.softwareag.tools.vacation.planner.test;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -42,7 +44,7 @@ public class JpaTest {
 		factory.close();
 	}
 
-	private void showPeople() {
+	private void showPeople(int expected) {
 		// Read the existing entries and write to console
 		Query query = manager.createQuery("select p from Person p");
 		@SuppressWarnings("unchecked")
@@ -50,12 +52,13 @@ public class JpaTest {
 		for (Person person : people) {
 			info(person);
 		}
+		assertEquals(expected, people.size());
 		info("Size: " + people.size());
 	}
 
 	@Test
 	public void test() {
-		showPeople();
+		showPeople(1);
 		try {
 			// Create new Person
 			manager.getTransaction().begin();
@@ -66,7 +69,7 @@ public class JpaTest {
 		} catch (RuntimeException e) {
 			manager.getTransaction().rollback();
 		}
-		showPeople();
+		showPeople(2);
 	}
 
 }
