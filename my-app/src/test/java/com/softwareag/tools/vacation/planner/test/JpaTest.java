@@ -34,7 +34,7 @@ public class JpaTest {
 	public void setUp() {
 		factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
 		manager = factory.createEntityManager();
-		TestUtil.createSchema(manager);
+		// TestUtil.createSchema(manager);
 	}
 
 	@After
