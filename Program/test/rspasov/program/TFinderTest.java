@@ -10,7 +10,7 @@ public class TFinderTest {
 	public void testFind() {
 		double error = 0.0000001;
 		TFinder finder = new TFinder(error);
-//		0.20 6 0.55338 
+//		0.20 6  0.55338 
 //		0.45 15 1.75305 
 //		0.495 4 4.60409 
 		
