@@ -5,11 +5,15 @@ tasks.eclipse.dependsOn(cleanEclipse)
 
 defaultTasks 'build', 'eclipse'
 
+repositories {
+    mavenCentral()
+}
+
 dependencies {
 	runtime fileTree(dir: 'libs', include: '**/*.jar')
 	
 	testCompile(
-	   'org.junit:junit:4.8.2',
+	   'junit:junit:4.+',
 	)
 	testRuntime(
 	)
