@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.softwareag.eda.nerv.consumer.FilteredConsumer;
+import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
+import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 import com.softwareag.eda.nerv.task.ContinuousPublishTask;
 
 public class NERVContinuousEmittingUnitTest extends AbstractNERVUnitTest {
@@ -22,9 +24,12 @@ public class NERVContinuousEmittingUnitTest extends AbstractNERVUnitTest {
 
 	private Thread runner;
 
+	private Subscription subscription;
+
 	@Before
 	public void before() throws Exception {
-		NERV.instance().subscribe(type, consumer);
+		subscription = new DefaultSubscription(type, consumer)
+		NERV.instance().subscribe(subscription);
 		runner = new Thread(publisher);
 		runner.start();
 	}
@@ -37,7 +42,7 @@ public class NERVContinuousEmittingUnitTest extends AbstractNERVUnitTest {
 			assertEquals(publisher.getPublishedMessages(), consumer.getEvents().size());
 			logger.debug(String.format("Published and consumed asynchronously %s messages.", publisher.getPublishedMessages()));
 		} finally {
-			NERV.instance().unsubscribe(type, consumer);
+			NERV.instance().unsubscribe(subscription);
 		}
 	}
 
