@@ -6,10 +6,6 @@ tasks.eclipse.dependsOn(cleanEclipse)
 defaultTasks 'build', 'eclipse'
 
 dependencies {
-	compile(
-	)
-	runtime(
-	)
 	runtime fileTree(dir: 'libs', include: '**/*.jar')
 	
 	testCompile(
