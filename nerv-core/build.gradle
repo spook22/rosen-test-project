@@ -1,0 +1,39 @@
+apply plugin: 'java'
+apply plugin: 'osgi'
+apply plugin: 'eclipse'
+
+tasks.eclipse.dependsOn(cleanEclipse)
+
+defaultTasks 'build', 'eclipse'
+
+dependencies {
+	compile(
+		'org.apache.log4j:log4j:1.2.16',
+        'org.apache.camel:camel-core:2.9.0',
+	)
+	runtime(
+        'org.slf4j:slf4j-api:1.6.1',
+        'org.slf4j:slf4j-log4j12:1.6.1',
+	)
+	runtime fileTree(dir: 'libs', include: '**/*.jar')
+	
+	testCompile(
+	   'org.junit:junit:4.8.2',
+	   'org.powermock:powermock-core:1.4.12',
+	)
+	testRuntime(
+	   'org.powermock:powermock-api-support:1.4.12',
+	   'org.powermock:powermock-api-easymock:1.4.12',
+	   'org.powermock:powermock-module-junit4:1.4.12',
+	)
+	
+}
+
+import org.gradle.plugins.ide.eclipse.model.SourceFolder
+eclipse.classpath.file.whenMerged { classpath ->
+	classpath.entries.each {
+		if (it instanceof SourceFolder) {
+			it.excludes << '**/.svn/' << '**/*.gradle'
+		}
+	}
+}
