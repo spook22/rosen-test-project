@@ -28,7 +28,7 @@ public class NERVContinuousEmittingUnitTest extends AbstractNERVUnitTest {
 
 	@Before
 	public void before() throws Exception {
-		subscription = new DefaultSubscription(type, consumer)
+		subscription = new DefaultSubscription(type, consumer);
 		NERV.instance().subscribe(subscription);
 		runner = new Thread(publisher);
 		runner.start();

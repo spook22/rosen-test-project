@@ -8,6 +8,7 @@ import java.util.List;
 import com.softwareag.eda.nerv.consumer.BasicConsumer;
 import com.softwareag.eda.nerv.consumer.FilteredConsumer;
 import com.softwareag.eda.nerv.consumer.TestConsumer;
+import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
 import com.softwareag.eda.nerv.task.PublishTask;
 
 public class AbstractNERVUnitTest {
@@ -36,7 +37,7 @@ public class AbstractNERVUnitTest {
 		List<TestConsumer> consumers = new ArrayList<TestConsumer>();
 		for (int count = 0; count < consumersCount; count++) {
 			TestConsumer consumer = filter ? new FilteredConsumer(expectedMessages, message) : new BasicConsumer(expectedMessages);
-			NERV.instance().subscribe(type, consumer);
+			NERV.instance().subscribe(new DefaultSubscription(type, consumer));
 			consumers.add(consumer);
 		}
 		Thread.sleep(500);
@@ -56,7 +57,7 @@ public class AbstractNERVUnitTest {
 			}
 		} finally {
 			for (TestConsumer consumer : consumers) {
-				NERV.instance().unsubscribe(type, consumer);
+				NERV.instance().unsubscribe(new DefaultSubscription(type, consumer));
 			}
 		}
 	}
