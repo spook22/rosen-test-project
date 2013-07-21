@@ -96,12 +96,12 @@ public class NERV implements Publisher, SubscriptionHandler, ContextProvider {
 
 	@Override
 	public void subscribe(Subscription subscription) throws Exception {
-		subscriptionHandler.subscribe(type, consumer);
+		subscriptionHandler.subscribe(subscription);
 	}
 
 	@Override
 	public void unsubscribe(Subscription subscription) throws Exception {
-		subscriptionHandler.unsubscribe(type, consumer);
+		subscriptionHandler.unsubscribe(subscription);
 	}
 
 }

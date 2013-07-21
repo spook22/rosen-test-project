@@ -8,6 +8,7 @@ import com.softwareag.eda.nerv.channel.ChannelProvider;
 import com.softwareag.eda.nerv.consume.Consumer;
 import com.softwareag.eda.nerv.subscribe.DefaultEventProcessor;
 import com.softwareag.eda.nerv.subscribe.subscription.DefaultChannelSubscription;
+import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 
 public class DefaultSubscriptionHandler extends AbstractSubscriptionHandler<DefaultChannelSubscription> {
 
@@ -21,11 +22,11 @@ public class DefaultSubscriptionHandler extends AbstractSubscriptionHandler<Defa
 	}
 
 	@Override
-	public void unsubscribe(String type, Consumer consumer) throws Exception {
-		DefaultChannelSubscription subscription = findSubscription(channel(type), consumer);
-		if (subscription != null) {
-			removeRoute(subscription.getId());
-			removeSubscription(subscription);
+	public void unsubscribe(Subscription subscription) throws Exception {
+		DefaultChannelSubscription route = findSubscription(channel(subscription.channel()), subscription.consumer());
+		if (route != null) {
+			removeRoute(route.getId());
+			removeSubscription(route);
 		}
 	}
 

@@ -8,6 +8,7 @@ import com.softwareag.eda.nerv.channel.ChannelProvider;
 import com.softwareag.eda.nerv.consume.Consumer;
 import com.softwareag.eda.nerv.subscribe.DefaultEventProcessor;
 import com.softwareag.eda.nerv.subscribe.subscription.MulticastChannelSubscription;
+import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 
 public class MulticastSubscriptionHandler extends AbstractSubscriptionHandler<MulticastChannelSubscription> {
 
@@ -21,15 +22,15 @@ public class MulticastSubscriptionHandler extends AbstractSubscriptionHandler<Mu
 	}
 
 	@Override
-	public void unsubscribe(String type, Consumer consumer) throws Exception {
-		MulticastChannelSubscription subscription = findSubscription(channel(type), consumer);
-		if (subscription != null) {
-			removeRoute(subscription.getId());
-			subscription.removeProcessor(new DefaultEventProcessor(consumer));
-			if (subscription.isEmpty()) {
-				removeSubscription(subscription);
+	public void unsubscribe(Subscription subscription) throws Exception {
+		MulticastChannelSubscription route = findSubscription(channel(subscription.channel()), subscription.consumer());
+		if (route != null) {
+			removeRoute(route.getId());
+			route.removeProcessor(new DefaultEventProcessor(subscription.consumer()));
+			if (route.isEmpty()) {
+				removeSubscription(route);
 			} else {
-				context().addRoutes(subscription);
+				context().addRoutes(route);
 			}
 		}
 	}
