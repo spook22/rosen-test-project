@@ -53,7 +53,7 @@ public abstract class AbstractSubscriptionHandler<T extends AbstractChannelSubsc
 
 	@Override
 	public void subscribe(Subscription subscription) throws Exception {
-		String channel = subscription.channel();
+		String channel = channel(subscription.channel());
 		Consumer consumer = subscription.consumer();
 		T route = findSubscription(channel, consumer);
 		if (route == null) {
