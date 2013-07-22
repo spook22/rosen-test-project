@@ -6,7 +6,7 @@ public class SimpleContextProvider implements ContextProvider {
 
 	private final CamelContext context;
 
-	public SimpleContextProvider(CamelContext context) {
+	public SimpleContextProvider(CamelContext context) throws Exception {
 		this.context = context;
 	}
 
