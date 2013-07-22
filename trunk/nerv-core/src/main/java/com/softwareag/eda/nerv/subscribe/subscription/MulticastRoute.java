@@ -11,13 +11,13 @@ import org.apache.camel.model.MulticastDefinition;
 import org.apache.camel.model.ProcessorDefinition;
 import org.apache.camel.model.RouteDefinition;
 
-public class MulticastChannelSubscription extends AbstractChannelSubscription {
+public class MulticastRoute extends AbstractChannelRoute {
 
 	private final Set<Processor> processors = Collections.synchronizedSet(new HashSet<Processor>());
 
 	private final AtomicBoolean initialized = new AtomicBoolean(false);
 
-	public MulticastChannelSubscription(String channel, Processor processor) {
+	public MulticastRoute(String channel, Processor processor) {
 		super(channel);
 		addProcessor(processor);
 	}

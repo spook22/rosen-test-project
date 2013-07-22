@@ -11,10 +11,10 @@ import org.apache.camel.CamelContext;
 import com.softwareag.eda.nerv.ContextProvider;
 import com.softwareag.eda.nerv.channel.ChannelProvider;
 import com.softwareag.eda.nerv.consume.Consumer;
-import com.softwareag.eda.nerv.subscribe.subscription.AbstractChannelSubscription;
+import com.softwareag.eda.nerv.subscribe.subscription.AbstractChannelRoute;
 import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 
-public abstract class AbstractSubscriptionHandler<T extends AbstractChannelSubscription> implements SubscriptionHandler {
+public abstract class AbstractSubscriptionHandler<T extends AbstractChannelRoute> implements SubscriptionHandler {
 
 	protected final Map<String, Set<T>> subscriptions = Collections.synchronizedMap(new HashMap<String, Set<T>>());
 
@@ -44,7 +44,7 @@ public abstract class AbstractSubscriptionHandler<T extends AbstractChannelSubsc
 		channelSubscriptions.add(subscription);
 	}
 
-	protected void removeSubscription(AbstractChannelSubscription subscription) {
+	protected void removeSubscription(AbstractChannelRoute subscription) {
 		Set<T> channelSubscriptions = subscriptions.get(subscription.getChannel());
 		if (channelSubscriptions != null) {
 			channelSubscriptions.remove(subscription);
@@ -55,7 +55,7 @@ public abstract class AbstractSubscriptionHandler<T extends AbstractChannelSubsc
 	public void subscribe(Subscription subscription) throws Exception {
 		String channel = channel(subscription.channel());
 		Consumer consumer = subscription.consumer();
-		T route = findSubscription(channel, consumer);
+		T route = findRoute(channel, consumer);
 		if (route == null) {
 			route = createSubscripion(channel, consumer);
 			addSubscription(route);
@@ -65,7 +65,7 @@ public abstract class AbstractSubscriptionHandler<T extends AbstractChannelSubsc
 		context().addRoutes(route);
 	}
 
-	protected abstract T findSubscription(String channel, Consumer consumer);
+	protected abstract T findRoute(String channel, Consumer consumer);
 
 	protected abstract T createSubscripion(String channel, Consumer consumer);
 
