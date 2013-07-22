@@ -98,7 +98,7 @@ public class DefaultPublisherUnitTest {
 	private void waitForEvents(int eventsCount) throws Exception {
 		if (consumer.getEvents().size() < eventsCount) {
 			synchronized (consumer.getLock()) {
-				consumer.getLock().wait(1000);
+				consumer.getLock().wait(2000);
 			}
 		}
 	}
