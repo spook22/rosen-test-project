@@ -33,7 +33,7 @@ public class NERVExceptionUnitTest {
 
 	@Test
 	public void testNERVExceptionThrowable() {
-		NERVException e = new NERVException();
+		NERVException e = new NERVException(cause);
 		assertEquals(cause, e.getCause());
 	}
 
