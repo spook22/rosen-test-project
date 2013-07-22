@@ -10,7 +10,7 @@ public class NERVDirectChannelUnitTest extends NERVUnitTest {
 	@BeforeClass
 	public static void beforeClass() throws Exception {
 		prevChannelType = System.setProperty(NERV.PROP_CHANNEL_TYPE, NERV.PROP_CHANNEL_TYPE_DIRECT);
-		NERV.setInstance(null);
+		NERV.destroy();
 	}
 
 	@AfterClass
@@ -20,6 +20,6 @@ public class NERVDirectChannelUnitTest extends NERVUnitTest {
 		} else {
 			System.getProperties().remove(NERV.PROP_CHANNEL_TYPE);
 		}
-		NERV.setInstance(null);
+		NERV.destroy();
 	}
 }

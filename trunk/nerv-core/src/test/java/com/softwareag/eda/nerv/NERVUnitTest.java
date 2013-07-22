@@ -80,7 +80,7 @@ public class NERVUnitTest extends AbstractNERVUnitTest {
 		DefaultCamelContext context = createMock(DefaultCamelContext.class);
 		expectNew(DefaultCamelContext.class).andReturn(context);
 		replay(context, DefaultCamelContext.class);
-		NERV.setInstance(null);
+		NERV.destroy();
 		NERV.instance();
 		verify(context, DefaultCamelContext.class);
 	}
