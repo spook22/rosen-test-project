@@ -60,7 +60,7 @@ public abstract class AbstractSubscriptionHandler<T extends AbstractRoute> imple
 			route = createSubscripion(channel, consumer);
 			addSubscription(route);
 		} else {
-			processExistingSubscription(route, consumer);
+			throw new RuntimeException("Route already exists.");
 		}
 		context().addRoutes(route);
 	}
@@ -68,7 +68,5 @@ public abstract class AbstractSubscriptionHandler<T extends AbstractRoute> imple
 	protected abstract T findRoute(String channel, Consumer consumer);
 
 	protected abstract T createSubscripion(String channel, Consumer consumer);
-
-	protected abstract void processExistingSubscription(T subscription, Consumer consumer) throws Exception;
 
 }

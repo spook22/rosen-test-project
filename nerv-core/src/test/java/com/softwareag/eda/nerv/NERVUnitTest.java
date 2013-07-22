@@ -1,6 +1,16 @@
 package com.softwareag.eda.nerv;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Test;
+
+import com.softwareag.eda.nerv.consumer.BasicConsumer;
+import com.softwareag.eda.nerv.event.Header;
+import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
+import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 
 public class NERVUnitTest extends AbstractNERVUnitTest {
 
@@ -17,6 +27,42 @@ public class NERVUnitTest extends AbstractNERVUnitTest {
 	@Test
 	public void testPubSub100kMsgs10Threads() throws Exception {
 		pubSub(100000, 1, 10);
+	}
+
+	@Test
+	public void testPublishWithTypeAndBody() throws Exception {
+		BasicConsumer consumer = new BasicConsumer();
+		Subscription subscription = new DefaultSubscription(type, consumer);
+		NERV.instance().subscribe(subscription);
+		NERV.instance().publish(type, message);
+
+		if (consumer.getEvents().size() < 1) {
+			synchronized (consumer.getLock()) {
+				consumer.getLock().wait(1000);
+			}
+		}
+		assertEquals(1, consumer.getEvents().size());
+		assertEquals(message, consumer.getEvents().get(0).getBody());
+		NERV.instance().unsubscribe(subscription);
+	}
+
+	@Test
+	public void testPublishWithHeadersAndBody() throws Exception {
+		BasicConsumer consumer = new BasicConsumer();
+		Subscription subscription = new DefaultSubscription(type, consumer);
+		NERV.instance().subscribe(subscription);
+		Map<String, Object> headers = new HashMap<String, Object>();
+		headers.put(Header.TYPE.getName(), type);
+		NERV.instance().publish(type, message);
+
+		if (consumer.getEvents().size() < 1) {
+			synchronized (consumer.getLock()) {
+				consumer.getLock().wait(1000);
+			}
+		}
+		assertEquals(1, consumer.getEvents().size());
+		assertEquals(message, consumer.getEvents().get(0).getBody());
+		NERV.instance().unsubscribe(subscription);
 	}
 
 }

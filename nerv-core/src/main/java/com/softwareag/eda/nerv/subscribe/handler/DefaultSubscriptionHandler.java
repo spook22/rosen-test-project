@@ -48,9 +48,4 @@ public class DefaultSubscriptionHandler extends AbstractSubscriptionHandler<Defa
 		return new DefaultRoute(channel, new DefaultEventProcessor(consumer));
 	}
 
-	@Override
-	protected void processExistingSubscription(DefaultRoute subscription, Consumer consumer) throws Exception {
-		// Nothing to do in this case.
-	}
-
 }
