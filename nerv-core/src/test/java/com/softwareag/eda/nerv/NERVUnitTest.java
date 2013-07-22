@@ -8,6 +8,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import com.softwareag.eda.nerv.consumer.BasicConsumer;
+import com.softwareag.eda.nerv.event.Event;
 import com.softwareag.eda.nerv.event.Header;
 import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
 import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
@@ -30,11 +31,11 @@ public class NERVUnitTest extends AbstractNERVUnitTest {
 	}
 
 	@Test
-	public void testPublishWithTypeAndBody() throws Exception {
+	public void testPublishWithEvent() throws Exception {
 		BasicConsumer consumer = new BasicConsumer();
 		Subscription subscription = new DefaultSubscription(type, consumer);
 		NERV.instance().subscribe(subscription);
-		NERV.instance().publish(type, message);
+		NERV.instance().publish(new Event(type, message));
 
 		if (consumer.getEvents().size() < 1) {
 			synchronized (consumer.getLock()) {
@@ -53,7 +54,7 @@ public class NERVUnitTest extends AbstractNERVUnitTest {
 		NERV.instance().subscribe(subscription);
 		Map<String, Object> headers = new HashMap<String, Object>();
 		headers.put(Header.TYPE.getName(), type);
-		NERV.instance().publish(type, message);
+		NERV.instance().publish(headers, message);
 
 		if (consumer.getEvents().size() < 1) {
 			synchronized (consumer.getLock()) {
