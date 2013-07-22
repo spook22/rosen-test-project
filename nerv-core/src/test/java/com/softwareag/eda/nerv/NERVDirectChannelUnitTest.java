@@ -1,7 +1,7 @@
 package com.softwareag.eda.nerv;
 
-import static org.powermock.api.easymock.PowerMock.createMock;
-import static org.powermock.api.easymock.PowerMock.expectNew;
+import static org.powermock.api.easymock.PowerMock.createMockAndExpectNew;
+import static org.powermock.api.easymock.PowerMock.expectLastCall;
 import static org.powermock.api.easymock.PowerMock.replay;
 import static org.powermock.api.easymock.PowerMock.verify;
 
@@ -37,8 +37,9 @@ public class NERVDirectChannelUnitTest extends NERVUnitTest {
 
 	@Test(expected = NERVException.class)
 	public void testGetInstanceCannotStartContext() throws Exception {
-		DefaultCamelContext context = createMock(DefaultCamelContext.class);
-		expectNew(DefaultCamelContext.class).andReturn(context);
+		DefaultCamelContext context = createMockAndExpectNew(DefaultCamelContext.class);
+		context.start();
+		expectLastCall().andThrow(new Exception("This is a test exception created using PowerMock."));
 		replay(context, DefaultCamelContext.class);
 		NERV.destroy();
 		NERV.instance();
