@@ -44,5 +44,6 @@ public class NERVDirectChannelUnitTest extends NERVUnitTest {
 		NERV.destroy();
 		NERV.instance();
 		verify(context, DefaultCamelContext.class);
+		NERV.destroy(); // This is needed so other tests don't fail because of the mocking.
 	}
 }
