@@ -7,7 +7,7 @@ import com.softwareag.eda.nerv.ContextProvider;
 import com.softwareag.eda.nerv.channel.ChannelProvider;
 import com.softwareag.eda.nerv.consume.Consumer;
 import com.softwareag.eda.nerv.subscribe.DefaultEventProcessor;
-import com.softwareag.eda.nerv.subscribe.subscription.MulticastRoute;
+import com.softwareag.eda.nerv.subscribe.route.MulticastRoute;
 import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 
 public class MulticastSubscriptionHandler extends AbstractSubscriptionHandler<MulticastRoute> {

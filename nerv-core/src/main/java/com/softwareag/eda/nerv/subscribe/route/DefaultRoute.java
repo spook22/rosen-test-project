@@ -1,8 +1,8 @@
-package com.softwareag.eda.nerv.subscribe.subscription;
+package com.softwareag.eda.nerv.subscribe.route;
 
 import org.apache.camel.Processor;
 
-public class DefaultRoute extends AbstractChannelRoute {
+public class DefaultRoute extends AbstractRoute {
 
 	private final Processor processor;
 
