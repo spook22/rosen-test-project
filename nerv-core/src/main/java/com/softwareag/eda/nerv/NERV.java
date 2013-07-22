@@ -34,15 +34,15 @@ public class NERV implements Publisher, SubscriptionHandler {
 		if (instance == null) {
 			synchronized (NERV.class) {
 				if (instance == null) {
-					setInstance(new NERV());
+					instance = new NERV();
 				}
 			}
 		}
 		return instance;
 	}
 
-	protected static synchronized void setInstance(NERV nerv) {
-		instance = nerv;
+	protected static synchronized void destroy() {
+		instance = null;
 	}
 
 	private final ContextProvider contextProvider;
