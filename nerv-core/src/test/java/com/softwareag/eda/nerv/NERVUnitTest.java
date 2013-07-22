@@ -12,7 +12,6 @@ import java.util.Map;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.softwareag.eda.nerv.consumer.BasicConsumer;
@@ -22,7 +21,7 @@ import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
 import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest(NERV.class)
+// @PrepareForTest(NERV.class)
 public class NERVUnitTest extends AbstractNERVUnitTest {
 
 	@Test
@@ -84,7 +83,6 @@ public class NERVUnitTest extends AbstractNERVUnitTest {
 		NERV.setInstance(null);
 		NERV.instance();
 		verify(context, DefaultCamelContext.class);
-
 	}
 
 }

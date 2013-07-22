@@ -55,7 +55,7 @@ public class NERV implements Publisher, SubscriptionHandler {
 
 	private final String channelType;
 
-	protected NERV() throws NERVException {
+	private NERV() throws NERVException {
 		contextProvider = new SimpleContextProvider(new DefaultCamelContext());
 		try {
 			contextProvider.context().start();
