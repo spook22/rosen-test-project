@@ -1,18 +1,11 @@
 package com.softwareag.eda.nerv;
 
 import static org.junit.Assert.assertEquals;
-import static org.powermock.api.easymock.PowerMock.createMock;
-import static org.powermock.api.easymock.PowerMock.expectNew;
-import static org.powermock.api.easymock.PowerMock.replay;
-import static org.powermock.api.easymock.PowerMock.verify;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.camel.impl.DefaultCamelContext;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import com.softwareag.eda.nerv.consumer.BasicConsumer;
 import com.softwareag.eda.nerv.event.Event;
@@ -20,8 +13,6 @@ import com.softwareag.eda.nerv.event.Header;
 import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
 import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 
-@RunWith(PowerMockRunner.class)
-// @PrepareForTest(NERV.class)
 public class NERVUnitTest extends AbstractNERVUnitTest {
 
 	@Test
@@ -73,16 +64,6 @@ public class NERVUnitTest extends AbstractNERVUnitTest {
 		assertEquals(1, consumer.getEvents().size());
 		assertEquals(message, consumer.getEvents().get(0).getBody());
 		NERV.instance().unsubscribe(subscription);
-	}
-
-	@Test(expected = NERVException.class)
-	public void testGetInstanceCannotStartContext() throws Exception {
-		DefaultCamelContext context = createMock(DefaultCamelContext.class);
-		expectNew(DefaultCamelContext.class).andReturn(context);
-		replay(context, DefaultCamelContext.class);
-		NERV.destroy();
-		NERV.instance();
-		verify(context, DefaultCamelContext.class);
 	}
 
 }
