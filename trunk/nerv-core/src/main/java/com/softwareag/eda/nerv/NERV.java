@@ -81,12 +81,12 @@ public class NERV implements Publisher, SubscriptionHandler, ContextProvider {
 
 	@Override
 	public void publish(String type, Object body) {
-		publisher.publish(new Event(type, body));
+		publisher.publish(type, body);
 	}
 
 	@Override
 	public void publish(Map<String, Object> headers, Object body) {
-		publisher.publish(new Event(headers, body));
+		publisher.publish(headers, body);
 	}
 
 	@Override

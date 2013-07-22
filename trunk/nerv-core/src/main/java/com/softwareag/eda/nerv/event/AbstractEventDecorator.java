@@ -12,10 +12,6 @@ public abstract class AbstractEventDecorator implements EventDecorator {
 		this.decorator = decorator;
 	}
 
-	public EventDecorator getDecorator() {
-		return decorator;
-	}
-
 	@Override
 	public void decorate(Event event) {
 		if (decorator != null) {
