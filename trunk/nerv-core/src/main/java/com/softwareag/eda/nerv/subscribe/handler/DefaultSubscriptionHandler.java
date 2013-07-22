@@ -17,20 +17,20 @@ public class DefaultSubscriptionHandler extends AbstractSubscriptionHandler<Defa
 		super(contextProvider, channelProvider);
 	}
 
-	private boolean removeRoute(String id) throws Exception {
-		context().stopRoute(id, 30, TimeUnit.SECONDS);
-		return context().removeRoute(id);
+	private boolean removeRoute(String id) throws NERVRuntimeException {
+		try {
+			context().stopRoute(id, 30, TimeUnit.SECONDS);
+			return context().removeRoute(id);
+		} catch (Exception e) {
+			throw new NERVRuntimeException("Cannot remove route " + id + " from context.", e);
+		}
 	}
 
 	@Override
 	public void unsubscribe(Subscription subscription) throws NERVRuntimeException {
 		DefaultRoute route = findRoute(channel(subscription.channel()), subscription.consumer());
 		if (route != null) {
-			try {
-				removeRoute(route.getId());
-			} catch (Exception e) {
-				throw new NERVRuntimeException("Cannot remove route " + route.getId() + " from context.", e);
-			}
+			removeRoute(route.getId());
 			removeSubscription(route);
 		}
 	}
