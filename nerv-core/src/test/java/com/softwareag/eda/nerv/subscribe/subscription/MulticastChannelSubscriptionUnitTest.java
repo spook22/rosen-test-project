@@ -15,7 +15,7 @@ import org.junit.Test;
 
 import com.softwareag.eda.nerv.consumer.BasicConsumer;
 import com.softwareag.eda.nerv.subscribe.DefaultEventProcessor;
-import com.softwareag.eda.nerv.subscribe.subscription.MulticastChannelSubscription;
+import com.softwareag.eda.nerv.subscribe.subscription.MulticastRoute;
 
 public class MulticastChannelSubscriptionUnitTest {
 
@@ -23,11 +23,11 @@ public class MulticastChannelSubscriptionUnitTest {
 
 	private final Processor processor = new DefaultEventProcessor(new BasicConsumer());
 
-	private MulticastChannelSubscription subscription;
+	private MulticastRoute subscription;
 
 	@Before
 	public void before() {
-		subscription = new MulticastChannelSubscription(channel, processor);
+		subscription = new MulticastRoute(channel, processor);
 		assertEquals(channel, subscription.getChannel());
 		assertFalse(subscription.isEmpty());
 
@@ -48,7 +48,7 @@ public class MulticastChannelSubscriptionUnitTest {
 
 	@Test
 	public void testCheckInitializedWithErrorHandler() throws Exception {
-		subscription = new MulticastChannelSubscription(channel, processor);
+		subscription = new MulticastRoute(channel, processor);
 		subscription.getContext().setErrorHandlerBuilder(new NoErrorHandlerBuilder());
 		subscription.checkInitialized();
 	}
