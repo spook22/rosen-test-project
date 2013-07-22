@@ -42,6 +42,11 @@ public class NERV implements Publisher, SubscriptionHandler {
 	}
 
 	protected static synchronized void destroy() {
+		try {
+			instance.contextProvider.context().stop();
+		} catch (Exception e) {
+			throw new NERVException("Cannot stop Camel context.", e);
+		}
 		instance = null;
 	}
 
