@@ -53,12 +53,12 @@ public class NERV implements Publisher, SubscriptionHandler {
 
 	private final String channelType;
 
-	protected NERV() throws NERVRuntimeException {
+	protected NERV() throws NERVException {
 		contextProvider = new SimpleContextProvider(new DefaultCamelContext());
 		try {
 			contextProvider.context().start();
 		} catch (Exception e) {
-			throw new NERVRuntimeException("Cannot start Camel context.", e);
+			throw new NERVException("Cannot start Camel context.", e);
 		}
 		channelType = System.getProperty(PROP_CHANNEL_TYPE, PROP_CHANNEL_TYPE_VM);
 		channelProvider = channelType.equals(PROP_CHANNEL_TYPE_DIRECT) ? new DirectChannelProvider() : new VMChannelProvider();
@@ -87,12 +87,12 @@ public class NERV implements Publisher, SubscriptionHandler {
 	}
 
 	@Override
-	public void subscribe(Subscription subscription) throws NERVRuntimeException {
+	public void subscribe(Subscription subscription) throws NERVException {
 		subscriptionHandler.subscribe(subscription);
 	}
 
 	@Override
-	public void unsubscribe(Subscription subscription) throws NERVRuntimeException {
+	public void unsubscribe(Subscription subscription) throws NERVException {
 		subscriptionHandler.unsubscribe(subscription);
 	}
 
