@@ -11,7 +11,6 @@ public class BasicConsumer extends AbstractConsumer {
 	}
 
 	public BasicConsumer(int expectedMessages) {
-		super();
 		this.expectedMessages = expectedMessages;
 	}
 
