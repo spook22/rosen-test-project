@@ -4,6 +4,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import com.softwareag.eda.nerv.ContextProvider;
+import com.softwareag.eda.nerv.NERVRuntimeException;
 import com.softwareag.eda.nerv.channel.ChannelProvider;
 import com.softwareag.eda.nerv.consume.Consumer;
 import com.softwareag.eda.nerv.subscribe.DefaultEventProcessor;
@@ -22,10 +23,14 @@ public class DefaultSubscriptionHandler extends AbstractSubscriptionHandler<Defa
 	}
 
 	@Override
-	public void unsubscribe(Subscription subscription) throws Exception {
+	public void unsubscribe(Subscription subscription) throws NERVRuntimeException {
 		DefaultRoute route = findRoute(channel(subscription.channel()), subscription.consumer());
 		if (route != null) {
-			removeRoute(route.getId());
+			try {
+				removeRoute(route.getId());
+			} catch (Exception e) {
+				throw new NERVRuntimeException("Cannot remove route " + route.getId() + " from context.", e);
+			}
 			removeSubscription(route);
 		}
 	}

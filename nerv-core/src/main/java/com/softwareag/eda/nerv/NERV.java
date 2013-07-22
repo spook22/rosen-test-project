@@ -2,7 +2,6 @@ package com.softwareag.eda.nerv;
 
 import java.util.Map;
 
-import org.apache.camel.CamelContext;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.log4j.Logger;
 
@@ -19,7 +18,7 @@ import com.softwareag.eda.nerv.subscribe.handler.DefaultSubscriptionHandler;
 import com.softwareag.eda.nerv.subscribe.handler.SubscriptionHandler;
 import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 
-public class NERV implements Publisher, SubscriptionHandler, ContextProvider {
+public class NERV implements Publisher, SubscriptionHandler {
 
 	private static final Logger logger = Logger.getLogger(NERV.class);
 
@@ -33,20 +32,18 @@ public class NERV implements Publisher, SubscriptionHandler, ContextProvider {
 
 	public static NERV instance() {
 		if (instance == null) {
-			try {
-				setInstance(new NERV());
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
+			setInstance(new NERV());
 		}
 		return instance;
 	}
 
 	protected static synchronized void setInstance(NERV nerv) {
-		instance = nerv;
+		if (instance == null) {
+			instance = nerv;
+		}
 	}
 
-	private final CamelContext context;
+	private final ContextProvider contextProvider;
 
 	private final ChannelProvider channelProvider;
 
@@ -56,27 +53,22 @@ public class NERV implements Publisher, SubscriptionHandler, ContextProvider {
 
 	private final String channelType;
 
-	protected NERV() throws Exception {
-		context = createContext();
-		context.start();
+	protected NERV() throws NERVRuntimeException {
+		contextProvider = new SimpleContextProvider(new DefaultCamelContext());
+		try {
+			contextProvider.context().start();
+		} catch (Exception e) {
+			throw new NERVRuntimeException("Cannot start Camel context.", e);
+		}
 		channelType = System.getProperty(PROP_CHANNEL_TYPE, PROP_CHANNEL_TYPE_VM);
 		channelProvider = channelType.equals(PROP_CHANNEL_TYPE_DIRECT) ? new DirectChannelProvider() : new VMChannelProvider();
-		publisher = new DefaultPublisher(this, channelProvider, createDecorator());
-		subscriptionHandler = new DefaultSubscriptionHandler(this, channelProvider);
+		publisher = new DefaultPublisher(contextProvider, channelProvider, createDecorator());
+		subscriptionHandler = new DefaultSubscriptionHandler(contextProvider, channelProvider);
 		logger.info("Initialized NERV with channel type: " + channelType);
 	}
 
 	private EventDecorator createDecorator() {
 		return new EventIdDecorator(new StartHeaderDecorator());
-	}
-
-	private CamelContext createContext() {
-		return new DefaultCamelContext();
-	}
-
-	@Override
-	public CamelContext context() {
-		return context;
 	}
 
 	@Override
@@ -95,12 +87,12 @@ public class NERV implements Publisher, SubscriptionHandler, ContextProvider {
 	}
 
 	@Override
-	public void subscribe(Subscription subscription) throws Exception {
+	public void subscribe(Subscription subscription) throws NERVRuntimeException {
 		subscriptionHandler.subscribe(subscription);
 	}
 
 	@Override
-	public void unsubscribe(Subscription subscription) throws Exception {
+	public void unsubscribe(Subscription subscription) throws NERVRuntimeException {
 		subscriptionHandler.unsubscribe(subscription);
 	}
 
