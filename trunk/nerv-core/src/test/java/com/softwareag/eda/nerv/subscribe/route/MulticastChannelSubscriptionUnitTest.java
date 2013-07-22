@@ -1,4 +1,4 @@
-package com.softwareag.eda.nerv.subscribe.subscription;
+package com.softwareag.eda.nerv.subscribe.route;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -15,7 +15,7 @@ import org.junit.Test;
 
 import com.softwareag.eda.nerv.consumer.BasicConsumer;
 import com.softwareag.eda.nerv.subscribe.DefaultEventProcessor;
-import com.softwareag.eda.nerv.subscribe.subscription.MulticastRoute;
+import com.softwareag.eda.nerv.subscribe.route.MulticastRoute;
 
 public class MulticastChannelSubscriptionUnitTest {
 
