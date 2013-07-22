@@ -9,7 +9,7 @@ import java.util.Set;
 import org.apache.camel.CamelContext;
 
 import com.softwareag.eda.nerv.ContextProvider;
-import com.softwareag.eda.nerv.NERVRuntimeException;
+import com.softwareag.eda.nerv.NERVException;
 import com.softwareag.eda.nerv.channel.ChannelProvider;
 import com.softwareag.eda.nerv.consume.Consumer;
 import com.softwareag.eda.nerv.subscribe.route.AbstractRoute;
@@ -53,7 +53,7 @@ public abstract class AbstractSubscriptionHandler<T extends AbstractRoute> imple
 	}
 
 	@Override
-	public void subscribe(Subscription subscription) throws NERVRuntimeException {
+	public void subscribe(Subscription subscription) throws NERVException {
 		String channel = channel(subscription.channel());
 		Consumer consumer = subscription.consumer();
 		T route = findRoute(channel, consumer);
@@ -63,7 +63,7 @@ public abstract class AbstractSubscriptionHandler<T extends AbstractRoute> imple
 			try {
 				context().addRoutes(route);
 			} catch (Exception e) {
-				throw new NERVRuntimeException("Cannot add route to context.", e);
+				throw new NERVException("Cannot add route to context.", e);
 			}
 		}
 	}
