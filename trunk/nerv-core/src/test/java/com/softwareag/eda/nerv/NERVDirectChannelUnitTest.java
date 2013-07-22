@@ -37,16 +37,12 @@ public class NERVDirectChannelUnitTest extends NERVUnitTest {
 
 	@Test(expected = NERVException.class)
 	public void testGetInstanceCannotStartContext() throws Exception {
-		try {
-			DefaultCamelContext context = createMockAndExpectNew(DefaultCamelContext.class);
-			context.start();
-			expectLastCall().andThrow(new Exception("This is a test exception created using PowerMock."));
-			replay(context, DefaultCamelContext.class);
-			NERV.destroy();
-			NERV.instance();
-			verify(context, DefaultCamelContext.class);
-		} finally {
-			NERV.destroy(); // This is needed so other tests don't fail because of the mocking.
-		}
+		DefaultCamelContext context = createMockAndExpectNew(DefaultCamelContext.class);
+		context.start();
+		expectLastCall().andThrow(new Exception("This is a test exception created using PowerMock."));
+		replay(context, DefaultCamelContext.class);
+		NERV.destroy();
+		NERV.instance();
+		verify(context, DefaultCamelContext.class);
 	}
 }
