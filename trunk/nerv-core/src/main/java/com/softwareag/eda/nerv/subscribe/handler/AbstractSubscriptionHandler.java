@@ -11,10 +11,10 @@ import org.apache.camel.CamelContext;
 import com.softwareag.eda.nerv.ContextProvider;
 import com.softwareag.eda.nerv.channel.ChannelProvider;
 import com.softwareag.eda.nerv.consume.Consumer;
-import com.softwareag.eda.nerv.subscribe.subscription.AbstractChannelRoute;
+import com.softwareag.eda.nerv.subscribe.route.AbstractRoute;
 import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 
-public abstract class AbstractSubscriptionHandler<T extends AbstractChannelRoute> implements SubscriptionHandler {
+public abstract class AbstractSubscriptionHandler<T extends AbstractRoute> implements SubscriptionHandler {
 
 	protected final Map<String, Set<T>> subscriptions = Collections.synchronizedMap(new HashMap<String, Set<T>>());
 
@@ -44,7 +44,7 @@ public abstract class AbstractSubscriptionHandler<T extends AbstractChannelRoute
 		channelSubscriptions.add(subscription);
 	}
 
-	protected void removeSubscription(AbstractChannelRoute subscription) {
+	protected void removeSubscription(AbstractRoute subscription) {
 		Set<T> channelSubscriptions = subscriptions.get(subscription.getChannel());
 		if (channelSubscriptions != null) {
 			channelSubscriptions.remove(subscription);

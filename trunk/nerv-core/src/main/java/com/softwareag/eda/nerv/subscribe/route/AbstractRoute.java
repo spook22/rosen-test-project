@@ -1,13 +1,13 @@
-package com.softwareag.eda.nerv.subscribe.subscription;
+package com.softwareag.eda.nerv.subscribe.route;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.RoutesDefinition;
 
-public abstract class AbstractChannelRoute extends RouteBuilder {
+public abstract class AbstractRoute extends RouteBuilder {
 
 	protected final String channel;
 
-	public AbstractChannelRoute(String channel) {
+	public AbstractRoute(String channel) {
 		this.channel = channel;
 	}
 

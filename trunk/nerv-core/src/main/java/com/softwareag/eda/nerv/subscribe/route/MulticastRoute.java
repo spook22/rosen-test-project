@@ -1,4 +1,4 @@
-package com.softwareag.eda.nerv.subscribe.subscription;
+package com.softwareag.eda.nerv.subscribe.route;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -11,7 +11,7 @@ import org.apache.camel.model.MulticastDefinition;
 import org.apache.camel.model.ProcessorDefinition;
 import org.apache.camel.model.RouteDefinition;
 
-public class MulticastRoute extends AbstractChannelRoute {
+public class MulticastRoute extends AbstractRoute {
 
 	private final Set<Processor> processors = Collections.synchronizedSet(new HashSet<Processor>());
 
