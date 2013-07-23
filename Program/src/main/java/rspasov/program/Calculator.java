@@ -26,7 +26,7 @@ public class Calculator {
 		return sum / list.getSize();
 	} // end
 
-	public static double calculateVariance(LinkedList list) {
+	public static double calculateVarianceBase(LinkedList list) {
 		if (list.getSize() == 1) { // Otherwise division by zero.
 			return 0;
 		}
@@ -37,7 +37,15 @@ public class Calculator {
 			sum += Math.pow(currentNode.getData() - mean, 2);
 			currentNode = currentNode.getNext();
 		}
-		return sum / (list.getSize() - 1);
+		return sum;
+	} // end
+
+	public static double calculateVariance(LinkedList list) {
+		if (list.getSize() == 1) { // Otherwise division by zero.
+			return 0;
+		}
+		double varianceBase = calculateVarianceBase(list);
+		return varianceBase / (list.getSize() - 1);
 	} // end
 
 	public static double calculateStandardDeviation(LinkedList list) {
@@ -233,4 +241,40 @@ public class Calculator {
 			}
 		}
 	} // end
+
+	public static double calculateT(double r, int n) {
+		return Math.abs(r) * Math.sqrt(n - 2) / Math.sqrt(1 - (r * r));
+	} // end
+
+	public static double calculateSignificance(double p) {
+		return 1 - (2 * p);
+	} // end
+
+	public static double calculateRange(LinkedList x, LinkedList y, double E, int n) {
+		TFinder finder = new TFinder(0.0000001);
+		double t = finder.find(0.35, n - 2, 1.0, 0.5);
+		double standardDeviation = calculateStandardDeviation(x, y, n);
+		double staticPart = Math.sqrt(1 + (1 / n) + (Math.pow(E - calculateMean(x), 2) / calculateVarianceBase(x)));
+		return t * standardDeviation * staticPart;
+	} // end
+
+	public static double calculateStandardDeviation(LinkedList x, LinkedList y, int n) {
+		double b0 = calculateRegression0(x, y);
+		double b1 = calculateRegression1(x, y);
+		double sum = 0;
+		for (LinkedListNode currentX = x.getHead(), currentY = y.getHead(); currentX != null && currentY != null; currentX = currentX.getNext(), currentY = currentY
+				.getNext()) {
+			sum += Math.pow(currentY.getData() - b0 - (b1 * currentX.getData()), 2);
+		}
+		return Math.sqrt(sum / (n - 2));
+	} // end
+
+	public static double calculateUPI(double P, double range) {
+		return P + range;
+	} // end
+
+	public static double calculateLPI(double P, double range) {
+		return P - range;
+	} // end
+
 } // end
