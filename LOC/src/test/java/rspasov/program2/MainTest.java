@@ -14,8 +14,7 @@ import rspasov.program2.report.ModelReport;
 /**
  * Program Assignment: LOC Counting Program
  * <p>
- * Description: This program is used for counting source code lines, classes,
- * and methods. It's used by the PSP to track and estimate programs' sizes.
+ * Description: This program is used for counting source code lines, classes, and methods. It's used by the PSP to track and estimate programs' sizes.
  * 
  * @author Rosen Spasov
  * @version 1.0
@@ -89,17 +88,17 @@ public class MainTest {
 	@Test
 	public void testProgram() throws Exception {
 		FilePathTraverser traverser = new FilePathTraverser();
-		traverser.traverse("C:\\Users\\rospa\\workspace\\Program");
+		traverser.traverse("C:/Users/rospa/workspace/svn/Program");
 		assertNotNull(traverser.getModel());
 		List<Item> model = traverser.getModel();
-		assertEquals(9, model.size());
+		assertEquals(11, model.size());
 		ModelReport report = ModelProcessor.process(model);
 		System.out.println(report);
 		assertNotNull(report);
 		assertEquals(808, report.getTotalLines());
-		assertEquals(9, report.getFiles());
-		assertEquals(9, report.getClasses());
-		assertEquals(79, report.getMethods());
+		assertEquals(11, report.getFiles());
+		assertEquals(11, report.getClasses());
+		assertEquals(86, report.getMethods());
 	} // end
 
 	@Test
