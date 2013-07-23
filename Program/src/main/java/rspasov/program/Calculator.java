@@ -6,8 +6,7 @@ import rspasov.program.list.LinkedListNode;
 /**
  * Program Assignment: Regression, Correlation, and Prediction Calculator
  * <p>
- * Description: This program is used for calculating the regression parameters,
- * correlation, and prediction used in PSP2.
+ * Description: This program is used for calculating the regression parameters, correlation, and prediction used in PSP2.
  * 
  * @author Rosen Spasov
  * @version 1.0
@@ -48,21 +47,18 @@ public class Calculator {
 		return Math.sqrt(calculateVariance(list));
 	} // end
 
-	public static double calculateRegression0(LinkedList first,
-			LinkedList second) {
+	public static double calculateRegression0(LinkedList first, LinkedList second) {
 		double firstMean = calculateMean(first);
 		double secondMean = calculateMean(second);
 		double regression1 = calculateRegression1(first, second);
 		return secondMean - (regression1 * firstMean);
 	} // end
 
-	public static double calculateRegression1(LinkedList first,
-			LinkedList second) {
+	public static double calculateRegression1(LinkedList first, LinkedList second) {
 		int size = first.getSize();
 		double firstMean = calculateMean(first);
 		double secondMean = calculateMean(second);
-		return (calculateSumXY(first, second) - (size * firstMean * secondMean))
-				/ (calculateSquaredSum(first) - (size * Math.pow(firstMean, 2)));
+		return (calculateSumXY(first, second) - (size * firstMean * secondMean)) / (calculateSquaredSum(first) - (size * Math.pow(firstMean, 2)));
 	} // end
 
 	public static double calculateSquaredSum(LinkedList list) {
@@ -97,23 +93,17 @@ public class Calculator {
 		return sum;
 	} // end
 
-	public static double calculateCorrelation(LinkedList first,
-			LinkedList second) {
+	public static double calculateCorrelation(LinkedList first, LinkedList second) {
 		int size = first.getSize();
-		double up = (size * calculateSumXY(first, second))
-				- (calculateSum(first) * calculateSum(second));
-		double a = (size * calculateSquaredSum(first))
-				- Math.pow(calculateSum(first), 2);
-		double b = (size * calculateSquaredSum(second))
-				- Math.pow(calculateSum(second), 2);
+		double up = (size * calculateSumXY(first, second)) - (calculateSum(first) * calculateSum(second));
+		double a = (size * calculateSquaredSum(first)) - Math.pow(calculateSum(first), 2);
+		double b = (size * calculateSquaredSum(second)) - Math.pow(calculateSum(second), 2);
 		double down = Math.sqrt(a * b);
 		return up / down;
 	} // end
 
-	public static double calculatePrediction(LinkedList first,
-			LinkedList second, double estimatedProxy) {
-		return calculateRegression0(first, second)
-				+ calculateRegression1(first, second) * estimatedProxy;
+	public static double calculatePrediction(LinkedList first, LinkedList second, double estimatedProxy) {
+		return calculateRegression0(first, second) + calculateRegression1(first, second) * estimatedProxy;
 	} // end
 
 	public static LinkedList createLogarithmicList(LinkedList list) {
@@ -126,12 +116,10 @@ public class Calculator {
 		return result;
 	} // end
 
-	public static LinkedList calculateItemsPerPart(LinkedList first,
-			LinkedList second) {
+	public static LinkedList calculateItemsPerPart(LinkedList first, LinkedList second) {
 		LinkedList result = new LinkedList();
 		if (first.getSize() != second.getSize()) {
-			throw new RuntimeException(
-					"The two lists should have one and the same size. This is not the case currently.");
+			throw new RuntimeException("The two lists should have one and the same size. This is not the case currently.");
 		}
 		LinkedListNode currentNodeFirst = first.getHead();
 		LinkedListNode currentNodeSecond = second.getHead();
@@ -144,13 +132,11 @@ public class Calculator {
 	} // end
 
 	public static double calculateVS(LinkedList list) {
-		return calculateAntiLogarithm(calculateMean(list) - 2
-				* calculateStandardDeviation(list));
+		return calculateAntiLogarithm(calculateMean(list) - 2 * calculateStandardDeviation(list));
 	} // end
 
 	public static double calculateS(LinkedList list) {
-		return calculateAntiLogarithm(calculateMean(list)
-				- calculateStandardDeviation(list));
+		return calculateAntiLogarithm(calculateMean(list) - calculateStandardDeviation(list));
 	} // end
 
 	public static double calculateM(LinkedList list) {
@@ -158,13 +144,11 @@ public class Calculator {
 	} // end
 
 	public static double calculateL(LinkedList list) {
-		return calculateAntiLogarithm(calculateMean(list)
-				+ calculateStandardDeviation(list));
+		return calculateAntiLogarithm(calculateMean(list) + calculateStandardDeviation(list));
 	} // end
 
 	public static double calculateVL(LinkedList list) {
-		return calculateAntiLogarithm(calculateMean(list) + 2
-				* calculateStandardDeviation(list));
+		return calculateAntiLogarithm(calculateMean(list) + 2 * calculateStandardDeviation(list));
 	} // end
 
 	public static double calculateAntiLogarithm(double value) {
@@ -173,9 +157,7 @@ public class Calculator {
 
 	public static long calculateFactorial(int value) {
 		if (value < 0) {
-			throw new RuntimeException(
-					"Cannot calculate factorial for the negative number: "
-							+ value + ". The number should be non-negative.");
+			throw new RuntimeException("Cannot calculate factorial for the negative number: " + value + ". The number should be non-negative.");
 		}
 		long result = 1;
 		for (long i = result; i <= value; i++) {
@@ -200,8 +182,7 @@ public class Calculator {
 	} // end
 
 	public static double calculateStaticDofFunction(int dof) {
-		return calculateGamma(dof + 1)
-				/ (Math.pow(dof * Math.PI, 0.5) * calculateGamma(dof));
+		return calculateGamma(dof + 1) / (Math.pow(dof * Math.PI, 0.5) * calculateGamma(dof));
 	} // end
 
 	public static double calculateDynamicDofFunction(int dof, double x) {
@@ -209,8 +190,7 @@ public class Calculator {
 	} // end
 
 	public static double calculateDofFunction(int dof, double x) {
-		return calculateStaticDofFunction(dof)
-				* calculateDynamicDofFunction(dof, x);
+		return calculateStaticDofFunction(dof) * calculateDynamicDofFunction(dof, x);
 	} // end
 
 	private static double calculateSegmentStep(double x, int segments) {
@@ -229,23 +209,19 @@ public class Calculator {
 		return second;
 	} // end
 
-	public static double calculateTempProbability(int dof, double x,
-			int segments) {
+	public static double calculateTempProbability(int dof, double x, int segments) {
 		double segmentStep = calculateSegmentStep(x, segments);
 		double sum = 0.0;
 		for (int segment = 0; segment <= segments; segment++) {
 			double nextX = segmentStep * segment;
-			sum += multiplier(segment, segments)
-					* calculateDofFunction(dof, nextX);
+			sum += multiplier(segment, segments) * calculateDofFunction(dof, nextX);
 		}
 		return (segmentStep / 3.0) * sum;
 	} // end
 
 	private static int multiplier(int segment, int segments) {
 		if (segment < 0 || segment > segments) {
-			throw new RuntimeException(
-					String.format("Segment %s should be between 0 and %s.",
-							segment, segments));
+			throw new RuntimeException(String.format("Segment %s should be between 0 and %s.", segment, segments));
 		}
 		if (segment == 0 || segment == segments) {
 			return 1;
