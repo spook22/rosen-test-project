@@ -10,8 +10,7 @@ import rspasov.program2.model.ItemType;
 /**
  * Program Assignment: LOC Counting Program
  * <p>
- * Description: This program is used for counting source code lines, classes,
- * and methods. It's used by the PSP to track and estimate programs' sizes.
+ * Description: This program is used for counting source code lines, classes, and methods. It's used by the PSP to track and estimate programs' sizes.
  * 
  * @author Rosen Spasov
  * @version 1.0
@@ -65,7 +64,7 @@ public class DefaultEventHandler implements EventHandler {
 	public void processLine(String line) {
 		line = line.trim();
 		// Do not process empty and comment lines.
-		if (!line.isEmpty() && !line.startsWith("//")) {
+		if (!line.isEmpty() && !line.startsWith("//") && !line.startsWith("/**") && !line.startsWith("*")) {
 			totalLOC++;
 			if (currentItem != null) {
 				currentItem.addLine();
