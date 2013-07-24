@@ -28,10 +28,12 @@ public class NERVContinuousEmittingUnitTest extends AbstractNERVUnitTest {
 
 	private Subscription subscription;
 
+	@Override
 	@Before
 	public void before() throws Exception {
+		super.before();
 		subscription = new DefaultSubscription(type, consumer);
-		NERV.instance().subscribe(subscription);
+		connection.subscribe(subscription);
 		runner = new Thread(publisher);
 		runner.start();
 	}
@@ -44,7 +46,7 @@ public class NERVContinuousEmittingUnitTest extends AbstractNERVUnitTest {
 			assertEquals(publisher.getPublishedMessages(), consumer.getEvents().size());
 			logger.debug(String.format("Published and consumed asynchronously %s messages.", publisher.getPublishedMessages()));
 		} finally {
-			NERV.instance().unsubscribe(subscription);
+			connection.unsubscribe(subscription);
 		}
 	}
 
@@ -56,7 +58,7 @@ public class NERVContinuousEmittingUnitTest extends AbstractNERVUnitTest {
 	@Test
 	public void testPublish100Msgs() throws Exception {
 		for (int count = 0; count < 100; count++) {
-			NERV.instance().publish("testPublish", message);
+			connection.publish("testPublish", message);
 		}
 	}
 
