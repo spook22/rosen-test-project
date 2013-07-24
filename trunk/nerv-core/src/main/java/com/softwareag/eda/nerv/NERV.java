@@ -5,7 +5,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.softwareag.eda.nerv.connection.NERVConnection;
-import com.softwareag.eda.nerv.connection.NERVConnectionFactory;
 import com.softwareag.eda.nerv.event.Event;
 import com.softwareag.eda.nerv.publish.Publisher;
 import com.softwareag.eda.nerv.subscribe.handler.SubscriptionHandler;
@@ -30,6 +29,7 @@ public class NERV implements Publisher, SubscriptionHandler {
 
 	protected static synchronized void destroy() {
 		if (instance != null) {
+			NERVConnectionFactory.destroyDefaultConnection();
 			instance.connection.close();
 		}
 		instance = null;
