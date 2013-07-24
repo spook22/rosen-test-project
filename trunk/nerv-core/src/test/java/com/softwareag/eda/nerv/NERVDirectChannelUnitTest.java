@@ -14,18 +14,17 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import com.softwareag.eda.nerv.connection.NERVConnection;
 import com.softwareag.eda.nerv.help.SystemPropertyChanger;
 
 @RunWith(PowerMockRunner.class)
 // @PrepareForTest(NERV.class)
 public class NERVDirectChannelUnitTest extends NERVUnitTest {
 
-	private static SystemPropertyChanger propertyChanger = new SystemPropertyChanger(NERVConnection.PROP_CHANNEL_TYPE);
+	private static SystemPropertyChanger propertyChanger = new SystemPropertyChanger(NERV.PROP_CHANNEL_TYPE);
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
-		propertyChanger.change(NERVConnection.PROP_CHANNEL_TYPE_DIRECT);
+		propertyChanger.change(NERV.PROP_CHANNEL_TYPE_DIRECT);
 		NERV.destroy();
 	}
 
