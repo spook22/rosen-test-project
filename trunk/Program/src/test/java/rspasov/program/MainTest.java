@@ -53,8 +53,10 @@ public class MainTest {
 		double t = Calculator.calculateT(r, n);
 		System.out.println("T = " + t);
 		double p = Calculator.calculateProbability(n - 2, t, 10);
+		System.out.println("P = " + p);
 		double significance = Calculator.calculateSignificance(p);
-		assertEquals(1.77517E-05, significance, 1.0);
+		System.out.println("Significance = " + significance);
+		assertEquals(0.0000177517, significance, 1.0);
 
 		double E = 386;
 		double b0 = Calculator.calculateRegression0(listX, listY);

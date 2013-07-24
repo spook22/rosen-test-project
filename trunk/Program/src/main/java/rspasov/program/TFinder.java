@@ -3,8 +3,7 @@ package rspasov.program;
 /**
  * Program Assignment: Regression, Correlation, and Prediction Calculator
  * <p>
- * Description: This program is used for calculating the regression parameters,
- * correlation, and prediction used in PSP2.
+ * Description: This program is used for calculating the regression parameters, correlation, and prediction used in PSP2.
  * 
  * @author Rosen Spasov
  * @version 1.0
@@ -36,7 +35,7 @@ public class TFinder {
 
 	protected double findT() {
 		double currentProbability = Calculator.calculateProbability(dof, t, 2);
-		System.out.println("t=" + t + ", d=" + d + ", prob=" + currentProbability);
+		// System.out.println("t=" + t + ", d=" + d + ", prob=" + currentProbability);
 		double delta = Math.abs(probabilityTarget - currentProbability);
 		if (delta < error) {
 			return t;
