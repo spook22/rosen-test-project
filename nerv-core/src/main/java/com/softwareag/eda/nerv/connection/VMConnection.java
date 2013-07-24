@@ -47,7 +47,7 @@ public class VMConnection implements NERVConnection {
 		channelProvider = channelType.equals(PROP_CHANNEL_TYPE_DIRECT) ? new DirectChannelProvider() : new VMChannelProvider();
 		publisher = new DefaultPublisher(contextProvider, channelProvider, createDecorator());
 		subscriptionHandler = new DefaultSubscriptionHandler(contextProvider, channelProvider);
-		logger.info("Initialized NERV with channel type: " + channelType);
+		logger.info("Initialized VM connection with channel type: " + channelType);
 	}
 
 	private EventDecorator createDecorator() {
