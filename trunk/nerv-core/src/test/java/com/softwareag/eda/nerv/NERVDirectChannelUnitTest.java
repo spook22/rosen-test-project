@@ -13,6 +13,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import com.softwareag.eda.nerv.connection.NERVConnection;
+
 @RunWith(PowerMockRunner.class)
 // @PrepareForTest(NERV.class)
 public class NERVDirectChannelUnitTest extends NERVUnitTest {
@@ -21,16 +23,16 @@ public class NERVDirectChannelUnitTest extends NERVUnitTest {
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
-		prevChannelType = System.setProperty(NERV.PROP_CHANNEL_TYPE, NERV.PROP_CHANNEL_TYPE_DIRECT);
+		prevChannelType = System.setProperty(NERVConnection.PROP_CHANNEL_TYPE, NERVConnection.PROP_CHANNEL_TYPE_DIRECT);
 		NERV.destroy();
 	}
 
 	@AfterClass
 	public static void afterClass() throws Exception {
 		if (prevChannelType != null) {
-			System.setProperty(NERV.PROP_CHANNEL_TYPE, prevChannelType);
+			System.setProperty(NERVConnection.PROP_CHANNEL_TYPE, prevChannelType);
 		} else {
-			System.getProperties().remove(NERV.PROP_CHANNEL_TYPE);
+			System.getProperties().remove(NERVConnection.PROP_CHANNEL_TYPE);
 		}
 		NERV.destroy();
 	}

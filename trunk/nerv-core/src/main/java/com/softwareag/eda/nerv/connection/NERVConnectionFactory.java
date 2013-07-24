@@ -10,7 +10,7 @@ public class NERVConnectionFactory {
 
 	public static NERVConnection getDefaultConnection() throws NERVException {
 		if (defaultConnection == null) {
-			if (Boolean.TRUE.toString().equals(System.getProperty(createDefaultConnectionProperty))) {
+			if (Boolean.TRUE.toString().equals(System.getProperty(createDefaultConnectionProperty, Boolean.TRUE.toString()))) {
 				createDefaultConnection();
 			} else {
 				throw new NERVException("Default connection has not been set. Make sure NERV has been properly initialized.");
