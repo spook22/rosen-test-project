@@ -2,16 +2,9 @@ package com.softwareag.eda.nerv.connection;
 
 import java.util.Map;
 
-import org.apache.camel.impl.DefaultCamelContext;
-import org.apache.log4j.Logger;
-
 import com.softwareag.eda.nerv.ContextProvider;
-import com.softwareag.eda.nerv.NERV;
 import com.softwareag.eda.nerv.NERVException;
-import com.softwareag.eda.nerv.SimpleContextProvider;
 import com.softwareag.eda.nerv.channel.ChannelProvider;
-import com.softwareag.eda.nerv.channel.DirectChannelProvider;
-import com.softwareag.eda.nerv.channel.VMChannelProvider;
 import com.softwareag.eda.nerv.event.Event;
 import com.softwareag.eda.nerv.event.EventDecorator;
 import com.softwareag.eda.nerv.event.EventIdDecorator;
@@ -24,28 +17,14 @@ import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 
 public class VMConnection implements NERVConnection {
 
-	private static final Logger logger = Logger.getLogger(NERV.class);
+	private final ContextProvider contextProvider;
 
-	private ContextProvider contextProvider;
+	private final Publisher publisher;
 
-	private Publisher publisher;
+	private final SubscriptionHandler subscriptionHandler;
 
-	private SubscriptionHandler subscriptionHandler;
-
-	public VMConnection() {
-		String channelType = System.getProperty(PROP_CHANNEL_TYPE, PROP_CHANNEL_TYPE_VM);
-		ChannelProvider channelProvider = channelType.equals(PROP_CHANNEL_TYPE_DIRECT) ? new DirectChannelProvider() : new VMChannelProvider();
-		init(channelProvider);
-		logger.info("Initialized VM connection with channel type: " + channelType);
-	}
-
-	public VMConnection(ChannelProvider channelProvider) {
-		init(channelProvider);
-		logger.info("Initialized VM connection with custom channel provider.");
-	}
-
-	private final void init(ChannelProvider channelProvider) {
-		contextProvider = new SimpleContextProvider(new DefaultCamelContext());
+	public VMConnection(ContextProvider contextProvider, ChannelProvider channelProvider) {
+		this.contextProvider = contextProvider;
 		try {
 			contextProvider.context().start();
 		} catch (Exception e) {

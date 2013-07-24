@@ -1,14 +1,24 @@
 package com.softwareag.eda.nerv;
 
+import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.log4j.Logger;
 
+import com.softwareag.eda.nerv.channel.ChannelProvider;
+import com.softwareag.eda.nerv.channel.DirectChannelProvider;
 import com.softwareag.eda.nerv.channel.StaticChannelProvider;
+import com.softwareag.eda.nerv.channel.VMChannelProvider;
 import com.softwareag.eda.nerv.connection.NERVConnection;
 import com.softwareag.eda.nerv.connection.VMConnection;
 
 public class NERV {
 
 	private static final Logger logger = Logger.getLogger(NERV.class);
+
+	public static final String PROP_CHANNEL_TYPE = "nerv.channel.type";
+
+	public static final String PROP_CHANNEL_TYPE_DIRECT = "direct";
+
+	public static final String PROP_CHANNEL_TYPE_VM = "vm";
 
 	private static NERV instance;
 
@@ -34,7 +44,10 @@ public class NERV {
 
 	private NERVConnection defaultConnection;
 
+	private final ContextProvider contextProvider;
+
 	private NERV() throws NERVException {
+		contextProvider = new SimpleContextProvider(new DefaultCamelContext());
 		defaultConnection = getDefaultConnection();
 		logger.info("NERV was successfully initialized.");
 	}
@@ -50,9 +63,14 @@ public class NERV {
 		return defaultConnection;
 	}
 
-	private final synchronized void createDefaultConnection() {
+	private ChannelProvider getChannelProvider() {
+		String channelType = System.getProperty(PROP_CHANNEL_TYPE, PROP_CHANNEL_TYPE_VM);
+		return channelType.equals(PROP_CHANNEL_TYPE_DIRECT) ? new DirectChannelProvider() : new VMChannelProvider();
+	}
+
+	private synchronized void createDefaultConnection() {
 		if (defaultConnection == null) {
-			setDefaultConnection(new VMConnection());
+			setDefaultConnection(new VMConnection(contextProvider, getChannelProvider()));
 		}
 	}
 
@@ -71,7 +89,7 @@ public class NERV {
 	}
 
 	public final NERVConnection createChannelConnection(String channel) {
-		return new VMConnection(new StaticChannelProvider(channel));
+		return new VMConnection(contextProvider, new StaticChannelProvider(channel));
 	}
 
 }
