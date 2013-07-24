@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import com.softwareag.eda.nerv.ContextProvider;
 import com.softwareag.eda.nerv.SimpleContextProvider;
+import com.softwareag.eda.nerv.TestHelper;
 import com.softwareag.eda.nerv.channel.ChannelProvider;
 import com.softwareag.eda.nerv.channel.VMChannelProvider;
 import com.softwareag.eda.nerv.consumer.BasicConsumer;
@@ -96,11 +97,7 @@ public class DefaultPublisherUnitTest {
 	}
 
 	private void waitForEvents(int eventsCount) throws Exception {
-		if (consumer.getEvents().size() < eventsCount) {
-			synchronized (consumer.getLock()) {
-				consumer.getLock().wait(2000);
-			}
-		}
+		TestHelper.waitForEvents(consumer, eventsCount, 1000);
 	}
 
 }

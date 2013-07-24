@@ -36,6 +36,7 @@ public class NERVDirectChannelUnitTest extends NERVUnitTest {
 			System.getProperties().remove(NERVConnection.PROP_CHANNEL_TYPE);
 		}
 		NERV.destroy();
+		NERV.destroy(); // Make sure nothing happens. Increase test coverage.
 	}
 
 	@Ignore

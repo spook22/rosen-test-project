@@ -31,8 +31,8 @@ public class NERV implements Publisher, SubscriptionHandler {
 		if (instance != null) {
 			NERVConnectionFactory.destroyDefaultConnection();
 			instance.connection.close();
+			instance = null;
 		}
-		instance = null;
 	}
 
 	private final NERVConnection connection;
