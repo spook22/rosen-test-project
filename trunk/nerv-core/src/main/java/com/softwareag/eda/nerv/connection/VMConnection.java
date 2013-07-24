@@ -26,28 +26,33 @@ public class VMConnection implements NERVConnection {
 
 	private static final Logger logger = Logger.getLogger(NERV.class);
 
-	private final ContextProvider contextProvider;
+	private ContextProvider contextProvider;
 
-	private final ChannelProvider channelProvider;
+	private Publisher publisher;
 
-	private final Publisher publisher;
-
-	private final SubscriptionHandler subscriptionHandler;
-
-	private final String channelType;
+	private SubscriptionHandler subscriptionHandler;
 
 	public VMConnection() {
+		String channelType = System.getProperty(PROP_CHANNEL_TYPE, PROP_CHANNEL_TYPE_VM);
+		ChannelProvider channelProvider = channelType.equals(PROP_CHANNEL_TYPE_DIRECT) ? new DirectChannelProvider() : new VMChannelProvider();
+		init(channelProvider);
+		logger.info("Initialized VM connection with channel type: " + channelType);
+	}
+
+	public VMConnection(ChannelProvider channelProvider) {
+		init(channelProvider);
+		logger.info("Initialized VM connection with custom channel provider.");
+	}
+
+	private final void init(ChannelProvider channelProvider) {
 		contextProvider = new SimpleContextProvider(new DefaultCamelContext());
 		try {
 			contextProvider.context().start();
 		} catch (Exception e) {
 			throw new NERVException("Cannot start Camel context.", e);
 		}
-		channelType = System.getProperty(PROP_CHANNEL_TYPE, PROP_CHANNEL_TYPE_VM);
-		channelProvider = channelType.equals(PROP_CHANNEL_TYPE_DIRECT) ? new DirectChannelProvider() : new VMChannelProvider();
 		publisher = new DefaultPublisher(contextProvider, channelProvider, createDecorator());
 		subscriptionHandler = new DefaultSubscriptionHandler(contextProvider, channelProvider);
-		logger.info("Initialized VM connection with channel type: " + channelType);
 	}
 
 	private EventDecorator createDecorator() {
