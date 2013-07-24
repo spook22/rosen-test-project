@@ -49,6 +49,7 @@ public class DefaultSubscriptionHandlerUnitTest {
 		subscriptionHandler.unsubscribe(new DefaultSubscription(type, new BasicConsumer()));
 
 		subscriptionHandler.unsubscribe(subscription);
+		subscriptionHandler.unsubscribe(subscription); // Should not throw exception.
 
 		// Try to unsubscribe from a non-existing subscription.
 		subscriptionHandler.unsubscribe(new DefaultSubscription(type, new BasicConsumer()));

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.camel.CamelContext;
 
@@ -47,8 +48,18 @@ public abstract class AbstractSubscriptionHandler<T extends AbstractRoute> imple
 
 	protected void removeSubscription(AbstractRoute subscription) {
 		Set<T> channelSubscriptions = subscriptions.get(subscription.getChannel());
-		if (channelSubscriptions != null) {
-			channelSubscriptions.remove(subscription);
+		channelSubscriptions.remove(subscription);
+		if (channelSubscriptions.isEmpty()) {
+			subscriptions.remove(subscription.getChannel());
+		}
+	}
+
+	protected boolean removeRoute(String id) throws NERVException {
+		try {
+			context().stopRoute(id, 30, TimeUnit.SECONDS);
+			return context().removeRoute(id);
+		} catch (Exception e) {
+			throw new NERVException("Cannot remove route " + id + " from context.", e);
 		}
 	}
 
@@ -65,6 +76,15 @@ public abstract class AbstractSubscriptionHandler<T extends AbstractRoute> imple
 			} catch (Exception e) {
 				throw new NERVException("Cannot add route to context.", e);
 			}
+		}
+	}
+
+	@Override
+	public void unsubscribe(Subscription subscription) throws NERVException {
+		T route = findRoute(channel(subscription.channel()), subscription.consumer());
+		if (route != null) {
+			removeRoute(route.getId());
+			removeSubscription(route);
 		}
 	}
 
