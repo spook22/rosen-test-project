@@ -1,6 +1,7 @@
 package com.softwareag.eda.nerv.connection;
 
 import com.softwareag.eda.nerv.NERVException;
+import com.softwareag.eda.nerv.channel.StaticChannelProvider;
 
 public class NERVConnectionFactory {
 
@@ -30,6 +31,10 @@ public class NERVConnectionFactory {
 			throw new NERVException("Default connection has already been set.");
 		}
 		defaultConnection = connection;
+	}
+
+	public static NERVConnection createChannelConnection(String channel) {
+		return new VMConnection(new StaticChannelProvider(channel));
 	}
 
 }
