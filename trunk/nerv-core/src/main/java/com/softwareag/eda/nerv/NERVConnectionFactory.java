@@ -6,13 +6,13 @@ import com.softwareag.eda.nerv.connection.VMConnection;
 
 public class NERVConnectionFactory {
 
-	private static final String createDefaultConnectionProperty = "create.default.connection";
+	public static final String PROP_CREATE_DEFAULT_CONNECTION = "create.default.connection";
 
 	private static NERVConnection defaultConnection;
 
 	public static final NERVConnection getDefaultConnection() throws NERVException {
 		if (defaultConnection == null) {
-			if (Boolean.TRUE.toString().equals(System.getProperty(createDefaultConnectionProperty, Boolean.TRUE.toString()))) {
+			if (Boolean.TRUE.toString().equals(System.getProperty(PROP_CREATE_DEFAULT_CONNECTION, Boolean.TRUE.toString()))) {
 				createDefaultConnection();
 			} else {
 				throw new NERVException("Default connection has not been set. Make sure NERV has been properly initialized.");

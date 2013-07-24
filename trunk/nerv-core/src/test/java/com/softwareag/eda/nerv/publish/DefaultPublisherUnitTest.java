@@ -14,13 +14,13 @@ import org.junit.Test;
 
 import com.softwareag.eda.nerv.ContextProvider;
 import com.softwareag.eda.nerv.SimpleContextProvider;
-import com.softwareag.eda.nerv.TestHelper;
 import com.softwareag.eda.nerv.channel.ChannelProvider;
 import com.softwareag.eda.nerv.channel.VMChannelProvider;
 import com.softwareag.eda.nerv.consumer.BasicConsumer;
 import com.softwareag.eda.nerv.event.Event;
 import com.softwareag.eda.nerv.event.EventIdDecorator;
 import com.softwareag.eda.nerv.event.Header;
+import com.softwareag.eda.nerv.help.TestHelper;
 import com.softwareag.eda.nerv.subscribe.handler.DefaultSubscriptionHandler;
 import com.softwareag.eda.nerv.subscribe.handler.SubscriptionHandler;
 import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
