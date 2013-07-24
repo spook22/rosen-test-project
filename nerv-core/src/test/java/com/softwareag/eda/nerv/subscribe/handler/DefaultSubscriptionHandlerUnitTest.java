@@ -32,6 +32,7 @@ public class DefaultSubscriptionHandlerUnitTest {
 
 		DefaultSubscriptionHandler subscriptionHandler = new DefaultSubscriptionHandler(contextProvider, channelProvider);
 		subscriptionHandler.subscribe(subscription);
+		subscriptionHandler.subscribe(subscription); // Nothing should change/happen. Should not throw exception.
 
 		Publisher publisher = new DefaultPublisher(contextProvider, channelProvider);
 		publisher.publish(type, body);
