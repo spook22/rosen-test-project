@@ -30,11 +30,14 @@ public class NERV1MbMsgUnitTest extends AbstractNERVUnitTest {
 		}
 	}
 
+	@Override
 	@Before
-	public void before() {
+	public void before() throws Exception {
+		super.before();
 		body = testMessage;
 	}
 
+	@Override
 	@Test
 	public void testPubSub() throws Exception {
 		pubSub(1);
