@@ -1,6 +1,11 @@
 package com.softwareag.eda.nerv;
 
+import static org.junit.Assert.assertEquals;
+
+import com.softwareag.eda.nerv.connection.NERVConnection;
 import com.softwareag.eda.nerv.consumer.BasicConsumer;
+import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
+import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 
 public class TestHelper {
 
@@ -12,6 +17,27 @@ public class TestHelper {
 				consumer.getLock().wait(waitTime);
 			}
 			totalWaitTime += waitTime;
+		}
+	}
+
+	// FIXME Remove need for channel.
+	public static void testConnection(NERVConnection connection, String channel, int eventsCount) throws Exception {
+		BasicConsumer consumer = new BasicConsumer();
+		Subscription subscription = new DefaultSubscription(channel, consumer);
+		connection.subscribe(subscription);
+		try {
+			String type = "myType";
+			String body = "testBody";
+			for (int i = 0; i < eventsCount; i++) {
+				connection.publish(type, body);
+			}
+			waitForEvents(consumer, eventsCount, 5000);
+			assertEquals(eventsCount, consumer.getEvents().size());
+			for (int i = 0; i < eventsCount; i++) {
+				assertEquals(body, consumer.getEvents().get(i).getBody());
+			}
+		} finally {
+			connection.unsubscribe(subscription);
 		}
 	}
 
