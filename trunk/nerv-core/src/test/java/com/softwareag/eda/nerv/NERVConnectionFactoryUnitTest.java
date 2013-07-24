@@ -13,6 +13,12 @@ public class NERVConnectionFactoryUnitTest {
 	private static SystemPropertyChanger propertyChanger = new SystemPropertyChanger(NERVConnectionFactory.PROP_CREATE_DEFAULT_CONNECTION);
 
 	@Test
+	public void testNERVConnectionFactory() {
+		NERVConnectionFactory factory = new NERVConnectionFactory(); // Not needed, just increasing test coverage.
+		assertNotNull(factory);
+	}
+
+	@Test
 	public void testGetDefaultConnection() throws Exception {
 		propertyChanger.change(Boolean.TRUE.toString());
 		try {
