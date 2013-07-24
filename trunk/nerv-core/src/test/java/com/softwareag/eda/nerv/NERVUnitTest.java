@@ -35,7 +35,7 @@ public class NERVUnitTest extends AbstractNERVUnitTest {
 		BasicConsumer consumer = new BasicConsumer();
 		Subscription subscription = new DefaultSubscription(type, consumer);
 		NERV.instance().subscribe(subscription);
-		NERV.instance().publish(new Event(type, message));
+		NERV.instance().publish(new Event(type, body));
 
 		if (consumer.getEvents().size() < 1) {
 			synchronized (consumer.getLock()) {
@@ -43,7 +43,7 @@ public class NERVUnitTest extends AbstractNERVUnitTest {
 			}
 		}
 		assertEquals(1, consumer.getEvents().size());
-		assertEquals(message, consumer.getEvents().get(0).getBody());
+		assertEquals(body, consumer.getEvents().get(0).getBody());
 		NERV.instance().unsubscribe(subscription);
 	}
 
@@ -54,7 +54,7 @@ public class NERVUnitTest extends AbstractNERVUnitTest {
 		NERV.instance().subscribe(subscription);
 		Map<String, Object> headers = new HashMap<String, Object>();
 		headers.put(Header.TYPE.getName(), type);
-		NERV.instance().publish(headers, message);
+		NERV.instance().publish(headers, body);
 
 		if (consumer.getEvents().size() < 1) {
 			synchronized (consumer.getLock()) {
@@ -62,7 +62,7 @@ public class NERVUnitTest extends AbstractNERVUnitTest {
 			}
 		}
 		assertEquals(1, consumer.getEvents().size());
-		assertEquals(message, consumer.getEvents().get(0).getBody());
+		assertEquals(body, consumer.getEvents().get(0).getBody());
 		NERV.instance().unsubscribe(subscription);
 	}
 

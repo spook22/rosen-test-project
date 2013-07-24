@@ -15,7 +15,7 @@ public class AbstractNERVUnitTest {
 
 	protected String type = "myType";
 
-	protected String message = "myMessage";
+	protected String body = "myMessage";
 
 	protected void pubSub(int expectedMessages) throws Exception {
 		pubSub(expectedMessages, 1, 1, 15 * 1000);
@@ -36,14 +36,14 @@ public class AbstractNERVUnitTest {
 	protected void pubSub(int expectedMessages, int consumersCount, int threadsCount, int timeout, boolean filter) throws Exception {
 		List<TestConsumer> consumers = new ArrayList<TestConsumer>();
 		for (int count = 0; count < consumersCount; count++) {
-			TestConsumer consumer = filter ? new FilteredConsumer(expectedMessages, message) : new BasicConsumer(expectedMessages);
+			TestConsumer consumer = filter ? new FilteredConsumer(expectedMessages, body) : new BasicConsumer(expectedMessages);
 			NERV.instance().subscribe(new DefaultSubscription(type, consumer));
 			consumers.add(consumer);
 		}
 		Thread.sleep(500);
 		int msgsPerThread = expectedMessages / threadsCount;
 		for (int count = 0; count < threadsCount; count++) {
-			new Thread(new PublishTask(type, message, msgsPerThread)).start();
+			new Thread(new PublishTask(type, body, msgsPerThread)).start();
 		}
 		try {
 			for (TestConsumer consumer : consumers) {
@@ -53,7 +53,7 @@ public class AbstractNERVUnitTest {
 					}
 				}
 				assertEquals(expectedMessages, consumer.getEvents().size());
-				assertEquals(message, consumer.getEvents().get(0).getBody());
+				assertEquals(body, consumer.getEvents().get(0).getBody());
 			}
 		} finally {
 			for (TestConsumer consumer : consumers) {

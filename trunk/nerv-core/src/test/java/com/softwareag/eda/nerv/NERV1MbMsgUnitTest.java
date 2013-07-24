@@ -32,7 +32,7 @@ public class NERV1MbMsgUnitTest extends AbstractNERVUnitTest {
 
 	@Before
 	public void before() {
-		message = testMessage;
+		body = testMessage;
 	}
 
 	@Test
