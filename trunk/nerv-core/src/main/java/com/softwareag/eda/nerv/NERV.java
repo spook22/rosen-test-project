@@ -1,16 +1,12 @@
 package com.softwareag.eda.nerv;
 
-import java.util.Map;
-
 import org.apache.log4j.Logger;
 
+import com.softwareag.eda.nerv.channel.StaticChannelProvider;
 import com.softwareag.eda.nerv.connection.NERVConnection;
-import com.softwareag.eda.nerv.event.Event;
-import com.softwareag.eda.nerv.publish.Publisher;
-import com.softwareag.eda.nerv.subscribe.handler.SubscriptionHandler;
-import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
+import com.softwareag.eda.nerv.connection.VMConnection;
 
-public class NERV implements Publisher, SubscriptionHandler {
+public class NERV {
 
 	private static final Logger logger = Logger.getLogger(NERV.class);
 
@@ -29,42 +25,53 @@ public class NERV implements Publisher, SubscriptionHandler {
 
 	protected static synchronized void destroy() {
 		if (instance != null) {
-			NERVConnectionFactory.destroyDefaultConnection();
-			instance.connection.close();
+			instance.destroyDefaultConnection();
 			instance = null;
 		}
 	}
 
-	private final NERVConnection connection;
+	public static final String PROP_CREATE_DEFAULT_CONNECTION = "create.default.connection";
+
+	private NERVConnection defaultConnection;
 
 	private NERV() throws NERVException {
-		connection = NERVConnectionFactory.getDefaultConnection();
+		defaultConnection = getDefaultConnection();
 		logger.info("NERV was successfully initialized.");
 	}
 
-	@Override
-	public void publish(String type, Object body) {
-		connection.publish(type, body);
+	public final NERVConnection getDefaultConnection() throws NERVException {
+		if (defaultConnection == null) {
+			if (Boolean.TRUE.toString().equals(System.getProperty(PROP_CREATE_DEFAULT_CONNECTION, Boolean.TRUE.toString()))) {
+				createDefaultConnection();
+			} else {
+				throw new NERVException("Default connection has not been set. Make sure NERV has been properly initialized.");
+			}
+		}
+		return defaultConnection;
 	}
 
-	@Override
-	public void publish(Map<String, Object> headers, Object body) {
-		connection.publish(headers, body);
+	private final synchronized void createDefaultConnection() {
+		if (defaultConnection == null) {
+			setDefaultConnection(new VMConnection());
+		}
 	}
 
-	@Override
-	public void publish(Event event) {
-		connection.publish(event);
+	protected final synchronized void setDefaultConnection(NERVConnection connection) throws NERVException {
+		if (defaultConnection != null) {
+			throw new NERVException("Default connection has already been set.");
+		}
+		defaultConnection = connection;
 	}
 
-	@Override
-	public void subscribe(Subscription subscription) throws NERVException {
-		connection.subscribe(subscription);
+	protected final synchronized void destroyDefaultConnection() {
+		if (defaultConnection != null) {
+			defaultConnection.close();
+			defaultConnection = null;
+		}
 	}
 
-	@Override
-	public void unsubscribe(Subscription subscription) throws NERVException {
-		connection.unsubscribe(subscription);
+	public final NERVConnection createChannelConnection(String channel) {
+		return new VMConnection(new StaticChannelProvider(channel));
 	}
 
 }

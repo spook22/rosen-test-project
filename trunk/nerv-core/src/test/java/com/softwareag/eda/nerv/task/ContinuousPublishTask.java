@@ -31,7 +31,7 @@ public class ContinuousPublishTask implements Runnable {
 	@Override
 	public void run() {
 		while (running) {
-			NERV.instance().publish(type, message);
+			NERV.instance().getDefaultConnection().publish(type, message);
 			publishedMessages++;
 			try {
 				Thread.sleep(timeout);
