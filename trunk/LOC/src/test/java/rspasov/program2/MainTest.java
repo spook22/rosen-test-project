@@ -95,10 +95,10 @@ public class MainTest {
 		ModelReport report = ModelProcessor.process(model);
 		System.out.println(report);
 		assertNotNull(report);
-		assertEquals(808, report.getTotalLines());
+		assertEquals(957, report.getTotalLines());
 		assertEquals(11, report.getFiles());
 		assertEquals(11, report.getClasses());
-		assertEquals(86, report.getMethods());
+		assertEquals(93, report.getMethods());
 	} // end
 
 	@Test
