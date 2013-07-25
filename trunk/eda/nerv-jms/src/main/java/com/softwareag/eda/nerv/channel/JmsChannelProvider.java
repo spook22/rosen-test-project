@@ -35,7 +35,9 @@ public class JmsChannelProvider implements ChannelProvider {
 	}
 
 	private String map(String type) {
-		return componentNameProvider + ":topic:" + getJndiEntryName(type);
+		String channel = componentNameProvider + ":topic:" + getJndiEntryName(type);
+		channelsMap.put(type, channel);
+		return channel;
 	}
 
 	private String getJndiEntryName(String type) {
