@@ -1,5 +1,6 @@
 dependencies {
 	compile(
 		project(':nerv-core'),
+		'org.apache.camel:camel-jms:2.11.1',
 	)
 }

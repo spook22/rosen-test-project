@@ -6,13 +6,25 @@ import java.util.Map;
 
 import com.softwareag.eda.nerv.component.ComponentNameProvider;
 
-public class JMSChannelProvider implements ChannelProvider {
+public class JmsChannelProvider implements ChannelProvider {
 
-	private static String delimiter;
+	public static final String INTERNAL_NAMESPACE_PREFIX = "http://namespaces.softwareag.com/EDA";
+
+	public static final String DEFAULT_DELIMITER = "::";
 
 	private final Map<String, String> channelsMap = Collections.synchronizedMap(new HashMap<String, String>());
 
-	private ComponentNameProvider componentNameProvider;
+	private final ComponentNameProvider componentNameProvider;
+
+	private String delimiter = DEFAULT_DELIMITER;
+
+	public JmsChannelProvider(ComponentNameProvider componentNameProvider) {
+		this.componentNameProvider = componentNameProvider;
+	}
+
+	public void setDelimiter(String delimiter) {
+		this.delimiter = delimiter;
+	}
 
 	@Override
 	public String channel(String type) {
@@ -26,12 +38,12 @@ public class JMSChannelProvider implements ChannelProvider {
 		return componentNameProvider + ":topic:" + getJndiEntryName(type);
 	}
 
-	private static String getJndiEntryName(String type) {
+	private String getJndiEntryName(String type) {
 		return "Event" + delimiter + extractPath(type);
 	}
 
-	private static String extractPath(String type) {
-		String prefix = "http://namespaces.softwareag.com/EDA";
+	private String extractPath(String type) {
+		String prefix = INTERNAL_NAMESPACE_PREFIX;
 		if (type.startsWith(prefix)) {
 			return type.substring(prefix.length()).replaceAll("/", delimiter);
 		} else {
