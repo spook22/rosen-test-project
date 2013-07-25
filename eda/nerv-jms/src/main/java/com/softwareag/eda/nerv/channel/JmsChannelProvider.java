@@ -47,7 +47,11 @@ public class JmsChannelProvider implements ChannelProvider {
 	private String extractPath(String type) {
 		String prefix = INTERNAL_NAMESPACE_PREFIX;
 		if (type.startsWith(prefix)) {
-			return type.substring(prefix.length()).replaceAll("/", delimiter);
+			type = type.substring(prefix.length());
+			if (type.startsWith("/")) {
+				type = type.substring("/".length());
+			}
+			return type.replaceAll("/", delimiter);
 		} else {
 			return "WebM" + delimiter + "External";
 		}

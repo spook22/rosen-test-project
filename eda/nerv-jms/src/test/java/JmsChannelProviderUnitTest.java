@@ -14,7 +14,7 @@ public class JmsChannelProviderUnitTest {
 		String delimiter = JmsChannelProvider.DEFAULT_DELIMITER;
 		ComponentNameProvider componentNameProvider = new DefaultComponentNameProvider("nervDefaultJms");
 		JmsChannelProvider provider = new JmsChannelProvider(componentNameProvider);
-		String expectedChannel = componentNameProvider + ":topic:" + "Event" + delimiter + "WebM + delimiter + Test";
+		String expectedChannel = componentNameProvider + ":topic:" + "Event" + delimiter + "WebM" + delimiter + "Test";
 		String channel = provider.channel(internalType);
 		assertEquals(expectedChannel, channel);
 	}
