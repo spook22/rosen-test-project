@@ -1,6 +1,9 @@
 package com.softwareag.eda.nerv;
 
+import org.apache.camel.CamelContext;
 import org.apache.camel.impl.DefaultCamelContext;
+import org.apache.camel.impl.DefaultCamelContextNameStrategy;
+import org.apache.camel.spi.CamelContextNameStrategy;
 import org.apache.log4j.Logger;
 
 import com.softwareag.eda.nerv.channel.ChannelProvider;
@@ -47,9 +50,17 @@ public class NERV {
 	private final ContextProvider contextProvider;
 
 	private NERV() throws NERVException {
-		contextProvider = new SimpleContextProvider(new DefaultCamelContext());
+		contextProvider = new SimpleContextProvider(createContext());
 		defaultConnection = getDefaultConnection();
 		logger.info("NERV was successfully initialized.");
+	}
+
+	private CamelContext createContext() {
+		CamelContext context = new DefaultCamelContext();
+		CamelContextNameStrategy nameStrategy = new DefaultCamelContextNameStrategy("com.softwareag.eda.nerv.default.emit.context");
+		context.setNameStrategy(nameStrategy);
+		context.getShutdownStrategy().setShutdownNowOnTimeout(true);
+		return context;
 	}
 
 	public final NERVConnection getDefaultConnection() throws NERVException {
