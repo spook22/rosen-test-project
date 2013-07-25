@@ -9,8 +9,6 @@ dependencies {
 	)
 	testCompile(
 	   'org.powermock:powermock-easymock-release-full:1.5.1',
-	)
-	testRuntime(
 	   'org.easymock:easymockclassextension:3.1',
 	)
 }
