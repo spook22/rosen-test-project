@@ -6,19 +6,19 @@ import com.softwareag.eda.nerv.ContextProvider;
 import com.softwareag.eda.nerv.channel.ChannelProvider;
 import com.softwareag.eda.nerv.consume.Consumer;
 import com.softwareag.eda.nerv.subscribe.DefaultEventProcessor;
-import com.softwareag.eda.nerv.subscribe.route.DefaultRoute;
+import com.softwareag.eda.nerv.subscribe.route.DefaultSubscriptionRoute;
 
-public class DefaultSubscriptionHandler extends AbstractSubscriptionHandler<DefaultRoute> {
+public class DefaultSubscriptionHandler extends AbstractSubscriptionHandler<DefaultSubscriptionRoute> {
 
 	public DefaultSubscriptionHandler(ContextProvider contextProvider, ChannelProvider channelProvider) {
 		super(contextProvider, channelProvider);
 	}
 
 	@Override
-	protected DefaultRoute findRoute(String channel, Consumer consumer) {
-		Set<DefaultRoute> channelSubscriptions = subscriptions.get(channel);
+	protected DefaultSubscriptionRoute findRoute(String channel, Consumer consumer) {
+		Set<DefaultSubscriptionRoute> channelSubscriptions = subscriptions.get(channel);
 		if (channelSubscriptions != null) {
-			for (DefaultRoute channelSubscription : channelSubscriptions) {
+			for (DefaultSubscriptionRoute channelSubscription : channelSubscriptions) {
 				if (channelSubscription.getProcessor().equals(new DefaultEventProcessor(consumer))) {
 					return channelSubscription;
 				}
@@ -28,8 +28,8 @@ public class DefaultSubscriptionHandler extends AbstractSubscriptionHandler<Defa
 	}
 
 	@Override
-	protected DefaultRoute createSubscripion(String channel, Consumer consumer) {
-		return new DefaultRoute(channel, new DefaultEventProcessor(consumer));
+	protected DefaultSubscriptionRoute createSubscripion(String channel, Consumer consumer) {
+		return new DefaultSubscriptionRoute(channel, new DefaultEventProcessor(consumer));
 	}
 
 }

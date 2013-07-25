@@ -1,4 +1,4 @@
-package com.softwareag.eda.nerv.subscribe;
+package com.softwareag.eda.nerv.subscribe.route;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -11,15 +11,16 @@ import org.apache.camel.model.RoutesDefinition;
 import org.junit.Test;
 
 import com.softwareag.eda.nerv.consumer.BasicConsumer;
-import com.softwareag.eda.nerv.subscribe.route.DefaultRoute;
+import com.softwareag.eda.nerv.subscribe.DefaultEventProcessor;
+import com.softwareag.eda.nerv.subscribe.route.DefaultSubscriptionRoute;
 
-public class DefaultRouteUnitTest {
+public class DefaultSubscriptionRouteUnitTest {
 
 	private final String channel = "DefaultRouteUnitTest";
 
 	private final Processor processor = new DefaultEventProcessor(new BasicConsumer());
 
-	private final DefaultRoute route = new DefaultRoute(channel, processor);
+	private final DefaultSubscriptionRoute route = new DefaultSubscriptionRoute(channel, processor);
 
 	@Test
 	public void testConfigure() throws Exception {

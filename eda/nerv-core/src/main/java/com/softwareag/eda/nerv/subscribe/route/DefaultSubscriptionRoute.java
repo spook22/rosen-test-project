@@ -2,11 +2,11 @@ package com.softwareag.eda.nerv.subscribe.route;
 
 import org.apache.camel.Processor;
 
-public class DefaultRoute extends AbstractRoute {
+public class DefaultSubscriptionRoute extends AbstractRoute {
 
 	private final Processor processor;
 
-	public DefaultRoute(String channel, Processor processor) {
+	public DefaultSubscriptionRoute(String channel, Processor processor) {
 		super(channel);
 		this.processor = processor;
 	}
