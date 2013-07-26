@@ -7,7 +7,6 @@ import static org.junit.Assert.assertNull;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.camel.impl.DefaultCamelContext;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,7 +45,7 @@ public class DefaultPublisherUnitTest {
 
 	@Before
 	public void setUp() throws Exception {
-		contextProvider = new SimpleContextProvider(new DefaultCamelContext());
+		contextProvider = new SimpleContextProvider();
 		contextProvider.context().start();
 
 		consumer = new BasicConsumer();

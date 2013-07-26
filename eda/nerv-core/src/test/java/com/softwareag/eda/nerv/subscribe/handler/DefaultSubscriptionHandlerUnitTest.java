@@ -2,7 +2,6 @@ package com.softwareag.eda.nerv.subscribe.handler;
 
 import static org.junit.Assert.assertEquals;
 
-import org.apache.camel.impl.DefaultCamelContext;
 import org.junit.Test;
 
 import com.softwareag.eda.nerv.ContextProvider;
@@ -23,7 +22,7 @@ public class DefaultSubscriptionHandlerUnitTest {
 
 	@Test
 	public void testSubscribeUnsubscribe() throws Exception {
-		ContextProvider contextProvider = new SimpleContextProvider(new DefaultCamelContext());
+		ContextProvider contextProvider = new SimpleContextProvider();
 		contextProvider.context().start();
 		ChannelProvider channelProvider = new VMChannelProvider();
 
