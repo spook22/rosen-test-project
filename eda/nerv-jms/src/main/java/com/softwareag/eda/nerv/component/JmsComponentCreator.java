@@ -37,17 +37,17 @@ public class JmsComponentCreator {
 		env.put("connectionFactory", "EventFactory");
 		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.pcbsys.nirvana.nSpace.NirvanaContextFactory");
 		env.put("nirvana.setReadThreadDaemon", "true");
-		return createJmsComponent(env, classLoader);
+		return create(env, classLoader);
 	}
 
-	private JmsComponent createJmsComponent(Properties jndiEnvironment, ClassLoader classLoader) {
+	private JmsComponent create(Properties jndiEnvironment, ClassLoader classLoader) {
 		ConnectionFactory connectionFactory = connectionFactoryProvider.connectionFactory();
 		CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory(connectionFactory);
-		JmsConfiguration jmsConfiguration = new JmsConfiguration(cachingConnectionFactory);
+		JmsConfiguration conf = new JmsConfiguration(cachingConnectionFactory);
 		if (destinationResolverProvider != null) {
-			jmsConfiguration.setDestinationResolver(destinationResolverProvider.destinationResolver());
+			conf.setDestinationResolver(destinationResolverProvider.destinationResolver());
 		}
-		jmsConfiguration.setListenerConnectionFactory(connectionFactory);
-		return new JmsComponent(jmsConfiguration);
+		conf.setListenerConnectionFactory(connectionFactory);
+		return new JmsComponent(conf);
 	}
 }
