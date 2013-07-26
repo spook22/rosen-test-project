@@ -1,6 +1,5 @@
 package com.softwareag.eda.nerv.connection;
 
-import org.apache.camel.impl.DefaultCamelContext;
 import org.junit.Test;
 
 import com.softwareag.eda.nerv.SimpleContextProvider;
@@ -12,7 +11,7 @@ public class VMConnectionUnitTest {
 	@Test
 	public void testChannelPublishSubscribe() throws Exception {
 		String channel = "vm:testChannelPublishSubscribe";
-		VMConnection connection = new VMConnection(new SimpleContextProvider(new DefaultCamelContext()), new StaticChannelProvider(channel));
+		VMConnection connection = new VMConnection(new SimpleContextProvider(), new StaticChannelProvider(channel));
 		TestHelper.testConnection(connection, channel, 2);
 	}
 
