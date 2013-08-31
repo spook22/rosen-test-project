@@ -1,6 +1,7 @@
 package com.softwareag.eda.nerv;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.softwareag.eda.nerv.channel.ChannelProvider;
 import com.softwareag.eda.nerv.channel.DirectChannelProvider;
@@ -12,7 +13,7 @@ import com.softwareag.eda.nerv.connection.VMConnection;
 
 public class NERV {
 
-	private static final Logger logger = Logger.getLogger(NERV.class);
+	private static final Logger logger = LoggerFactory.getLogger(NERV.class);
 
 	public static final String PROP_CHANNEL_TYPE = "nerv.channel.type";
 
