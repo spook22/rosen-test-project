@@ -6,10 +6,13 @@ import java.util.Map;
 import org.apache.camel.Route;
 
 import com.softwareag.eda.nerv.event.Event;
+import com.softwareag.eda.nerv.jmx.JMXHelper;
 
-public class JmsDefaultRouteCreator implements EventPublishListener {
+public class JmsRouteCreator implements EventPublishListener {
 
 	private final Map<String, Route> routesCache = new HashMap<String, Route>();
+
+	private final JMXHelper jmxHelper = new JMXHelper();
 
 	@Override
 	public void onPublish(PublishOperation operation, String channel, Event event) {
@@ -23,7 +26,7 @@ public class JmsDefaultRouteCreator implements EventPublishListener {
 		case PRE_PUBLISH:
 			Route route = routesCache.get(channel);
 			if (route == null) {
-				route = checkUsingJmx(channel);
+				route = routeExistsInJMX(channel);
 				if (route == null) {
 					createRoute(channel);
 				}
@@ -34,14 +37,13 @@ public class JmsDefaultRouteCreator implements EventPublishListener {
 		}
 	}
 
-	private void createRoute(String type) {
+	private void createRoute(String channel) {
 		// TODO Auto-generated method stub
 
 	}
 
-	private Route checkUsingJmx(String type) {
-		// TODO Auto-generated method stub
-		return null;
+	private Route routeExistsInJMX(String routeId) {
+		return jmxHelper.routeExists(routeId);
 	}
 
 }
