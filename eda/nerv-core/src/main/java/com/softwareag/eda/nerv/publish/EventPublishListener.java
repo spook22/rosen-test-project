@@ -8,6 +8,6 @@ public interface EventPublishListener {
 		PRE_PUBLISH, POST_PUBLISH
 	}
 
-	void onPublish(PublishOperation operation, Event event);
+	void onPublish(PublishOperation operation, String channel, Event event);
 
 }

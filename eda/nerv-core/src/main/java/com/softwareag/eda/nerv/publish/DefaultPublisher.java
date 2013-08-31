@@ -73,10 +73,10 @@ public class DefaultPublisher implements Publisher {
 		if (decorator != null) {
 			decorator.decorate(event);
 		}
-		notifyListeners(PublishOperation.PRE_PUBLISH, event);
 		String channel = channelProvider.channel(event.getType());
+		notifyListeners(PublishOperation.PRE_PUBLISH, channel, event);
 		send(channel, event);
-		notifyListeners(PublishOperation.POST_PUBLISH, event);
+		notifyListeners(PublishOperation.POST_PUBLISH, channel, event);
 	}
 
 	public void registerEventPublishListner(EventPublishListener listener) {
@@ -87,9 +87,9 @@ public class DefaultPublisher implements Publisher {
 		eventPublishListeners.add(listener);
 	}
 
-	private void notifyListeners(PublishOperation operation, Event event) {
+	private void notifyListeners(PublishOperation operation, String channel, Event event) {
 		for (EventPublishListener eventPublishListener : eventPublishListeners) {
-			eventPublishListener.onPublish(operation, event);
+			eventPublishListener.onPublish(operation, channel, event);
 		}
 	}
 
