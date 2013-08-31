@@ -8,6 +8,7 @@ import com.softwareag.eda.nerv.ContextProvider;
 import com.softwareag.eda.nerv.SimpleContextProvider;
 import com.softwareag.eda.nerv.channel.ChannelProvider;
 import com.softwareag.eda.nerv.channel.VMChannelProvider;
+import com.softwareag.eda.nerv.component.SpringComponentResolver;
 import com.softwareag.eda.nerv.consumer.BasicConsumer;
 import com.softwareag.eda.nerv.publish.DefaultPublisher;
 import com.softwareag.eda.nerv.publish.Publisher;
@@ -29,11 +30,14 @@ public class DefaultSubscriptionHandlerUnitTest {
 		BasicConsumer consumer = new BasicConsumer();
 		Subscription subscription = new DefaultSubscription(type, consumer);
 
-		DefaultSubscriptionHandler subscriptionHandler = new DefaultSubscriptionHandler(contextProvider, channelProvider);
+		DefaultSubscriptionHandler subscriptionHandler = new DefaultSubscriptionHandler(contextProvider,
+				channelProvider);
 		subscriptionHandler.subscribe(subscription);
-		subscriptionHandler.subscribe(subscription); // Nothing should change/happen. Should not throw exception.
+		subscriptionHandler.subscribe(subscription); // Nothing should
+														// change/happen. Should
+														// not throw exception.
 
-		Publisher publisher = new DefaultPublisher(contextProvider, channelProvider);
+		Publisher publisher = new DefaultPublisher(contextProvider, channelProvider, new SpringComponentResolver());
 		publisher.publish(type, body);
 
 		if (consumer.getEvents().size() < 1) {
@@ -49,7 +53,8 @@ public class DefaultSubscriptionHandlerUnitTest {
 		subscriptionHandler.unsubscribe(new DefaultSubscription(type, new BasicConsumer()));
 
 		subscriptionHandler.unsubscribe(subscription);
-		subscriptionHandler.unsubscribe(subscription); // Should not throw exception.
+		subscriptionHandler.unsubscribe(subscription); // Should not throw
+														// exception.
 
 		// Try to unsubscribe from a non-existing subscription.
 		subscriptionHandler.unsubscribe(new DefaultSubscription(type, new BasicConsumer()));
