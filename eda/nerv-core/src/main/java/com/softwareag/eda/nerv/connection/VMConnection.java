@@ -2,9 +2,12 @@ package com.softwareag.eda.nerv.connection;
 
 import java.util.Map;
 
+import org.apache.camel.ServiceStatus;
+
 import com.softwareag.eda.nerv.ContextProvider;
 import com.softwareag.eda.nerv.NERVException;
 import com.softwareag.eda.nerv.channel.ChannelProvider;
+import com.softwareag.eda.nerv.component.ComponentResolver;
 import com.softwareag.eda.nerv.event.Event;
 import com.softwareag.eda.nerv.event.EventDecorator;
 import com.softwareag.eda.nerv.event.EventIdDecorator;
@@ -23,14 +26,18 @@ public class VMConnection implements NERVConnection {
 
 	private final SubscriptionHandler subscriptionHandler;
 
-	public VMConnection(ContextProvider contextProvider, ChannelProvider channelProvider) {
+	public VMConnection(ContextProvider contextProvider, ChannelProvider channelProvider,
+			ComponentResolver componentResolver) {
 		this.contextProvider = contextProvider;
 		try {
-			contextProvider.context().start();
+			ServiceStatus status = contextProvider.context().getStatus();
+			if (!status.isStarted() && !status.isStarting()) {
+				contextProvider.context().start();
+			}
 		} catch (Exception e) {
 			throw new NERVException("Cannot start Camel context.", e);
 		}
-		publisher = new DefaultPublisher(contextProvider, channelProvider, createDecorator());
+		publisher = new DefaultPublisher(contextProvider, channelProvider, componentResolver, createDecorator());
 		subscriptionHandler = new DefaultSubscriptionHandler(contextProvider, channelProvider);
 	}
 

@@ -6,6 +6,7 @@ import com.softwareag.eda.nerv.channel.ChannelProvider;
 import com.softwareag.eda.nerv.channel.DirectChannelProvider;
 import com.softwareag.eda.nerv.channel.StaticChannelProvider;
 import com.softwareag.eda.nerv.channel.VMChannelProvider;
+import com.softwareag.eda.nerv.component.SpringComponentResolver;
 import com.softwareag.eda.nerv.connection.NERVConnection;
 import com.softwareag.eda.nerv.connection.VMConnection;
 
@@ -53,10 +54,12 @@ public class NERV {
 
 	public final NERVConnection getDefaultConnection() throws NERVException {
 		if (defaultConnection == null) {
-			if (Boolean.TRUE.toString().equals(System.getProperty(PROP_CREATE_DEFAULT_CONNECTION, Boolean.TRUE.toString()))) {
+			if (Boolean.TRUE.toString().equals(
+					System.getProperty(PROP_CREATE_DEFAULT_CONNECTION, Boolean.TRUE.toString()))) {
 				createDefaultConnection();
 			} else {
-				throw new NERVException("Default connection has not been set. Make sure NERV has been properly initialized.");
+				throw new NERVException(
+						"Default connection has not been set. Make sure NERV has been properly initialized.");
 			}
 		}
 		return defaultConnection;
@@ -69,7 +72,7 @@ public class NERV {
 
 	private synchronized void createDefaultConnection() {
 		if (defaultConnection == null) {
-			setDefaultConnection(new VMConnection(contextProvider, getChannelProvider()));
+			setDefaultConnection(new VMConnection(contextProvider, getChannelProvider(), new SpringComponentResolver()));
 		}
 	}
 
@@ -88,7 +91,7 @@ public class NERV {
 	}
 
 	public final NERVConnection createChannelConnection(String channel) {
-		return new VMConnection(contextProvider, new StaticChannelProvider(channel));
+		return new VMConnection(contextProvider, new StaticChannelProvider(channel), new SpringComponentResolver());
 	}
 
 }
