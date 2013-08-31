@@ -12,7 +12,7 @@ public class JmsDefaultRouteCreator implements EventPublishListener {
 	private final Map<String, Route> routesCache = new HashMap<String, Route>();
 
 	@Override
-	public void onPublish(PublishOperation operation, Event event) {
+	public void onPublish(PublishOperation operation, String channel, Event event) {
 		/*
 		 * 1. Using JMX check if route exists for the given ID deducted from the
 		 * event type. 2. Use cache to optimize performance and not go to JMX
@@ -21,11 +21,11 @@ public class JmsDefaultRouteCreator implements EventPublishListener {
 		 */
 		switch (operation) {
 		case PRE_PUBLISH:
-			Route route = routesCache.get(event.getType());
+			Route route = routesCache.get(channel);
 			if (route == null) {
-				route = checkUsingJmx(event.getType());
+				route = checkUsingJmx(channel);
 				if (route == null) {
-					createRoute(event.getType());
+					createRoute(channel);
 				}
 			}
 			break;
