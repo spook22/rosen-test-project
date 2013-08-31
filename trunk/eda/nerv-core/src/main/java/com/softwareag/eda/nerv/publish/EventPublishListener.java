@@ -4,8 +4,10 @@ import com.softwareag.eda.nerv.event.Event;
 
 public interface EventPublishListener {
 
-	void prePublish(Event event);
+	public static enum PublishOperation {
+		PRE_PUBLISH, POST_PUBLISH
+	}
 
-	void postPublish(Event event);
+	void onPublish(PublishOperation operation, Event event);
 
 }

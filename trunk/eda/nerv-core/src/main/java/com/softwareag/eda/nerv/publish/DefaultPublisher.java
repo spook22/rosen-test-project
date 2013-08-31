@@ -20,6 +20,7 @@ import com.softwareag.eda.nerv.channel.ChannelProvider;
 import com.softwareag.eda.nerv.component.ComponentResolver;
 import com.softwareag.eda.nerv.event.Event;
 import com.softwareag.eda.nerv.event.EventDecorator;
+import com.softwareag.eda.nerv.publish.EventPublishListener.PublishOperation;
 
 public class DefaultPublisher implements Publisher {
 
@@ -72,10 +73,10 @@ public class DefaultPublisher implements Publisher {
 		if (decorator != null) {
 			decorator.decorate(event);
 		}
-		notifyListeners(event, true);
+		notifyListeners(PublishOperation.PRE_PUBLISH, event);
 		String channel = channelProvider.channel(event.getType());
 		send(channel, event);
-		notifyListeners(event, false);
+		notifyListeners(PublishOperation.POST_PUBLISH, event);
 	}
 
 	public void registerEventPublishListner(EventPublishListener listener) {
@@ -86,13 +87,9 @@ public class DefaultPublisher implements Publisher {
 		eventPublishListeners.add(listener);
 	}
 
-	private void notifyListeners(Event event, boolean prePublish) {
+	private void notifyListeners(PublishOperation operation, Event event) {
 		for (EventPublishListener eventPublishListener : eventPublishListeners) {
-			if (prePublish) {
-				eventPublishListener.prePublish(event);
-			} else {
-				eventPublishListener.postPublish(event);
-			}
+			eventPublishListener.onPublish(operation, event);
 		}
 	}
 
