@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.softwareag.eda.nerv.connection.NERVConnection;
@@ -19,11 +20,13 @@ import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 
 public class NERVUnitTest extends AbstractNERVUnitTest {
 
+	@Ignore
 	@Test
 	public void testPubSub100kMsgs() throws Exception {
 		pubSub(100000);
 	}
 
+	@Ignore
 	@Test
 	public void testPubSub100kMsgs10Threads() throws Exception {
 		pubSub(100000, 1, 10);
@@ -65,7 +68,8 @@ public class NERVUnitTest extends AbstractNERVUnitTest {
 		connection.unsubscribe(subscription);
 	}
 
-	private static SystemPropertyChanger propertyChanger = new SystemPropertyChanger(NERV.PROP_CREATE_DEFAULT_CONNECTION);
+	private static SystemPropertyChanger propertyChanger = new SystemPropertyChanger(
+			NERV.PROP_CREATE_DEFAULT_CONNECTION);
 
 	@Test
 	public void testGetDefaultConnection() throws Exception {

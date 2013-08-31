@@ -5,6 +5,7 @@ import java.io.InputStream;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.softwareag.eda.nerv.file.FileUtils;
@@ -48,6 +49,7 @@ public class NERV1MbMsgUnitTest extends AbstractNERVUnitTest {
 		pubSub(10000);
 	}
 
+	@Ignore
 	@Test
 	public void testPubSub10kMsgs10Threads() throws Exception {
 		pubSub(10000, 1, 10);
