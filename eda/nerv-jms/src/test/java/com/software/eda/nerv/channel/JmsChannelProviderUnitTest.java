@@ -1,3 +1,4 @@
+package com.software.eda.nerv.channel;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
