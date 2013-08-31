@@ -1,12 +1,13 @@
 package com.softwareag.eda.nerv.event;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.camel.util.CaseInsensitiveMap;
 
 public class Event {
 
-	private final Map<String, Object> headers = new HashMap<String, Object>();
+	private final Map<String, Object> headers = new CaseInsensitiveMap();
 
 	private final Object body;
 
