@@ -65,7 +65,7 @@ public abstract class AbstractSubscriptionHandler<T extends AbstractRoute> imple
 
 	@Override
 	public void subscribe(Subscription subscription) throws NERVException {
-		String channel = channel(subscription.channel());
+		String channel = channel(subscription.type());
 		Consumer consumer = subscription.consumer();
 		T route = findRoute(channel, consumer);
 		if (route == null) {
@@ -81,7 +81,7 @@ public abstract class AbstractSubscriptionHandler<T extends AbstractRoute> imple
 
 	@Override
 	public void unsubscribe(Subscription subscription) throws NERVException {
-		T route = findRoute(channel(subscription.channel()), subscription.consumer());
+		T route = findRoute(channel(subscription.type()), subscription.consumer());
 		if (route != null) {
 			removeRoute(route.getId());
 			removeSubscription(route);
