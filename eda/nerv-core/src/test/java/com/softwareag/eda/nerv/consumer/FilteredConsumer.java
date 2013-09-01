@@ -1,12 +1,13 @@
 package com.softwareag.eda.nerv.consumer;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.softwareag.eda.nerv.event.Event;
 
 public class FilteredConsumer extends BasicConsumer {
 
-	private static final Logger logger = Logger.getLogger(FilteredConsumer.class);
+	private static final Logger logger = LoggerFactory.getLogger(FilteredConsumer.class);
 
 	private final String expectedContent;
 

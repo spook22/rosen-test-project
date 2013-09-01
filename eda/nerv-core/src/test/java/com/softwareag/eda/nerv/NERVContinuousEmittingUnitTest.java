@@ -2,11 +2,12 @@ package com.softwareag.eda.nerv;
 
 import static org.junit.Assert.assertEquals;
 
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.softwareag.eda.nerv.consumer.FilteredConsumer;
 import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
@@ -16,7 +17,7 @@ import com.softwareag.eda.nerv.task.ContinuousPublishTask;
 @Ignore
 public class NERVContinuousEmittingUnitTest extends AbstractNERVUnitTest {
 
-	private static final Logger logger = Logger.getLogger(NERVContinuousEmittingUnitTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(NERVContinuousEmittingUnitTest.class);
 
 	private final String message = "myContMsg";
 
@@ -44,7 +45,8 @@ public class NERVContinuousEmittingUnitTest extends AbstractNERVUnitTest {
 			publisher.stop();
 			runner.join();
 			assertEquals(publisher.getPublishedMessages(), consumer.getEvents().size());
-			logger.debug(String.format("Published and consumed asynchronously %s messages.", publisher.getPublishedMessages()));
+			logger.debug(String.format("Published and consumed asynchronously %s messages.",
+					publisher.getPublishedMessages()));
 		} finally {
 			connection.unsubscribe(subscription);
 		}

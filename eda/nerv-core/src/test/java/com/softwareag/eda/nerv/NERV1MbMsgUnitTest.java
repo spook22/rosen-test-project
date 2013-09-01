@@ -2,17 +2,18 @@ package com.softwareag.eda.nerv;
 
 import java.io.InputStream;
 
-import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.softwareag.eda.nerv.file.FileUtils;
 
 public class NERV1MbMsgUnitTest extends AbstractNERVUnitTest {
 
-	private static final Logger logger = Logger.getLogger(NERV1MbMsgUnitTest.class);
+	private static final Logger logger = LoggerFactory.getLogger(NERV1MbMsgUnitTest.class);
 
 	private static final String NEW_LINE = System.getProperty("line.separator");
 
