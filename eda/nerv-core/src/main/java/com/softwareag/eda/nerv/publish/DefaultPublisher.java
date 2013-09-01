@@ -21,6 +21,7 @@ import com.softwareag.eda.nerv.channel.VMChannelProvider;
 import com.softwareag.eda.nerv.component.ComponentResolver;
 import com.softwareag.eda.nerv.event.Event;
 import com.softwareag.eda.nerv.event.EventDecorator;
+import com.softwareag.eda.nerv.event.PublishNotification;
 import com.softwareag.eda.nerv.publish.EventPublishListener.PublishOperation;
 
 public class DefaultPublisher implements Publisher {
@@ -78,10 +79,14 @@ public class DefaultPublisher implements Publisher {
 		}
 		String channel = channelProvider.channel(event.getType());
 		notifyListeners(PublishOperation.PRE_PUBLISH, channel, event);
-		Event internalEvent = new Event("EventPublished", event);
+		Event internalEvent = createNotificationEvent(PublishOperation.PRE_PUBLISH, channel, event);
 		send(internalProvider.channel(internalEvent.getType()), internalEvent);
 		send(channel, event);
 		notifyListeners(PublishOperation.POST_PUBLISH, channel, event);
+	}
+
+	private Event createNotificationEvent(PublishOperation operation, String channel, Event event) {
+		return new Event(PublishNotification.TYPE, new PublishNotification(operation, channel, event));
 	}
 
 	public void registerEventPublishListner(EventPublishListener listener) {

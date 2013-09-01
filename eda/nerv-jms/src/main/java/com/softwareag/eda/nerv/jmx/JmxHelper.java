@@ -1,8 +1,8 @@
 package com.softwareag.eda.nerv.jmx;
 
 import java.lang.management.ManagementFactory;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.management.JMException;
@@ -13,11 +13,14 @@ import javax.management.Notification;
 import javax.management.NotificationListener;
 import javax.management.ObjectName;
 
-import org.apache.camel.Route;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.softwareag.eda.nerv.NERVException;
 
-public class JMXHelper implements NotificationListener {
+public class JmxHelper implements NotificationListener {
+
+	private static final Logger logger = LoggerFactory.getLogger(JmxHelper.class);
 
 	private static final String CAMEL_DOMAIN = "org.apache.camel";
 
@@ -25,9 +28,9 @@ public class JMXHelper implements NotificationListener {
 
 	private ObjectName mserverName;
 
-	private final Map<String, String> channelsCache = new HashMap<String, String>();
+	private final Set<String> routesCache = Collections.synchronizedSet(new HashSet<String>());
 
-	public JMXHelper() throws NERVException {
+	public JmxHelper() throws NERVException {
 		try {
 			mbServer = ManagementFactory.getPlatformMBeanServer();
 			mserverName = new ObjectName("JMImplementation:type=MBeanServerDelegate");
@@ -44,30 +47,20 @@ public class JMXHelper implements NotificationListener {
 
 	private void addToCache(ObjectName routeName) throws NERVException {
 		try {
-			String name = routeName.getKeyProperty("name");
-			String endpointUri = (String) mbServer.getAttribute(routeName, "EndpointUri");
-			channelsCache.put(name, stripOffParameters(endpointUri));
+			String uri = (String) mbServer.getAttribute(routeName, "EndpointUri");
+			routesCache.add(uri);
 		} catch (Exception e) {
 			throw new NERVException("Cannot add route to cache.", e);
 		}
 	}
 
-	public Route routeExists(String routeId) {
-		// return channelsCache.containsKey(routeId);
-		return null;
+	public boolean routeExists(String routeId) {
+		return routesCache.contains(routeId);
 	}
 
 	private Set<ObjectName> lookupMBeans(String type) throws MalformedObjectNameException {
-		ObjectName mbeansName = new ObjectName(CAMEL_DOMAIN + "type=" + type + ",*");
+		ObjectName mbeansName = new ObjectName(CAMEL_DOMAIN + ":" + "type=" + type + ",*");
 		return mbServer.queryNames(mbeansName, null);
-	}
-
-	private static String stripOffParameters(String endpoint) {
-		int delimPos = endpoint.indexOf('?');
-		if (delimPos != -1) {
-			endpoint = endpoint.substring(0, delimPos);
-		}
-		return endpoint;
 	}
 
 	private void populateCacheWithExistingRoutes() throws JMException {
@@ -82,17 +75,16 @@ public class JMXHelper implements NotificationListener {
 		try {
 			if (notification instanceof MBeanServerNotification) {
 				ObjectName mBeanName = ((MBeanServerNotification) notification).getMBeanName();
-
 				if (mBeanName.getDomain().equals(CAMEL_DOMAIN) && mBeanName.getKeyProperty("type").equals("routes")) {
 					if (notification.getType().equals(MBeanServerNotification.REGISTRATION_NOTIFICATION)) {
 						addToCache(mBeanName);
 					} else if (notification.getType().equals(MBeanServerNotification.UNREGISTRATION_NOTIFICATION)) {
-						channelsCache.remove(mBeanName.getKeyProperty("name"));
+						routesCache.remove(mBeanName.getKeyProperty("name"));
 					}
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace(); // TODO
+			logger.error("Cannot handle JMX notification: " + notification, e);
 		}
 	}
 

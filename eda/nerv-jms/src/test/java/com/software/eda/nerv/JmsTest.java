@@ -1,6 +1,7 @@
 package com.software.eda.nerv;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -10,7 +11,9 @@ import com.softwareag.eda.nerv.NERV;
 import com.softwareag.eda.nerv.connection.NERVConnection;
 import com.softwareag.eda.nerv.consumer.BasicConsumer;
 import com.softwareag.eda.nerv.event.Event;
+import com.softwareag.eda.nerv.event.PublishNotification;
 import com.softwareag.eda.nerv.help.TestHelper;
+import com.softwareag.eda.nerv.publish.JmsRouteCreator;
 import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
 import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 
@@ -22,7 +25,7 @@ public class JmsTest {
 	public void test() {
 		NERVConnection connection = NERV.instance().getDefaultConnection();
 		BasicConsumer consumer = new JmsRouteConsumer();
-		String expectedType = "EventPublished";
+		String expectedType = PublishNotification.TYPE;
 		Subscription subscription = new DefaultSubscription(expectedType, consumer);
 		connection.subscribe(subscription);
 		try {
@@ -32,7 +35,9 @@ public class JmsTest {
 			TestHelper.waitForEvents(consumer, eventsCount, 1000);
 			assertEquals(eventsCount, consumer.getEvents().size());
 			assertEquals(expectedType, consumer.getEvents().get(0).getType());
-			assertEquals(sentEvent, consumer.getEvents().get(0).getBody());
+			assertTrue(consumer.getEvents().get(0).getBody() instanceof PublishNotification);
+			PublishNotification notification = (PublishNotification) consumer.getEvents().get(0).getBody();
+			assertEquals(sentEvent, notification.getEvent());
 		} finally {
 			connection.unsubscribe(subscription);
 		}
@@ -40,12 +45,20 @@ public class JmsTest {
 
 	private static class JmsRouteConsumer extends BasicConsumer {
 
+		private JmsRouteCreator routeCreator = new JmsRouteCreator();
+
 		@Override
 		public void consume(Event event) {
 			super.consume(event);
-			logger.info(event.toString());
+			logger.debug(event.toString());
+			PublishNotification notification = (PublishNotification) event.getBody();
+			try {
+				routeCreator.onPublish(notification.getOperation(), notification.getChannel(), notification.getEvent());
+			} catch (Exception e) {
+				logger.error(
+						"Cannot process notification. Most probably JMS route creation failed for published event.", e);
+			}
 		}
-
 	}
 
 }
