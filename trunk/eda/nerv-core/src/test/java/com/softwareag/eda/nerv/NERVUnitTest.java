@@ -38,12 +38,7 @@ public class NERVUnitTest extends AbstractNERVUnitTest {
 		Subscription subscription = new DefaultSubscription(type, consumer);
 		connection.subscribe(subscription);
 		connection.publish(new Event(type, body));
-
-		if (consumer.getEvents().size() < 1) {
-			synchronized (consumer.getLock()) {
-				consumer.getLock().wait(1000);
-			}
-		}
+		TestHelper.waitForEvents(consumer, 1, 1000);
 		assertEquals(1, consumer.getEvents().size());
 		assertEquals(body, consumer.getEvents().get(0).getBody());
 		connection.unsubscribe(subscription);
@@ -57,12 +52,7 @@ public class NERVUnitTest extends AbstractNERVUnitTest {
 		Map<String, Object> headers = new HashMap<String, Object>();
 		headers.put(Header.TYPE.getName(), type);
 		connection.publish(headers, body);
-
-		if (consumer.getEvents().size() < 1) {
-			synchronized (consumer.getLock()) {
-				consumer.getLock().wait(1000);
-			}
-		}
+		TestHelper.waitForEvents(consumer, 1, 1000);
 		assertEquals(1, consumer.getEvents().size());
 		assertEquals(body, consumer.getEvents().get(0).getBody());
 		connection.unsubscribe(subscription);

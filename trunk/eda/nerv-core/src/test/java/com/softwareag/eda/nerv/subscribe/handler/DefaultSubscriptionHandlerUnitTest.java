@@ -10,6 +10,7 @@ import com.softwareag.eda.nerv.channel.ChannelProvider;
 import com.softwareag.eda.nerv.channel.VMChannelProvider;
 import com.softwareag.eda.nerv.component.SpringComponentResolver;
 import com.softwareag.eda.nerv.consumer.BasicConsumer;
+import com.softwareag.eda.nerv.help.TestHelper;
 import com.softwareag.eda.nerv.publish.DefaultPublisher;
 import com.softwareag.eda.nerv.publish.Publisher;
 import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
@@ -33,20 +34,16 @@ public class DefaultSubscriptionHandlerUnitTest {
 		DefaultSubscriptionHandler subscriptionHandler = new DefaultSubscriptionHandler(contextProvider,
 				channelProvider);
 		subscriptionHandler.subscribe(subscription);
-		subscriptionHandler.subscribe(subscription); // Nothing should
-														// change/happen. Should
-														// not throw exception.
+		// Nothing should change/happen. Should not throw exception.
+		subscriptionHandler.subscribe(subscription);
 
 		Publisher publisher = new DefaultPublisher(contextProvider, channelProvider, new SpringComponentResolver());
 		publisher.publish(type, body);
 
-		if (consumer.getEvents().size() < 1) {
-			synchronized (consumer.getLock()) {
-				consumer.getLock().wait(1000);
-			}
-		}
+		int eventsCount = 1;
+		TestHelper.waitForEvents(consumer, eventsCount, 1000);
 
-		assertEquals(1, consumer.getEvents().size());
+		assertEquals(eventsCount, consumer.getEvents().size());
 		assertEquals(body, consumer.getEvents().get(0).getBody());
 
 		// Try to unsubscribe from a non-existing subscription.
