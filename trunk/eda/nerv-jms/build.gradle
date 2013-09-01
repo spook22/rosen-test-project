@@ -4,4 +4,7 @@ dependencies {
 		'javax.jms:jms-api:1+',
 		'org.apache.camel:camel-jms:2.11.1',
 	)
+	testCompile(
+		'junit:junit:4.11',
+	)
 }
