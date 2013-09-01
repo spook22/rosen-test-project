@@ -12,6 +12,7 @@ import com.softwareag.eda.nerv.connection.NERVConnection;
 import com.softwareag.eda.nerv.consumer.BasicConsumer;
 import com.softwareag.eda.nerv.consumer.FilteredConsumer;
 import com.softwareag.eda.nerv.consumer.TestConsumer;
+import com.softwareag.eda.nerv.help.TestHelper;
 import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
 import com.softwareag.eda.nerv.task.PublishTask;
 
@@ -49,10 +50,12 @@ public class AbstractNERVUnitTest {
 		pubSub(expectedMessages, consumersCount, threadsCount, timeout, false);
 	}
 
-	protected void pubSub(int expectedMessages, int consumersCount, int threadsCount, int timeout, boolean filter) throws Exception {
-		List<TestConsumer> consumers = new ArrayList<TestConsumer>();
+	protected void pubSub(int expectedMessages, int consumersCount, int threadsCount, int timeout, boolean filter)
+			throws Exception {
+		List<BasicConsumer> consumers = new ArrayList<BasicConsumer>();
 		for (int count = 0; count < consumersCount; count++) {
-			TestConsumer consumer = filter ? new FilteredConsumer(expectedMessages, body) : new BasicConsumer(expectedMessages);
+			BasicConsumer consumer = filter ? new FilteredConsumer(expectedMessages, body) : new BasicConsumer(
+					expectedMessages);
 			connection.subscribe(new DefaultSubscription(type, consumer));
 			consumers.add(consumer);
 		}
@@ -62,12 +65,8 @@ public class AbstractNERVUnitTest {
 			new Thread(new PublishTask(type, body, msgsPerThread)).start();
 		}
 		try {
-			for (TestConsumer consumer : consumers) {
-				if (consumer.getEvents().size() < expectedMessages) {
-					synchronized (consumer.getLock()) {
-						consumer.getLock().wait(timeout);
-					}
-				}
+			for (BasicConsumer consumer : consumers) {
+				TestHelper.waitForEvents(consumer, expectedMessages, timeout);
 				assertEquals(expectedMessages, consumer.getEvents().size());
 				assertEquals(body, consumer.getEvents().get(0).getBody());
 			}

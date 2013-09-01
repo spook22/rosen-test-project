@@ -9,12 +9,16 @@ import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 
 public class TestHelper {
 
-	public static void waitForEvents(BasicConsumer consumer, int eventsCount, int timeout) throws Exception {
+	public static void waitForEvents(BasicConsumer consumer, int eventsCount, int timeout) {
 		int waitTime = 100;
 		int totalWaitTime = 0;
 		while (consumer.getEvents().size() < eventsCount && totalWaitTime <= timeout) {
 			synchronized (consumer.getLock()) {
-				consumer.getLock().wait(waitTime);
+				try {
+					consumer.getLock().wait(waitTime);
+				} catch (InterruptedException e) {
+					throw new RuntimeException(e);
+				}
 			}
 			totalWaitTime += waitTime;
 		}
