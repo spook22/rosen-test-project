@@ -17,6 +17,7 @@ import org.apache.camel.impl.DefaultMessage;
 import com.softwareag.eda.nerv.ContextProvider;
 import com.softwareag.eda.nerv.NERVException;
 import com.softwareag.eda.nerv.channel.ChannelProvider;
+import com.softwareag.eda.nerv.channel.VMChannelProvider;
 import com.softwareag.eda.nerv.component.ComponentResolver;
 import com.softwareag.eda.nerv.event.Event;
 import com.softwareag.eda.nerv.event.EventDecorator;
@@ -87,7 +88,11 @@ public class DefaultPublisher implements Publisher {
 		eventPublishListeners.add(listener);
 	}
 
+	private ChannelProvider internalProvider = new VMChannelProvider();
+
 	private void notifyListeners(PublishOperation operation, String channel, Event event) {
+		Event internalEvent = new Event("EventPublished", event);
+		send(internalProvider.channel(internalEvent.getType()), internalEvent);
 		for (EventPublishListener eventPublishListener : eventPublishListeners) {
 			eventPublishListener.onPublish(operation, channel, event);
 		}
