@@ -37,12 +37,15 @@ public class NERVUnitTest extends AbstractNERVUnitTest {
 		BasicConsumer consumer = new BasicConsumer();
 		Subscription subscription = new DefaultSubscription(type, consumer);
 		connection.subscribe(subscription);
-		connection.publish(new Event(type, body));
-		int eventsCount = 1;
-		TestHelper.waitForEvents(consumer, eventsCount, 1000);
-		assertEquals(eventsCount, consumer.getEvents().size());
-		assertEquals(body, consumer.getEvents().get(0).getBody());
-		connection.unsubscribe(subscription);
+		try {
+			connection.publish(new Event(type, body));
+			int eventsCount = 1;
+			TestHelper.waitForEvents(consumer, eventsCount, 1000);
+			assertEquals(eventsCount, consumer.getEvents().size());
+			assertEquals(body, consumer.getEvents().get(0).getBody());
+		} finally {
+			connection.unsubscribe(subscription);
+		}
 	}
 
 	@Test
@@ -50,13 +53,16 @@ public class NERVUnitTest extends AbstractNERVUnitTest {
 		BasicConsumer consumer = new BasicConsumer();
 		Subscription subscription = new DefaultSubscription(type, consumer);
 		connection.subscribe(subscription);
-		Map<String, Object> headers = new HashMap<String, Object>();
-		headers.put(Header.TYPE.getName(), type);
-		connection.publish(headers, body);
-		TestHelper.waitForEvents(consumer, 1, 1000);
-		assertEquals(1, consumer.getEvents().size());
-		assertEquals(body, consumer.getEvents().get(0).getBody());
-		connection.unsubscribe(subscription);
+		try {
+			Map<String, Object> headers = new HashMap<String, Object>();
+			headers.put(Header.TYPE.getName(), type);
+			connection.publish(headers, body);
+			TestHelper.waitForEvents(consumer, 1, 1000);
+			assertEquals(1, consumer.getEvents().size());
+			assertEquals(body, consumer.getEvents().get(0).getBody());
+		} finally {
+			connection.unsubscribe(subscription);
+		}
 	}
 
 	private static SystemPropertyChanger propertyChanger = new SystemPropertyChanger(
