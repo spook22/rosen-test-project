@@ -5,6 +5,7 @@ dependencies {
 		'org.apache.camel:camel-jms:2.11.1',
 	)
 	testCompile(
+		project(':nerv-core').sourceSets.test.output,
 		'junit:junit:4.11',
 	)
 }
