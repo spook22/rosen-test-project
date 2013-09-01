@@ -38,8 +38,9 @@ public class NERVUnitTest extends AbstractNERVUnitTest {
 		Subscription subscription = new DefaultSubscription(type, consumer);
 		connection.subscribe(subscription);
 		connection.publish(new Event(type, body));
-		TestHelper.waitForEvents(consumer, 1, 1000);
-		assertEquals(1, consumer.getEvents().size());
+		int eventsCount = 1;
+		TestHelper.waitForEvents(consumer, eventsCount, 1000);
+		assertEquals(eventsCount, consumer.getEvents().size());
 		assertEquals(body, consumer.getEvents().get(0).getBody());
 		connection.unsubscribe(subscription);
 	}
