@@ -34,25 +34,23 @@ public class DefaultSubscriptionHandlerUnitTest {
 		DefaultSubscriptionHandler subscriptionHandler = new DefaultSubscriptionHandler(contextProvider,
 				channelProvider);
 		subscriptionHandler.subscribe(subscription);
-		// Nothing should change/happen. Should not throw exception.
-		subscriptionHandler.subscribe(subscription);
+		try {
+			// Nothing should change/happen. Should not throw exception.
+			subscriptionHandler.subscribe(subscription);
+			Publisher publisher = new DefaultPublisher(contextProvider, channelProvider, new SpringComponentResolver());
+			publisher.publish(type, body);
+			int eventsCount = 1;
+			TestHelper.waitForEvents(consumer, eventsCount, 1000);
+			assertEquals(eventsCount, consumer.getEvents().size());
+			assertEquals(body, consumer.getEvents().get(0).getBody());
 
-		Publisher publisher = new DefaultPublisher(contextProvider, channelProvider, new SpringComponentResolver());
-		publisher.publish(type, body);
-
-		int eventsCount = 1;
-		TestHelper.waitForEvents(consumer, eventsCount, 1000);
-
-		assertEquals(eventsCount, consumer.getEvents().size());
-		assertEquals(body, consumer.getEvents().get(0).getBody());
-
-		// Try to unsubscribe from a non-existing subscription.
-		subscriptionHandler.unsubscribe(new DefaultSubscription(type, new BasicConsumer()));
-
+			// Try to unsubscribe from a non-existing subscription.
+			subscriptionHandler.unsubscribe(new DefaultSubscription(type, new BasicConsumer()));
+		} finally {
+			subscriptionHandler.unsubscribe(subscription);
+		}
+		// Should not throw exception.
 		subscriptionHandler.unsubscribe(subscription);
-		subscriptionHandler.unsubscribe(subscription); // Should not throw
-														// exception.
-
 		// Try to unsubscribe from a non-existing subscription.
 		subscriptionHandler.unsubscribe(new DefaultSubscription(type, new BasicConsumer()));
 	}
