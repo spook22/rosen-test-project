@@ -4,7 +4,7 @@ import com.softwareag.eda.nerv.consume.Consumer;
 
 public interface Subscription {
 
-	String channel();
+	String type();
 
 	Consumer consumer();
 

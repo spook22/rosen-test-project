@@ -49,4 +49,9 @@ public class Event {
 		headers.put(header.getName(), value);
 	}
 
+	@Override
+	public String toString() {
+		return "Event [headers=" + headers + ", body=" + body + "]";
+	}
+
 }

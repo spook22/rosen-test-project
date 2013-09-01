@@ -4,18 +4,18 @@ import com.softwareag.eda.nerv.consume.Consumer;
 
 public class DefaultSubscription implements Subscription {
 
-	private final String channel;
+	private final String type;
 
 	private final Consumer consumer;
 
 	public DefaultSubscription(String channel, Consumer consumer) {
-		this.channel = channel;
+		this.type = channel;
 		this.consumer = consumer;
 	}
 
 	@Override
-	public String channel() {
-		return channel;
+	public String type() {
+		return type;
 	}
 
 	@Override
