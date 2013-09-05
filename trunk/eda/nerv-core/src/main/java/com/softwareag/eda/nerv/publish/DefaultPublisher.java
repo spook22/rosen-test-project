@@ -83,10 +83,21 @@ public class DefaultPublisher implements Publisher {
 		}
 		String channel = channelProvider.channel(event.getType());
 		notifyListeners(PublishOperation.PRE_PUBLISH, channel, event);
-		Event internalEvent = createNotificationEvent(PublishOperation.PRE_PUBLISH, channel, event);
-		send(internalProvider.channel(internalEvent.getType()), internalEvent);
+		publishNotification(channel, event);
 		send(channel, event);
 		notifyListeners(PublishOperation.POST_PUBLISH, channel, event);
+	}
+	
+	private void publishNotification(String channel, Event event) {
+		try {
+			if (logger.isDebugEnabled()) {
+				logger.debug(String.format("Publishing internal notification to channel %s.", channel));
+			}
+			Event internalEvent = createNotificationEvent(PublishOperation.PRE_PUBLISH, channel, event);
+			send(internalProvider.channel(internalEvent.getType()), internalEvent);
+		} catch (Exception e) {
+			logger.error("Could not publish notification.", e);
+		}
 	}
 
 	private Event createNotificationEvent(PublishOperation operation, String channel, Event event) {
