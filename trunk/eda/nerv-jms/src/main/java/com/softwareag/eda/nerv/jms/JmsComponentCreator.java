@@ -7,9 +7,15 @@ import javax.naming.Context;
 
 import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.component.jms.JmsConfiguration;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jms.connection.CachingConnectionFactory;
 
+import com.softwareag.eda.nerv.JmsTest;
+
 public class JmsComponentCreator {
+
+	private static final Logger logger = LoggerFactory.getLogger(JmsComponentCreator.class);
 
 	private final ConnectionFactoryProvider connectionFactoryProvider;
 
@@ -34,6 +40,9 @@ public class JmsComponentCreator {
 		env.put("connectionFactory", "EventFactory");
 		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.pcbsys.nirvana.nSpace.NirvanaContextFactory");
 		env.put("nirvana.setReadThreadDaemon", "true");
+		if (logger.isDebugEnabled()) {
+			logger.debug(String.format("Creating JMS component using the following environment: %s", env));
+		}
 		return create(env, classLoader);
 	}
 
