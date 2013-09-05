@@ -4,11 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.camel.Route;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.softwareag.eda.nerv.event.Event;
 import com.softwareag.eda.nerv.jmx.JmxHelper;
 
 public class JmsRouteCreator implements EventPublishListener {
+	
+	private static final Logger logger = LoggerFactory.getLogger(JmsRouteCreator.class);
 
 	private final Map<String, Route> routesCache = new HashMap<String, Route>();
 
@@ -24,6 +28,9 @@ public class JmsRouteCreator implements EventPublishListener {
 		 */
 		switch (operation) {
 		case PRE_PUBLISH:
+			if (logger.isDebugEnabled()) {
+				logger.debug(String.format("Processing pre-publish notification for event %s on channel %s.", event, channel));
+			}
 			Route route = routesCache.get(channel);
 			if (route == null) {
 				if (!jmxHelper.routeExists("jmsRouteFor:" + channel)) {
@@ -37,6 +44,9 @@ public class JmsRouteCreator implements EventPublishListener {
 	}
 
 	private void createRoute(String channel) {
+		if (logger.isInfoEnabled()) {
+			logger.info(String.format("Creating JMS route for channel %s.", channel));
+		}
 		// TODO Auto-generated method stub
 
 	}

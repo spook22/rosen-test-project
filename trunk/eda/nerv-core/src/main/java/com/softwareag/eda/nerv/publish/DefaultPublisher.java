@@ -162,7 +162,7 @@ public class DefaultPublisher implements Publisher {
 	private void send(String channel, Event event) {
 		try {
 			if (logger.isDebugEnabled()) {
-				logger.debug(String.format("Publishing event to channel %s.", channel));
+				logger.debug(String.format("Publishing event %s to channel %s.", event, channel));
 			}
 			Producer producer = getProducer(channel);
 			Exchange exchange = producer.createExchange();
