@@ -81,8 +81,9 @@ public class UniversalMessagingSupport extends AbstractDestinationSupport {
 						+ providerUrl + "'.");
 			}
 		} catch (nChannelAlreadyExistsException e) {
-			throw new NERVException("Topic '" + topicName + "' already exists on UM server at '" + providerUrl + "'.",
-					e);
+			if (logger.isDebugEnabled()) {
+				logger.debug("Topic '" + topicName + "' already exists on UM server at '" + providerUrl + "'.", e);
+			}
 		} catch (nBaseAdminException e) {
 			throw new NERVException("Unable to create topic " + topicName + " on UM server at '" + providerUrl + "'.",
 					e);
