@@ -5,11 +5,9 @@ import java.util.Date;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.softwareag.eda.nerv.subscribe.handler.AbstractSubscriptionHandler;
-
 public class StartHeaderDecorator extends AbstractEventDecorator {
 	
-	private static final Logger logger = LoggerFactory.getLogger(AbstractSubscriptionHandler.class);
+	private static final Logger logger = LoggerFactory.getLogger(StartHeaderDecorator.class);
 
 	public StartHeaderDecorator() {
 	}

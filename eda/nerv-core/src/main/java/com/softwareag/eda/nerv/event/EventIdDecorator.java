@@ -5,11 +5,9 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.softwareag.eda.nerv.subscribe.handler.AbstractSubscriptionHandler;
-
 public class EventIdDecorator extends AbstractEventDecorator {
 	
-	private static final Logger logger = LoggerFactory.getLogger(AbstractSubscriptionHandler.class);
+	private static final Logger logger = LoggerFactory.getLogger(EventIdDecorator.class);
 
 	public EventIdDecorator() {
 	}
