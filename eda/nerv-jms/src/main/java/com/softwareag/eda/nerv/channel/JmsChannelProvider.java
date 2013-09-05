@@ -53,7 +53,7 @@ public class JmsChannelProvider implements ChannelProvider {
 			}
 			return type.replaceAll("/", delimiter);
 		} else {
-			return "WebM" + delimiter + "External";
+			return "WebM" + delimiter + "External" + delimiter + type;
 		}
 	}
 

@@ -95,4 +95,8 @@ public class NERV {
 		return new VMConnection(contextProvider, new StaticChannelProvider(channel), new SpringComponentResolver());
 	}
 
+	protected ContextProvider getContextProvider() {
+		return contextProvider;
+	}
+
 }
