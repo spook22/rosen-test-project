@@ -15,15 +15,15 @@
 	</logger>
 
 	<logger name="com.softwareag.eda.nerv">
-		<level value="info" />
+		<level value="debug" />
 	</logger>
 
 	<logger name="org.apache.camel">
-		<level value="info" />
+		<level value="warn" />
 	</logger>
 
 	<root>
-		<level value="info" />
+		<level value="warn" />
 		<appender-ref ref="console" />
 	</root>
 
