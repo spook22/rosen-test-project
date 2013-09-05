@@ -1,4 +1,4 @@
-package com.software.eda.nerv;
+package com.softwareag.eda.nerv;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
