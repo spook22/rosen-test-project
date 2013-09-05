@@ -11,8 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.connection.CachingConnectionFactory;
 
-import com.softwareag.eda.nerv.JmsTest;
-
 public class JmsComponentCreator {
 
 	private static final Logger logger = LoggerFactory.getLogger(JmsComponentCreator.class);
