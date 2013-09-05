@@ -13,7 +13,7 @@ import com.softwareag.eda.nerv.consumer.BasicConsumer;
 import com.softwareag.eda.nerv.event.Event;
 import com.softwareag.eda.nerv.event.PublishNotification;
 import com.softwareag.eda.nerv.help.TestHelper;
-import com.softwareag.eda.nerv.publish.JmsRouteCreator;
+import com.softwareag.eda.nerv.jms.JmsRouteCreator;
 import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
 import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 

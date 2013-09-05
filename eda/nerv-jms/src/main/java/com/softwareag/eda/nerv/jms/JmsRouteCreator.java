@@ -1,4 +1,4 @@
-package com.softwareag.eda.nerv.publish;
+package com.softwareag.eda.nerv.jms;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.softwareag.eda.nerv.event.Event;
 import com.softwareag.eda.nerv.jmx.JmxHelper;
+import com.softwareag.eda.nerv.publish.EventPublishListener;
 
 public class JmsRouteCreator implements EventPublishListener {
 	
