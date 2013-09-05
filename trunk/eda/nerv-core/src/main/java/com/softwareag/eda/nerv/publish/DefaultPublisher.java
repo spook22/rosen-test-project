@@ -25,11 +25,10 @@ import com.softwareag.eda.nerv.event.Event;
 import com.softwareag.eda.nerv.event.EventDecorator;
 import com.softwareag.eda.nerv.event.PublishNotification;
 import com.softwareag.eda.nerv.publish.EventPublishListener.PublishOperation;
-import com.softwareag.eda.nerv.subscribe.handler.AbstractSubscriptionHandler;
 
 public class DefaultPublisher implements Publisher {
 	
-	private static final Logger logger = LoggerFactory.getLogger(AbstractSubscriptionHandler.class);
+	private static final Logger logger = LoggerFactory.getLogger(DefaultPublisher.class);
 
 	private final ChannelProvider internalProvider = new VMChannelProvider();
 
