@@ -9,7 +9,7 @@ public class VMChannelProviderUnitTest {
 	@Test
 	public void testChannel() {
 		String type = "myType";
-		assertTrue(new VMChannelProvider().channel(type).startsWith("vm:" + type));
+		assertTrue(new VMChannelProvider().channel(type).startsWith("vm://" + type));
 	}
 
 }
