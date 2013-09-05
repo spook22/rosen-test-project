@@ -35,7 +35,7 @@ public class JmsRouteCreator implements EventPublishListener {
 			Route route = routesCache.get(channel);
 			if (route == null) {
 				if (!jmxHelper.routeExists("jmsRouteFor:" + channel)) {
-					createRoute(channel);
+					createRoute(channel, event.getType());
 				}
 			}
 			break;
@@ -44,9 +44,9 @@ public class JmsRouteCreator implements EventPublishListener {
 		}
 	}
 
-	private void createRoute(String channel) {
+	private void createRoute(String channel, String eventType) {
 		if (logger.isInfoEnabled()) {
-			logger.info(String.format("Creating JMS route for channel %s.", channel));
+			logger.info(String.format("Creating JMS route for event type %s and channel %s.", eventType, channel));
 		}
 		// TODO Auto-generated method stub
 

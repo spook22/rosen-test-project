@@ -1,4 +1,4 @@
-package com.softwareag.eda.nerv.component;
+package com.softwareag.eda.nerv.jms;
 
 import java.util.Properties;
 
@@ -8,9 +8,6 @@ import javax.naming.Context;
 import org.apache.camel.component.jms.JmsComponent;
 import org.apache.camel.component.jms.JmsConfiguration;
 import org.springframework.jms.connection.CachingConnectionFactory;
-
-import com.softwareag.eda.nerv.jms.ConnectionFactoryProvider;
-import com.softwareag.eda.nerv.jms.DestinationResolverProvider;
 
 public class JmsComponentCreator {
 
