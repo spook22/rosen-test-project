@@ -13,6 +13,8 @@ import org.apache.camel.Message;
 import org.apache.camel.Producer;
 import org.apache.camel.ResolveEndpointFailedException;
 import org.apache.camel.impl.DefaultMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.softwareag.eda.nerv.ContextProvider;
 import com.softwareag.eda.nerv.NERVException;
@@ -23,8 +25,11 @@ import com.softwareag.eda.nerv.event.Event;
 import com.softwareag.eda.nerv.event.EventDecorator;
 import com.softwareag.eda.nerv.event.PublishNotification;
 import com.softwareag.eda.nerv.publish.EventPublishListener.PublishOperation;
+import com.softwareag.eda.nerv.subscribe.handler.AbstractSubscriptionHandler;
 
 public class DefaultPublisher implements Publisher {
+	
+	private static final Logger logger = LoggerFactory.getLogger(AbstractSubscriptionHandler.class);
 
 	private final ChannelProvider internalProvider = new VMChannelProvider();
 
@@ -144,9 +149,12 @@ public class DefaultPublisher implements Publisher {
 		}
 	}
 
-	private void send(String uri, Event event) {
+	private void send(String channel, Event event) {
 		try {
-			Producer producer = getProducer(uri);
+			if (logger.isDebugEnabled()) {
+				logger.debug(String.format("Publishing event to channel %s.", channel));
+			}
+			Producer producer = getProducer(channel);
 			Exchange exchange = producer.createExchange();
 			Message message = new DefaultMessage();
 			message.setBody(event.getBody());
@@ -154,7 +162,7 @@ public class DefaultPublisher implements Publisher {
 			exchange.setIn(message);
 			producer.process(exchange);
 		} catch (Exception e) {
-			throw new NERVException("Cannot send event to channel: " + uri, e);
+			throw new NERVException("Cannot send event to channel: " + channel, e);
 		}
 	}
 }

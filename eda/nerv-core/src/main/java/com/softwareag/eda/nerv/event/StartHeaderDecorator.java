@@ -2,7 +2,14 @@ package com.softwareag.eda.nerv.event;
 
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.softwareag.eda.nerv.subscribe.handler.AbstractSubscriptionHandler;
+
 public class StartHeaderDecorator extends AbstractEventDecorator {
+	
+	private static final Logger logger = LoggerFactory.getLogger(AbstractSubscriptionHandler.class);
 
 	public StartHeaderDecorator() {
 	}
@@ -14,9 +21,14 @@ public class StartHeaderDecorator extends AbstractEventDecorator {
 	@Override
 	public void decorate(Event event) {
 		super.decorate(event);
-		String start = event.getHeaderAsStr(Header.START);
+		Header header = Header.START;
+		String start = event.getHeaderAsStr(header);
 		if (start == null || start.isEmpty()) {
-			event.setHeader(Header.START, new Date().toString());
+			start = new Date().toString();
+			event.setHeader(Header.START, start);
+			if (logger.isDebugEnabled()) {
+				logger.debug(String.format("Decorated event with %s %s.", header, start));
+			}
 		}
 	}
 

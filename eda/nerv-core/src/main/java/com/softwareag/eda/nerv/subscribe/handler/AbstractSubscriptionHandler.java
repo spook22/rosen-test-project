@@ -8,6 +8,8 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.camel.CamelContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.softwareag.eda.nerv.ContextProvider;
 import com.softwareag.eda.nerv.NERVException;
@@ -17,6 +19,8 @@ import com.softwareag.eda.nerv.subscribe.route.AbstractRoute;
 import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 
 public abstract class AbstractSubscriptionHandler<T extends AbstractRoute> implements SubscriptionHandler {
+	
+	private static final Logger logger = LoggerFactory.getLogger(AbstractSubscriptionHandler.class);
 
 	protected final Map<String, Set<T>> subscriptions = Collections.synchronizedMap(new HashMap<String, Set<T>>());
 
@@ -66,9 +70,15 @@ public abstract class AbstractSubscriptionHandler<T extends AbstractRoute> imple
 	@Override
 	public void subscribe(Subscription subscription) throws NERVException {
 		String channel = channel(subscription.type());
+		if (logger.isDebugEnabled()) {
+			logger.debug(String.format("Subscribing for event type %s using channel %s.", subscription.type(), channel));
+		}
 		Consumer consumer = subscription.consumer();
 		T route = findRoute(channel, consumer);
 		if (route == null) {
+			if (logger.isInfoEnabled()) {
+				logger.info(String.format("Creating subscription for channel %s.", channel));
+			}
 			route = createSubscripion(channel, consumer);
 			addSubscription(route);
 			try {
