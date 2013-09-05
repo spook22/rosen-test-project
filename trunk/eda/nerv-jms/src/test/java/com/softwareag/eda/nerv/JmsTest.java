@@ -10,7 +10,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.softwareag.eda.nerv.NERV;
 import com.softwareag.eda.nerv.component.DefaultComponentNameProvider;
 import com.softwareag.eda.nerv.connection.NERVConnection;
 import com.softwareag.eda.nerv.consumer.BasicConsumer;
@@ -20,8 +19,8 @@ import com.softwareag.eda.nerv.help.TestHelper;
 import com.softwareag.eda.nerv.jms.ConnectionFactoryProvider;
 import com.softwareag.eda.nerv.jms.DefaultDestinationResolverProvider;
 import com.softwareag.eda.nerv.jms.JmsComponentCreator;
-import com.softwareag.eda.nerv.jms.JmsRouteCreator;
-import com.softwareag.eda.nerv.jms.UniversalMessagingConnectionFactoryProvider;
+import com.softwareag.eda.nerv.jms.route.JmsRouteCreator;
+import com.softwareag.eda.nerv.jms.support.UniversalMessagingSupport;
 import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
 import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 
@@ -34,9 +33,10 @@ public class JmsTest {
 	@Before
 	public void before() {
 		CamelContext context = NERV.instance().getContextProvider().context();
-		ConnectionFactoryProvider connectionFactoryProvider = new UniversalMessagingConnectionFactoryProvider();
+		String url = "nsp://localhost:9000";
+		ConnectionFactoryProvider connectionFactoryProvider = new UniversalMessagingSupport(url );
 		JmsComponentCreator componentCreator = new JmsComponentCreator(connectionFactoryProvider, new DefaultDestinationResolverProvider());
-		Component component = componentCreator.createComponent("nsp://localhost:9000", null);
+		Component component = componentCreator.createComponent(url, null);
 		context.addComponent(JMS_COMPONENT_NAME, component);
 	}
 
