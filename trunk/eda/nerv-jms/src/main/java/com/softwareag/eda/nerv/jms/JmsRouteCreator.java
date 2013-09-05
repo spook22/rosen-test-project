@@ -7,7 +7,12 @@ import org.apache.camel.Route;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.softwareag.eda.nerv.ContextProvider;
+import com.softwareag.eda.nerv.NERVException;
+import com.softwareag.eda.nerv.channel.JmsChannelProvider;
+import com.softwareag.eda.nerv.component.DefaultComponentNameProvider;
 import com.softwareag.eda.nerv.event.Event;
+import com.softwareag.eda.nerv.jms.route.JmsRouteBuilder;
 import com.softwareag.eda.nerv.jmx.JmxHelper;
 import com.softwareag.eda.nerv.publish.EventPublishListener;
 
@@ -18,6 +23,14 @@ public class JmsRouteCreator implements EventPublishListener {
 	private final Map<String, Route> routesCache = new HashMap<String, Route>();
 
 	private final JmxHelper jmxHelper = new JmxHelper();
+	
+	private final JmsChannelProvider jmsChannelProvider = new JmsChannelProvider(new DefaultComponentNameProvider("nervDefaultJms"));
+	
+	private final ContextProvider contextProvider;
+
+	public JmsRouteCreator(ContextProvider contextProvider) {
+		this.contextProvider = contextProvider;
+	}
 
 	@Override
 	public void onPublish(PublishOperation operation, String channel, Event event) {
@@ -44,12 +57,17 @@ public class JmsRouteCreator implements EventPublishListener {
 		}
 	}
 
-	private void createRoute(String channel, String eventType) {
+	private void createRoute(String channel, String eventType) throws NERVException {
+		String jmsChannel = jmsChannelProvider.channel(eventType);
 		if (logger.isInfoEnabled()) {
-			logger.info(String.format("Creating JMS route for event type %s and channel %s.", eventType, channel));
+			logger.info(String.format("Creating JMS route for event type %s from channel %s to JMS channel %s.", eventType, channel, jmsChannel));
 		}
-		// TODO Auto-generated method stub
-
+		JmsRouteBuilder builder = new JmsRouteBuilder(channel, jmsChannel);
+		try {
+			contextProvider.context().addRoutes(builder);
+		} catch (Exception e) {
+			throw new NERVException("Cannot add routes to context.", e);
+		}
 	}
 
 }

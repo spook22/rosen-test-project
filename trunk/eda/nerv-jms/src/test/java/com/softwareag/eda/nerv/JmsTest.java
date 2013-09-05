@@ -45,7 +45,7 @@ public class JmsTest {
 
 	private static class JmsRouteConsumer extends BasicConsumer {
 
-		private JmsRouteCreator routeCreator = new JmsRouteCreator();
+		private JmsRouteCreator routeCreator = new JmsRouteCreator(NERV.instance().getContextProvider());
 
 		@Override
 		public void consume(Event event) {
