@@ -50,7 +50,7 @@ public class JmsTest {
 		@Override
 		public void consume(Event event) {
 			super.consume(event);
-			logger.debug(event.toString());
+			logger.debug("Received event: " + event.toString());
 			PublishNotification notification = (PublishNotification) event.getBody();
 			try {
 				routeCreator.onPublish(notification.getOperation(), notification.getChannel(), notification.getEvent());
