@@ -1,4 +1,4 @@
-package com.softwareag.eda.nerv.jms;
+package com.softwareag.eda.nerv.jms.route;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +12,6 @@ import com.softwareag.eda.nerv.NERVException;
 import com.softwareag.eda.nerv.channel.JmsChannelProvider;
 import com.softwareag.eda.nerv.component.ComponentNameProvider;
 import com.softwareag.eda.nerv.event.Event;
-import com.softwareag.eda.nerv.jms.route.JmsRouteBuilder;
 import com.softwareag.eda.nerv.jmx.JmxHelper;
 import com.softwareag.eda.nerv.publish.EventPublishListener;
 
