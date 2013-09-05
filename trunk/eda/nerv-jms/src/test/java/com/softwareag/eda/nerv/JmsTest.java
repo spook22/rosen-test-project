@@ -16,8 +16,6 @@ import com.softwareag.eda.nerv.consumer.BasicConsumer;
 import com.softwareag.eda.nerv.event.Event;
 import com.softwareag.eda.nerv.event.PublishNotification;
 import com.softwareag.eda.nerv.help.TestHelper;
-import com.softwareag.eda.nerv.jms.ConnectionFactoryProvider;
-import com.softwareag.eda.nerv.jms.DefaultDestinationResolverProvider;
 import com.softwareag.eda.nerv.jms.JmsComponentCreator;
 import com.softwareag.eda.nerv.jms.route.JmsRouteCreator;
 import com.softwareag.eda.nerv.jms.support.UniversalMessagingSupport;
@@ -34,8 +32,8 @@ public class JmsTest {
 	public void before() {
 		CamelContext context = NERV.instance().getContextProvider().context();
 		String url = "nsp://localhost:9000";
-		ConnectionFactoryProvider connectionFactoryProvider = new UniversalMessagingSupport(url );
-		JmsComponentCreator componentCreator = new JmsComponentCreator(connectionFactoryProvider, new DefaultDestinationResolverProvider());
+		UniversalMessagingSupport connectionFactoryProvider = new UniversalMessagingSupport(url );
+		JmsComponentCreator componentCreator = new JmsComponentCreator(connectionFactoryProvider, connectionFactoryProvider);
 		Component component = componentCreator.createComponent(url, null);
 		context.addComponent(JMS_COMPONENT_NAME, component);
 	}

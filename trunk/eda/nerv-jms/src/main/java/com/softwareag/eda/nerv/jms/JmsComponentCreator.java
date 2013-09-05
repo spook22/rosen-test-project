@@ -10,6 +10,7 @@ import org.apache.camel.component.jms.JmsConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.connection.CachingConnectionFactory;
+import org.springframework.jms.support.destination.DestinationResolver;
 
 public class JmsComponentCreator {
 
@@ -17,19 +18,19 @@ public class JmsComponentCreator {
 
 	private final ConnectionFactoryProvider connectionFactoryProvider;
 
-	private DestinationResolverProvider destinationResolverProvider;
+	private DestinationResolver destinationResolver;
 
 	public JmsComponentCreator(ConnectionFactoryProvider connectionFactoryProvider) {
 		this.connectionFactoryProvider = connectionFactoryProvider;
 	}
 
-	public JmsComponentCreator(ConnectionFactoryProvider connectionFactoryProvider, DestinationResolverProvider destinationResolverProvider) {
+	public JmsComponentCreator(ConnectionFactoryProvider connectionFactoryProvider, DestinationResolver destinationResolver) {
 		this.connectionFactoryProvider = connectionFactoryProvider;
-		this.destinationResolverProvider = destinationResolverProvider;
+		this.destinationResolver = destinationResolver;
 	}
 
-	public void setDestinationResolverProvider(DestinationResolverProvider destinationResolverProvider) {
-		this.destinationResolverProvider = destinationResolverProvider;
+	public void setDestinationResolver(DestinationResolver destinationResolver) {
+		this.destinationResolver = destinationResolver;
 	}
 
 	public JmsComponent createComponent(String url, ClassLoader classLoader) {
@@ -48,8 +49,8 @@ public class JmsComponentCreator {
 		ConnectionFactory connectionFactory = connectionFactoryProvider.connectionFactory();
 		CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory(connectionFactory);
 		JmsConfiguration conf = new JmsConfiguration(cachingConnectionFactory);
-		if (destinationResolverProvider != null) {
-			conf.setDestinationResolver(destinationResolverProvider.destinationResolver());
+		if (destinationResolver != null) {
+			conf.setDestinationResolver(destinationResolver);
 		}
 		conf.setListenerConnectionFactory(connectionFactory);
 		return new JmsComponent(conf);

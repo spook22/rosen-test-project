@@ -6,18 +6,19 @@ import javax.naming.NamingException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.jms.support.destination.JndiDestinationResolver;
 import org.springframework.jndi.JndiTemplate;
 
 import com.softwareag.eda.nerv.NERVException;
 import com.softwareag.eda.nerv.jms.ConnectionFactoryProvider;
 
-abstract class AbstractDestinationSupport implements ConnectionFactoryProvider {
+abstract class AbstractDestinationSupport extends JndiDestinationResolver implements ConnectionFactoryProvider {
 
 	private static final Logger logger = LoggerFactory.getLogger(AbstractDestinationSupport.class);
 
 	protected final String providerUrl;
 
-	private JndiTemplate jndiTemplate;
+	private final JndiTemplate jndiTemplate;
 
 	private ClassLoader classLoader;
 
@@ -27,6 +28,7 @@ abstract class AbstractDestinationSupport implements ConnectionFactoryProvider {
 
 	public AbstractDestinationSupport(String providerUrl) {
 		this.providerUrl = providerUrl;
+		jndiTemplate = new JndiTemplate(null);
 		initializeConfiguration();
 	}
 
@@ -119,14 +121,31 @@ abstract class AbstractDestinationSupport implements ConnectionFactoryProvider {
 		}
 	}
 
-	protected <T> T lookup(String name, Class<T> requiredType) throws NamingException {
+    @Override
+    protected Object lookup(String jndiName) throws NamingException {
+        return lookup(jndiName, null);
+    }
+
+    @Override
+    protected <T> T lookup(String jndiName, Class<T> requiredType) throws NamingException {
+        T object = null;
 		ClassLoader currentLoader = pushClassLoader();
-		try {
-			return jndiTemplate.lookup(name, requiredType);
-		} finally {
+        try {
+            object = super.lookup(jndiName, requiredType);
+//			object = jndiTemplate.lookup(jndiName, requiredType);
+        } catch (NamingException ne) {
+            try {
+                bindTopic(jndiName);
+                object = super.lookup(jndiName, requiredType);
+            } catch (Exception e) {
+                logger.error("Cannot bind JNDI name: " + jndiName, e);
+            }
+        } finally {
 			popClassLoader(currentLoader);
-		}
-	}
+        }
+        createTopic(jndiName);
+        return object;
+    }
 
 	private ConnectionFactory lookupConnectionFactory() throws NamingException {
 		return lookup(connectionFactoryName, ConnectionFactory.class);
