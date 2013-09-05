@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.softwareag.eda.nerv.ContextProvider;
 import com.softwareag.eda.nerv.NERVException;
 import com.softwareag.eda.nerv.channel.JmsChannelProvider;
-import com.softwareag.eda.nerv.component.DefaultComponentNameProvider;
+import com.softwareag.eda.nerv.component.ComponentNameProvider;
 import com.softwareag.eda.nerv.event.Event;
 import com.softwareag.eda.nerv.jms.route.JmsRouteBuilder;
 import com.softwareag.eda.nerv.jmx.JmxHelper;
@@ -24,12 +24,13 @@ public class JmsRouteCreator implements EventPublishListener {
 
 	private final JmxHelper jmxHelper = new JmxHelper();
 	
-	private final JmsChannelProvider jmsChannelProvider = new JmsChannelProvider(new DefaultComponentNameProvider("nervDefaultJms"));
+	private final JmsChannelProvider jmsChannelProvider;
 	
 	private final ContextProvider contextProvider;
 
-	public JmsRouteCreator(ContextProvider contextProvider) {
+	public JmsRouteCreator(ContextProvider contextProvider, ComponentNameProvider componentNameProvider) {
 		this.contextProvider = contextProvider;
+		jmsChannelProvider = new JmsChannelProvider(componentNameProvider);
 	}
 
 	@Override
