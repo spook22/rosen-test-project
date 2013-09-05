@@ -4,6 +4,7 @@ dependencies {
 		'javax.jms:jms-api:1+',
 		'org.apache.camel:camel-jms:2.11.1',
 	)
+	runtime fileTree(dir: 'libs', include: '**/*.jar')
 	testCompile(
 		project(':nerv-core').sourceSets.test.output,
 		'junit:junit:4.11',
