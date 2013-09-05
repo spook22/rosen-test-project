@@ -39,7 +39,7 @@ public class JmsComponentCreator {
 		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.pcbsys.nirvana.nSpace.NirvanaContextFactory");
 		env.put("nirvana.setReadThreadDaemon", "true");
 		if (logger.isDebugEnabled()) {
-			logger.debug(String.format("Creating JMS component using the following environment: %s", env));
+			logger.debug(String.format("Creating JMS component over JNDI using the following environment: %s", env));
 		}
 		return create(env, classLoader);
 	}
