@@ -69,8 +69,8 @@ public class UniversalMessagingSupport extends AbstractDestinationSupport {
 			try {
 				node.createChannel(channelAttributes, 0, channelAcl);
 			} catch (nSecurityException e) {
-				if (logger.isDebugEnabled()) {
-					logger.debug("Cannot create channel.", e);
+				if (logger.isTraceEnabled()) {
+					logger.trace("Cannot create channel.", e);
 				}
 				// com.pcbsys.nirvana.client.nSecurityException: Clustering is
 				// not configured on this realm and will not create cluster wide
@@ -83,8 +83,8 @@ public class UniversalMessagingSupport extends AbstractDestinationSupport {
 						+ providerUrl + "'.");
 			}
 		} catch (nChannelAlreadyExistsException e) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Topic '" + topicName + "' already exists on UM server at '" + providerUrl + "'.", e);
+			if (logger.isTraceEnabled()) {
+				logger.trace("Topic '" + topicName + "' already exists on UM server at '" + providerUrl + "'.", e);
 			}
 		} catch (nBaseAdminException e) {
 			throw new NERVException("Unable to create topic " + topicName + " on UM server at '" + providerUrl + "'.",

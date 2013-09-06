@@ -3,6 +3,7 @@ package com.softwareag.eda.nerv.jms.support;
 import java.util.Properties;
 
 import javax.jms.ConnectionFactory;
+import javax.jms.Topic;
 import javax.naming.Context;
 import javax.naming.NameAlreadyBoundException;
 import javax.naming.NamingException;
@@ -119,15 +120,15 @@ abstract class AbstractDestinationSupport extends JndiDestinationResolver implem
 		try {
 			return super.lookup(jndiName, requiredType);
 		} 
-//		catch (NamingException ne) {
-//			try {
-//				createTopic(jndiName);
-//				bindTopic(jndiName);
-//				object = super.lookup(jndiName, requiredType);
-//			} catch (Exception e) {
-//				logger.error("Cannot bind JNDI name: " + jndiName, e);
-//			}
-//		}
+		catch (NamingException ne) {
+			if (requiredType.isAssignableFrom(Topic.class)) {
+				createTopic(jndiName);
+				bindTopic(jndiName);
+				return super.lookup(jndiName, requiredType);
+			} else {
+				throw ne;
+			}
+		}
 		finally {
 			popClassLoader(currentLoader);
 		}
