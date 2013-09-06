@@ -17,6 +17,6 @@ public class DefaultSubscriptionRoute extends AbstractRoute {
 
 	@Override
 	public void configure() throws Exception {
-		from(channel).process(processor);
+		from(channel).routeId(channel + "->" + processor).process(processor);
 	}
 }
