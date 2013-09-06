@@ -39,7 +39,7 @@ public class JmsTest {
 	}
 
 	@Test
-	public void test() {
+	public void test() throws Exception {
 		NERVConnection connection = NERV.instance().getDefaultConnection();
 		BasicConsumer consumer = new JmsRouteConsumer();
 		String expectedType = PublishNotification.TYPE;
@@ -55,6 +55,7 @@ public class JmsTest {
 			assertTrue(consumer.getEvents().get(0).getBody() instanceof PublishNotification);
 			PublishNotification notification = (PublishNotification) consumer.getEvents().get(0).getBody();
 			assertEquals(sentEvent, notification.getEvent());
+			Thread.sleep(100000);
 		} finally {
 			connection.unsubscribe(subscription);
 		}
