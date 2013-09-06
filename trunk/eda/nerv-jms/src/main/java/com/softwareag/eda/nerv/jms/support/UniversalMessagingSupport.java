@@ -42,7 +42,7 @@ public class UniversalMessagingSupport extends AbstractDestinationSupport {
 		}
 	}
 
-	private void createTopic(final String jndiEntryName, boolean createJNDIChannel) {
+	private void createTopic(final String jndiEntryName, boolean createJndiChannel) {
 		final String topicName = jndiEntryNameToTopicName(jndiEntryName);
 		nRealmNode node = null;
 		try {
@@ -56,7 +56,7 @@ public class UniversalMessagingSupport extends AbstractDestinationSupport {
 			channelAcl.add(everyone);
 
 			nChannelAttributes channelAttributes = null;
-			if (createJNDIChannel) {
+			if (createJndiChannel) {
 				channelAttributes = new nChannelAttributes(topicName, 0, 0, nChannelAttributes.PERSISTENT_TYPE);
 			} else {
 				channelAttributes = new nChannelAttributes();
@@ -69,12 +69,14 @@ public class UniversalMessagingSupport extends AbstractDestinationSupport {
 			try {
 				node.createChannel(channelAttributes, 0, channelAcl);
 			} catch (nSecurityException e) {
+				if (logger.isDebugEnabled()) {
+					logger.debug("Cannot create channel.", e);
+				}
 				// com.pcbsys.nirvana.client.nSecurityException: Clustering is
 				// not configured on this realm and will not create cluster wide
 				// channels.
 				channelAttributes.setClusterWide(false);
 				node.createChannel(channelAttributes, 0, channelAcl);
-				logger.debug("Cannot create channel.", e);
 			}
 			if (logger.isInfoEnabled()) {
 				logger.info("Channel with name '" + topicName + "' successfully created on UM server at '"
@@ -110,10 +112,6 @@ public class UniversalMessagingSupport extends AbstractDestinationSupport {
 
 	@Override
 	protected void initializeProviderSpecifics() {
-		createJNDIChannel();
-	}
-
-	private void createJNDIChannel() {
 		createTopic(UM_JNDI_CONTEXT_CHANNEL_NAME, true);
 	}
 
