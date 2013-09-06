@@ -23,7 +23,7 @@ public class JmsRouteBuilder extends RouteBuilder {
 
 	@Override
 	public void configure() throws Exception {
-		from(fromEndpoint).to(toEndpoint);
+		from(fromEndpoint).routeId(fromEndpoint + "->" + toEndpoint).to(toEndpoint);
 	}
 
 }
