@@ -1,13 +1,15 @@
 package com.softwareag.eda.nerv.jms.support;
 
+import java.util.Properties;
+
 import javax.jms.ConnectionFactory;
+import javax.naming.Context;
 import javax.naming.NameAlreadyBoundException;
 import javax.naming.NamingException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jms.support.destination.JndiDestinationResolver;
-import org.springframework.jndi.JndiTemplate;
 
 import com.softwareag.eda.nerv.NERVException;
 import com.softwareag.eda.nerv.jms.ConnectionFactoryProvider;
@@ -18,22 +20,32 @@ abstract class AbstractDestinationSupport extends JndiDestinationResolver implem
 
 	protected final String providerUrl;
 
-	private final JndiTemplate jndiTemplate;
-
 	private ClassLoader classLoader;
+
+	private final String connectionFactoryName = "EventFactory";
 
 	private ConnectionFactory connectionFactory;
 
-	private String connectionFactoryName;
-
 	public AbstractDestinationSupport(String providerUrl) {
 		this.providerUrl = providerUrl;
-		jndiTemplate = new JndiTemplate(null);
+
+		Properties env = new Properties();
+		env.put(Context.PROVIDER_URL, providerUrl);
+		env.put("connectionFactory", connectionFactoryName);
+		env.put(Context.INITIAL_CONTEXT_FACTORY, "com.pcbsys.nirvana.nSpace.NirvanaContextFactory");
+		env.put("nirvana.setReadThreadDaemon", "true");
+
+		setJndiEnvironment(env);
 		initializeConfiguration();
 	}
 
 	public void setClassLoader(ClassLoader classLoader) {
 		this.classLoader = classLoader;
+	}
+
+	@Override
+	public ConnectionFactory connectionFactory() {
+		return connectionFactory;
 	}
 
 	protected abstract ConnectionFactory createConnectionFactory();
@@ -53,32 +65,6 @@ abstract class AbstractDestinationSupport extends JndiDestinationResolver implem
 		connectionFactory = retrieveConnectionFactory();
 	}
 
-	@Override
-	public ConnectionFactory connectionFactory() {
-		return connectionFactory;
-	}
-
-	public void createAndBindConnectionFactory() {
-		try {
-			lookupConnectionFactory();
-			if (logger.isDebugEnabled()) {
-				logger.debug("ConnectionFactory with name '" + connectionFactoryName
-						+ "' is already bound to JMS Provider at '" + providerUrl + "'.");
-			}
-		} catch (NamingException e) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("'EventFactory' is not bound to JNDI registry at '" + providerUrl
-						+ "' - NERV will try to bind it.", e);
-			}
-			try {
-				bind(connectionFactoryName, connectionFactory());
-			} catch (NamingException ne) {
-				throw new NERVException("Unable to bind connection factory with name '" + connectionFactoryName
-						+ "' to JNDI registry at '" + providerUrl + "'.", ne);
-			}
-		}
-	}
-
 	private ClassLoader pushClassLoader() {
 		Thread currentThread = Thread.currentThread();
 		ClassLoader currentLoader = currentThread.getContextClassLoader();
@@ -95,7 +81,7 @@ abstract class AbstractDestinationSupport extends JndiDestinationResolver implem
 	protected synchronized void bind(String jndiName, Object object) throws NamingException {
 		ClassLoader currentLoader = pushClassLoader();
 		try {
-			jndiTemplate.bind(jndiName, object);
+			super.getJndiTemplate().bind(jndiName, object);
 			if (logger.isInfoEnabled()) {
 				logger.info("Object with entry name '" + jndiName + "' successfully bound to JNDI registry at '"
 						+ providerUrl + "'.");
@@ -117,38 +103,39 @@ abstract class AbstractDestinationSupport extends JndiDestinationResolver implem
 			if (logger.isDebugEnabled()) {
 				logger.debug("EventFactory is not bound to JNDI registry at '" + providerUrl + "'.", e);
 			}
-			return createConnectionFactory();
+			ConnectionFactory connectionFactory = createConnectionFactory();
+			try {
+				bind(connectionFactoryName, connectionFactory);
+			} catch (NamingException e1) {
+				throw new NERVException("Cannot bind connection factory: " + connectionFactoryName, e1);
+			}
+			return connectionFactory;
 		}
 	}
 
-    @Override
-    protected Object lookup(String jndiName) throws NamingException {
-        return lookup(jndiName, null);
-    }
-
-    @Override
-    protected <T> T lookup(String jndiName, Class<T> requiredType) throws NamingException {
-        T object = null;
-		ClassLoader currentLoader = pushClassLoader();
-        try {
-            object = super.lookup(jndiName, requiredType);
-//			object = jndiTemplate.lookup(jndiName, requiredType);
-        } catch (NamingException ne) {
-            try {
-                bindTopic(jndiName);
-                object = super.lookup(jndiName, requiredType);
-            } catch (Exception e) {
-                logger.error("Cannot bind JNDI name: " + jndiName, e);
-            }
-        } finally {
-			popClassLoader(currentLoader);
-        }
-        createTopic(jndiName);
-        return object;
-    }
-
-	private ConnectionFactory lookupConnectionFactory() throws NamingException {
-		return lookup(connectionFactoryName, ConnectionFactory.class);
+	@Override
+	protected Object lookup(String jndiName) throws NamingException {
+		return lookup(jndiName, null);
 	}
-	
+
+	@Override
+	protected <T> T lookup(String jndiName, Class<T> requiredType) throws NamingException {
+		ClassLoader currentLoader = pushClassLoader();
+		try {
+			return super.lookup(jndiName, requiredType);
+		} 
+//		catch (NamingException ne) {
+//			try {
+//				createTopic(jndiName);
+//				bindTopic(jndiName);
+//				object = super.lookup(jndiName, requiredType);
+//			} catch (Exception e) {
+//				logger.error("Cannot bind JNDI name: " + jndiName, e);
+//			}
+//		}
+		finally {
+			popClassLoader(currentLoader);
+		}
+	}
+
 }
