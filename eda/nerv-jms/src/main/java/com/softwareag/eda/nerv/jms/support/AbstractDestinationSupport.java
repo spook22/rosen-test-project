@@ -114,11 +114,6 @@ abstract class AbstractDestinationSupport extends JndiDestinationResolver implem
 	}
 
 	@Override
-	protected Object lookup(String jndiName) throws NamingException {
-		return lookup(jndiName, null);
-	}
-
-	@Override
 	protected <T> T lookup(String jndiName, Class<T> requiredType) throws NamingException {
 		ClassLoader currentLoader = pushClassLoader();
 		try {
