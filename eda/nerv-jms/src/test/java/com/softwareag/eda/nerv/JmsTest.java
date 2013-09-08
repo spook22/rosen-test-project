@@ -10,6 +10,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.softwareag.eda.nerv.channel.JmsChannelProvider;
+import com.softwareag.eda.nerv.component.ComponentNameProvider;
 import com.softwareag.eda.nerv.component.DefaultComponentNameProvider;
 import com.softwareag.eda.nerv.connection.NERVConnection;
 import com.softwareag.eda.nerv.consumer.BasicConsumer;
@@ -28,6 +30,20 @@ public class JmsTest {
 	
 	private static final String JMS_COMPONENT_NAME = "nervDefaultJms";
 	
+	private final ComponentNameProvider componentNameProvider = new DefaultComponentNameProvider(JMS_COMPONENT_NAME);
+	
+	private final JmsChannelProvider jmsChannelProvider = new JmsChannelProvider(componentNameProvider);
+	
+	private final String type = "JmsTest";
+	
+	private final String body = "JmsTestBody";
+	
+	private NERVConnection jmsConnection = NERV.instance().createChannelConnection(jmsChannelProvider.channel(type));
+
+	private BasicConsumer jmsConsumer = new BasicConsumer();
+	
+	private Subscription jmsSubscription = new DefaultSubscription(type, jmsConsumer);
+	
 	@Before
 	public void before() {
 		CamelContext context = NERV.instance().getContextProvider().context();
@@ -41,29 +57,43 @@ public class JmsTest {
 	@Test
 	public void test() throws Exception {
 		NERVConnection connection = NERV.instance().getDefaultConnection();
-		BasicConsumer consumer = new JmsRouteConsumer();
+		BasicConsumer consumer = new PublishNotificationConsumer();
 		String expectedType = PublishNotification.TYPE;
 		Subscription subscription = new DefaultSubscription(expectedType, consumer);
 		connection.subscribe(subscription);
+		jmsConnection.unsubscribe(jmsSubscription);
 		try {
-			Event sentEvent = new Event("JmsTest", "JmsTestBody");
+			Event sentEvent = new Event(type, body);
 			connection.publish(sentEvent);
-			int eventsCount = 1;
-			TestHelper.waitForEvents(consumer, eventsCount, 1000);
-			assertEquals(eventsCount, consumer.getEvents().size());
-			assertEquals(expectedType, consumer.getEvents().get(0).getType());
-			assertTrue(consumer.getEvents().get(0).getBody() instanceof PublishNotification);
-			PublishNotification notification = (PublishNotification) consumer.getEvents().get(0).getBody();
-			assertEquals(sentEvent, notification.getEvent());
-			Thread.sleep(100000);
+			validatePublishNotificationEvent(consumer, expectedType, sentEvent);
+			validateJmsEvent();
 		} finally {
 			connection.unsubscribe(subscription);
+			jmsConnection.unsubscribe(jmsSubscription);
 		}
 	}
+	
+	private void validateJmsEvent() {
+		int eventsCount = 1;
+		TestHelper.waitForEvents(jmsConsumer, eventsCount, 10000);
+		assertEquals(eventsCount, jmsConsumer.getEvents().size());
+		assertEquals(type, jmsConsumer.getEvents().get(0).getType());
+		assertTrue(jmsConsumer.getEvents().get(0).getBody() instanceof String);
+	}
 
-	private static class JmsRouteConsumer extends BasicConsumer {
+	private void validatePublishNotificationEvent(BasicConsumer consumer, String expectedType, Event sentEvent) {
+		int eventsCount = 1;
+		TestHelper.waitForEvents(consumer, eventsCount, 1000);
+		assertEquals(eventsCount, consumer.getEvents().size());
+		assertEquals(expectedType, consumer.getEvents().get(0).getType());
+		assertTrue(consumer.getEvents().get(0).getBody() instanceof PublishNotification);
+		PublishNotification notification = (PublishNotification) consumer.getEvents().get(0).getBody();
+		assertEquals(sentEvent, notification.getEvent());
+	}
 
-		private JmsRouteCreator routeCreator = new JmsRouteCreator(NERV.instance().getContextProvider(), new DefaultComponentNameProvider(JMS_COMPONENT_NAME));
+	private class PublishNotificationConsumer extends BasicConsumer {
+
+		private JmsRouteCreator routeCreator = new JmsRouteCreator(NERV.instance().getContextProvider(), componentNameProvider);
 
 		@Override
 		public void consume(Event event) {
