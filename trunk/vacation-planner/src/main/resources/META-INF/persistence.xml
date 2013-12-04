@@ -1,0 +1,7 @@
+<persistence>
+	<persistence-unit name="PU">
+		<properties>
+			<property name="hibernate.show_sql" value="false" />
+		</properties>
+	</persistence-unit>
+</persistence>
