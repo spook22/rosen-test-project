@@ -1,4 +1,0 @@
-Spring DI vs CDI - http://mobiarch.wordpress.com/2013/01/11/spring-di-and-cdi-comparative-study/
-http://stackoverflow.com/questions/3744396/using-cdi-ws-rs-jpa-to-build-an-app
-http://forums.java.net/jive/message.jspa?messageID=382037
-JPA - http://www.vogella.com/articles/JavaPersistenceAPI/article.html
