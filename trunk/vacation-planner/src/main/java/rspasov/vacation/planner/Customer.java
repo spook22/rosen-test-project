@@ -1,4 +1,4 @@
-package hello;
+package rspasov.vacation.planner;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

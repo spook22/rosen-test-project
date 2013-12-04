@@ -1,4 +1,4 @@
-package hello;
+package rspasov.vacation.planner;
 
 import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.H2;
 
