@@ -2,6 +2,7 @@ package rspasov.vacation.planner.model;
 
 import java.util.List;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,8 +19,10 @@ public class Employee {
 
 	private String lastName;
 
+	@ElementCollection
 	private List<VacationDaysPerYear> totalVacationDaysPerYear;
 
+	@ElementCollection
 	private List<VacationRequest> vacationRequests;
 
 	protected Employee() {
