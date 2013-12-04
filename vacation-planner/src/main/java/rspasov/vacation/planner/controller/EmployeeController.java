@@ -4,12 +4,10 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -62,13 +60,16 @@ public class EmployeeController {
 
 	@RequestMapping(value = "/employee/{lastName}", method = RequestMethod.GET)
 	public @ResponseBody
-	List<Employee> greeting(@PathVariable String lastName) throws Exception {
+	List<Employee> findByLastName(@PathVariable String lastName) throws Exception {
 		LOGGER.info("Processing request for parameters: " + lastName);
-		return repository.findByLastName(lastName);
+		List<Employee> employees = repository.findByLastName(lastName);
+		LOGGER.info("Employees found: " + employees.toString());
+		return employees;
 	}
 
-	@ExceptionHandler(Exception.class)
-	public String handleIOException(Exception exc, HttpServletRequest request) {
-		return "/ErrorView"; // TODO This has to be implemented.
-	}
+	// @ExceptionHandler(Exception.class)
+	// public String handleIOException(Exception exc, HttpServletRequest
+	// request) {
+	// return "/ErrorView"; // TODO This has to be implemented.
+	// }
 }
