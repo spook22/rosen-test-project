@@ -1,4 +1,4 @@
-package rspasov.vacation.planner;
+package rspasov.vacation.planner.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

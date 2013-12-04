@@ -1,4 +1,4 @@
-package rspasov.vacation.planner;
+package rspasov.vacation.planner.conf;
 
 import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.H2;
 
