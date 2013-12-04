@@ -8,8 +8,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Entity
 public class Employee {
+
+	private static Logger LOGGER = LoggerFactory.getLogger(Employee.class);
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -49,7 +54,12 @@ public class Employee {
 		return totalVacationDaysPerYear;
 	}
 
-	public int getAvailableVacationDays() {
+	public List<VacationRequest> getVacationRequests() {
+		return vacationRequests;
+	}
+
+	public int calculateAvailableVacationDays() {
+		LOGGER.info("Calculating vacation days.");
 		int result = 0;
 		for (VacationDaysPerYear vacationDaysPerYear : totalVacationDaysPerYear) {
 			result += vacationDaysPerYear.getDays();
