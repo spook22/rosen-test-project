@@ -29,7 +29,7 @@ public class JpaConfiguration {
 		LocalContainerEntityManagerFactoryBean lef = new LocalContainerEntityManagerFactoryBean();
 		lef.setDataSource(dataSource);
 		lef.setJpaVendorAdapter(jpaVendorAdapter);
-		lef.setPackagesToScan("hello");
+		lef.setPackagesToScan("rspasov.vacation.planner");
 		return lef;
 	}
 
