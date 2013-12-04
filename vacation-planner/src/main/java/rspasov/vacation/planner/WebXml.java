@@ -1,4 +1,4 @@
-package hello;
+package rspasov.vacation.planner;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.SpringBootServletInitializer;
