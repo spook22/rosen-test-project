@@ -1,5 +1,6 @@
 package rspasov.vacation.planner.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.ElementCollection;
@@ -25,10 +26,10 @@ public class Employee {
 	private String lastName;
 
 	@ElementCollection
-	private List<VacationDaysPerYear> totalVacationDaysPerYear;
+	private List<VacationDaysPerYear> totalVacationDaysPerYear = new ArrayList<VacationDaysPerYear>();
 
 	@ElementCollection
-	private List<VacationRequest> vacationRequests;
+	private List<VacationRequest> vacationRequests = new ArrayList<VacationRequest>();
 
 	protected Employee() {
 	}
