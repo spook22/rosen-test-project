@@ -20,7 +20,7 @@ public class DirectTest {
 
 	private final String type = "DirectTestType";
 
-	private final String body = "DirectTestBody123";
+	private final String body = "DirectTestBody";
 
 	private NERVConnection connection;
 
