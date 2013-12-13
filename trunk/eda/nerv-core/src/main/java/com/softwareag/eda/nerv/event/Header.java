@@ -2,7 +2,7 @@ package com.softwareag.eda.nerv.event;
 
 public enum Header {
 
-	START("Start"), TYPE("Type"), EVENT_ID("EventId");
+	START("Start"), TYPE("Type"), EVENT_ID("EventId"), CHANNEL("Channel");
 
 	private final String name;
 
