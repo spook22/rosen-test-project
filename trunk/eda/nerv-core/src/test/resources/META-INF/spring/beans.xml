@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+	<camelContext id="nervDefault" autoStartup="true" xmlns="http://camel.apache.org/schema/spring">
+		<route>
+			<from uri="direct:nerv" />
+			<process ref="headersDecorator" />
+			<process ref="channelMapper" />
+			<dynamicRouter>
+				<method ref="nervDynamicRouter" method="route" />
+			</dynamicRouter>
+			<to uri="stream:out" />
+		</route>
+	</camelContext>
+	
+	<bean name="EventIdHeaderDecorator" class="com.softwareag.eda.nerv.event.EventIdHeaderDecorator" />
+	<bean name="startHeaderDecorator" class="com.softwareag.eda.nerv.event.StartHeaderDecorator">
+		<constructor-arg name="decorator" ref="eventIdDecorator" />
+	</bean>
+	<bean name="headersDecorator" class="com.softwareag.eda.nerv.event.EventHeadersDecorator">
+		<constructor-arg name="decorator" ref="startHeaderDecorator" />
+	</bean>
+	
+	<bean name="channelMapper" class="com.softwareag.eda.nerv.channel.EventTypeToChannelMapper" />
+	
+	<bean name="nervDynamicRouter" class="com.softwareag.eda.nerv.route.NERVDynamicRouter" />
+
+</beans>

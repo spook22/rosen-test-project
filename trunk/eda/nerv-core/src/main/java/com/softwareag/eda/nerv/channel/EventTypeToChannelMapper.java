@@ -30,7 +30,7 @@ public class EventTypeToChannelMapper implements Processor {
 	public void process(Exchange exchange) throws Exception {
 		Message in = exchange.getIn();
 		String type = in.getHeader(typeHeader, String.class);
-		in.setHeader(channelHeader, channelProvider.channel(type));
+		in.setHeader(channelHeader, channelProvider.channel(type) + "_temptest");
 	}
 
 }
