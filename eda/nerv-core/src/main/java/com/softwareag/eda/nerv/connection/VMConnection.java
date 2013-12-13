@@ -10,7 +10,7 @@ import com.softwareag.eda.nerv.channel.ChannelProvider;
 import com.softwareag.eda.nerv.component.ComponentResolver;
 import com.softwareag.eda.nerv.event.Event;
 import com.softwareag.eda.nerv.event.EventDecorator;
-import com.softwareag.eda.nerv.event.EventIdDecorator;
+import com.softwareag.eda.nerv.event.EventIdHeaderDecorator;
 import com.softwareag.eda.nerv.event.StartHeaderDecorator;
 import com.softwareag.eda.nerv.publish.DefaultPublisher;
 import com.softwareag.eda.nerv.publish.Publisher;
@@ -42,7 +42,7 @@ public class VMConnection implements NERVConnection {
 	}
 
 	private EventDecorator createDecorator() {
-		return new EventIdDecorator(new StartHeaderDecorator());
+		return new EventIdHeaderDecorator(new StartHeaderDecorator());
 	}
 
 	@Override

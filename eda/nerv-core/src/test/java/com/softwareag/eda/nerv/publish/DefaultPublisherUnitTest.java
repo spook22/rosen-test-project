@@ -18,7 +18,7 @@ import com.softwareag.eda.nerv.channel.VMChannelProvider;
 import com.softwareag.eda.nerv.component.SpringComponentResolver;
 import com.softwareag.eda.nerv.consumer.BasicConsumer;
 import com.softwareag.eda.nerv.event.Event;
-import com.softwareag.eda.nerv.event.EventIdDecorator;
+import com.softwareag.eda.nerv.event.EventIdHeaderDecorator;
 import com.softwareag.eda.nerv.event.Header;
 import com.softwareag.eda.nerv.help.TestHelper;
 import com.softwareag.eda.nerv.subscribe.handler.DefaultSubscriptionHandler;
@@ -88,7 +88,7 @@ public class DefaultPublisherUnitTest {
 	public void testPublishEvent() throws Exception {
 		Event event = new Event(type, body);
 		assertNull(event.getHeader(Header.EVENT_ID));
-		publisher.setDecorator(new EventIdDecorator());
+		publisher.setDecorator(new EventIdHeaderDecorator());
 		publisher.publish(event);
 		waitForEvents(1);
 		assertEquals(1, consumer.getEvents().size());

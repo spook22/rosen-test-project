@@ -5,14 +5,14 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class EventIdDecorator extends AbstractEventDecorator {
+public class EventIdHeaderDecorator extends AbstractEventDecorator {
 	
-	private static final Logger logger = LoggerFactory.getLogger(EventIdDecorator.class);
+	private static final Logger logger = LoggerFactory.getLogger(EventIdHeaderDecorator.class);
 
-	public EventIdDecorator() {
+	public EventIdHeaderDecorator() {
 	}
 
-	public EventIdDecorator(EventDecorator decorator) {
+	public EventIdHeaderDecorator(EventDecorator decorator) {
 		super(decorator);
 	}
 

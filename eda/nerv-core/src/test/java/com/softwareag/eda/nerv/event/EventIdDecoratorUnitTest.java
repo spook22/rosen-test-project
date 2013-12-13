@@ -14,7 +14,7 @@ public class EventIdDecoratorUnitTest {
 	@Test
 	public void testDecorate() {
 		StartHeaderDecorator startDecorator = new StartHeaderDecorator();
-		EventIdDecorator decorator = new EventIdDecorator(startDecorator);
+		EventIdHeaderDecorator decorator = new EventIdHeaderDecorator(startDecorator);
 		Event event = new Event("type", "body");
 		assertNull(event.getHeader(Header.START));
 		assertNull(event.getHeader(Header.EVENT_ID));
@@ -22,7 +22,7 @@ public class EventIdDecoratorUnitTest {
 		assertNotNull(event.getHeader(Header.START));
 		assertNotNull(event.getHeader(Header.EVENT_ID));
 
-		decorator = new EventIdDecorator();
+		decorator = new EventIdHeaderDecorator();
 		Map<String, Object> headers = new HashMap<String, Object>();
 		headers.put(Header.TYPE.getName(), "type");
 		headers.put(Header.EVENT_ID.getName(), "");

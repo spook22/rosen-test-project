@@ -15,9 +15,9 @@
 		</route>
 	</camelContext>
 	
-	<bean name="EventIdHeaderDecorator" class="com.softwareag.eda.nerv.event.EventIdHeaderDecorator" />
+	<bean name="eventIdHeaderDecorator" class="com.softwareag.eda.nerv.event.EventIdHeaderDecorator" />
 	<bean name="startHeaderDecorator" class="com.softwareag.eda.nerv.event.StartHeaderDecorator">
-		<constructor-arg name="decorator" ref="eventIdDecorator" />
+		<constructor-arg name="decorator" ref="eventIdHeaderDecorator" />
 	</bean>
 	<bean name="headersDecorator" class="com.softwareag.eda.nerv.event.EventHeadersDecorator">
 		<constructor-arg name="decorator" ref="startHeaderDecorator" />
