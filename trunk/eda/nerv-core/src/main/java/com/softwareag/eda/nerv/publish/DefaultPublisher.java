@@ -176,7 +176,7 @@ public class DefaultPublisher implements Publisher {
 	}
 
 	private void sendToDirect(Event event) throws Exception {
-		Endpoint endpoint = context().getEndpoint("direct:nerv");
+		Endpoint endpoint = context().getEndpoint("direct-vm:nerv");
 		Producer producer = endpoint.createProducer();
 		Exchange exchange = producer.createExchange();
 		Message message = new DefaultMessage();
