@@ -2,7 +2,7 @@ dependencies {
 	compile(
 		project(':nerv-core'),
 		'javax.jms:jms-api:1.1-rev-1',
-		'org.apache.camel:camel-jms:2.12.2',
+		"org.apache.camel:camel-jms:$camelVersion",
 	)
 	runtime fileTree(dir: 'libs', include: '**/*.jar')
 	testCompile(
