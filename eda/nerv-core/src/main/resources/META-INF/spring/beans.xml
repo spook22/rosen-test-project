@@ -5,7 +5,7 @@
 
 	<camelContext id="nervDefault" autoStartup="true" xmlns="http://camel.apache.org/schema/spring">
 		<route>
-			<from uri="direct:nerv" />
+			<from uri="direct-vm:nerv" />
 			<process ref="headersDecorator" />
 			<process ref="channelMapper" />
 			<dynamicRouter>
