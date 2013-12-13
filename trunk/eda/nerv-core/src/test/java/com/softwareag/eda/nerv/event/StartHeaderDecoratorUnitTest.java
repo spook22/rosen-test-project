@@ -13,7 +13,7 @@ public class StartHeaderDecoratorUnitTest {
 
 	@Test
 	public void testDecorate() {
-		EventDecorator idDecorator = new EventIdDecorator();
+		EventDecorator idDecorator = new EventIdHeaderDecorator();
 		StartHeaderDecorator decorator = new StartHeaderDecorator(idDecorator);
 		Event event = new Event("type", "body");
 		assertNull(event.getHeader(Header.START));

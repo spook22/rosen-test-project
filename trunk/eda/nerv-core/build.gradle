@@ -10,6 +10,7 @@ dependencies {
 		"log4j:log4j:$log4jVersion",
     	"org.slf4j:slf4j-log4j12:$slf4jVersion",
 		"org.apache.camel:camel-spring:$camelVersion",
+        "org.apache.camel:camel-stream:$camelVersion",
         "org.springframework:spring-expression:$springVersion",
         "org.springframework:spring-tx:$springVersion",
         "org.springframework:spring-aop:$springVersion",
