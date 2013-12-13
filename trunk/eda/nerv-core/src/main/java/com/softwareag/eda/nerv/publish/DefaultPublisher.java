@@ -27,7 +27,7 @@ import com.softwareag.eda.nerv.event.PublishNotification;
 import com.softwareag.eda.nerv.publish.EventPublishListener.PublishOperation;
 
 public class DefaultPublisher implements Publisher {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(DefaultPublisher.class);
 
 	private final ChannelProvider internalProvider = new VMChannelProvider();
@@ -44,13 +44,12 @@ public class DefaultPublisher implements Publisher {
 
 	private final Set<EventPublishListener> eventPublishListeners = new HashSet<EventPublishListener>();
 
-	public DefaultPublisher(ContextProvider contextProvider, ChannelProvider channelProvider,
-			ComponentResolver componentResolver) {
+	public DefaultPublisher(ContextProvider contextProvider, ChannelProvider channelProvider, ComponentResolver componentResolver) {
 		this(contextProvider, channelProvider, componentResolver, null);
 	}
 
-	public DefaultPublisher(ContextProvider contextProvider, ChannelProvider channelProvider,
-			ComponentResolver componentResolver, EventDecorator decorator) {
+	public DefaultPublisher(ContextProvider contextProvider, ChannelProvider channelProvider, ComponentResolver componentResolver,
+			EventDecorator decorator) {
 		this.contextProvider = contextProvider;
 		this.channelProvider = channelProvider;
 		this.componentResolver = componentResolver;
@@ -87,7 +86,7 @@ public class DefaultPublisher implements Publisher {
 		send(channel, event);
 		notifyListeners(PublishOperation.POST_PUBLISH, channel, event);
 	}
-	
+
 	private void publishNotification(String channel, Event event) {
 		try {
 			if (logger.isDebugEnabled()) {
@@ -153,8 +152,7 @@ public class DefaultPublisher implements Publisher {
 		if (index != -1) {
 			return uri.substring(0, index);
 		} else {
-			String msg = String.format(
-					"Endpoint %s is invalid. It should have the following syntax: <component>:[type:]<endpoint>.", uri);
+			String msg = String.format("Endpoint %s is invalid. It should have the following syntax: <component>:[type:]<endpoint>.", uri);
 			throw new NERVException(msg);
 		}
 	}
@@ -170,6 +168,7 @@ public class DefaultPublisher implements Publisher {
 			message.setBody(event.getBody());
 			message.setHeaders(event.getHeaders());
 			exchange.setIn(message);
+			exchange.setUnitOfWork(null);
 			producer.process(exchange);
 		} catch (Exception e) {
 			throw new NERVException("Cannot send event to channel: " + channel, e);
