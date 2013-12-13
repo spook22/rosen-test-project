@@ -2,32 +2,28 @@ package com.softwareag.eda.nerv.direct;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
+import javax.annotation.Resource;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.softwareag.eda.nerv.NERV;
 import com.softwareag.eda.nerv.connection.NERVConnection;
 import com.softwareag.eda.nerv.consumer.BasicConsumer;
 import com.softwareag.eda.nerv.help.TestHelper;
 import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/META-INF/spring/beans.xml" })
+@ContextConfiguration(locations = { "classpath:/META-INF/spring/beans.xml", "classpath:/META-INF/spring/DirectTest-context.xml" })
 public class DirectTest {
 
 	private final String type = "DirectTestType";
 
 	private final String body = "DirectTestBody";
 
+	@Resource
 	private NERVConnection connection;
-
-	@Before
-	public void before() {
-		connection = NERV.instance().getDefaultConnection();
-	}
 
 	@Test
 	public void test() {
