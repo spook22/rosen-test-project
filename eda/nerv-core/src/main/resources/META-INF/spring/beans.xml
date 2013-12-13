@@ -9,7 +9,7 @@
 			<process ref="headersDecorator" />
 			<process ref="channelMapper" />
 			<dynamicRouter>
-				<method ref="nervDynamicRouter" method="route" />
+				<method ref="nervDynamicRouter" />
 			</dynamicRouter>
 			<to uri="stream:out" />
 		</route>
