@@ -169,20 +169,8 @@ public class DefaultPublisher implements Publisher {
 			message.setHeaders(event.getHeaders());
 			exchange.setIn(message);
 			producer.process(exchange);
-			sendToDirect(event);
 		} catch (Exception e) {
 			throw new NERVException("Cannot send event to channel: " + channel, e);
 		}
-	}
-
-	private void sendToDirect(Event event) throws Exception {
-		Endpoint endpoint = context().getEndpoint("direct-vm:nerv");
-		Producer producer = endpoint.createProducer();
-		Exchange exchange = producer.createExchange();
-		Message message = new DefaultMessage();
-		message.setBody(event.getBody());
-		message.setHeaders(event.getHeaders());
-		exchange.setIn(message);
-		producer.process(exchange);
 	}
 }
