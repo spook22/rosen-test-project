@@ -1,0 +1,18 @@
+// Shared properties set in global system properties.
+ext.edaDevHome = rootProject.projectDir.path
+System.setProperty("eda.dev.home", project.properties.edaDevHome)
+logger.lifecycle("System property [eda.dev.home] set to [$project.properties.edaDevHome].")
+
+// Local properties overridden by local.properties file.
+def localPropPath = "${rootProject.projectDir.path}/local.properties"
+if (new File(localPropPath).exists()) {
+    logger.lifecycle "------------------local.properties------------------"
+    def props = new Properties()
+    new File(localPropPath).withInputStream { props.load(it) }
+    props.each {
+        ext.set(it.key, it.value)
+		System.setProperty(it.key, it.value)
+        logger.lifecycle("Property [$it.key] set to [$it.value].")
+    }
+    logger.lifecycle "----------------end local.properties----------------"
+}
