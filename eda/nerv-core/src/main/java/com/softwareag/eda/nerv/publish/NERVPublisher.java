@@ -57,9 +57,6 @@ public class NERVPublisher implements Publisher {
 	public void publish(Event event) {
 		String channel = channelProvider.channel(event.getType());
 		try {
-			if (logger.isDebugEnabled()) {
-				logger.debug(String.format("Publishing event %s to channel %s.", event, channel));
-			}
 			send(channel, event);
 		} catch (Exception e) {
 			throw new NERVException("Cannot send event to channel: " + channel, e);
@@ -106,20 +103,16 @@ public class NERVPublisher implements Publisher {
 		}
 	}
 
-	private void send(String channel, Event event) {
-		try {
-			if (logger.isDebugEnabled()) {
-				logger.debug(String.format("Publishing event %s to channel %s.", event, channel));
-			}
-			Producer producer = getProducer(channel);
-			Exchange exchange = producer.createExchange();
-			Message message = new DefaultMessage();
-			message.setBody(event.getBody());
-			message.setHeaders(event.getHeaders());
-			exchange.setIn(message);
-			producer.process(exchange);
-		} catch (Exception e) {
-			throw new NERVException("Cannot send event to channel: " + channel, e);
+	private void send(String channel, Event event) throws Exception {
+		if (logger.isDebugEnabled()) {
+			logger.debug(String.format("Publishing event %s to channel %s.", event, channel));
 		}
+		Producer producer = getProducer(channel);
+		Exchange exchange = producer.createExchange();
+		Message message = new DefaultMessage();
+		message.setBody(event.getBody());
+		message.setHeaders(event.getHeaders());
+		exchange.setIn(message);
+		producer.process(exchange);
 	}
 }
