@@ -3,12 +3,17 @@ package com.softwareag.eda.nerv;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import javax.annotation.Resource;
+
 import org.apache.camel.CamelContext;
 import org.apache.camel.Component;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.softwareag.eda.nerv.channel.JmsChannelProvider;
 import com.softwareag.eda.nerv.component.ComponentNameProvider;
@@ -20,10 +25,11 @@ import com.softwareag.eda.nerv.event.PublishNotification;
 import com.softwareag.eda.nerv.help.TestHelper;
 import com.softwareag.eda.nerv.jms.JmsComponentCreator;
 import com.softwareag.eda.nerv.jms.route.JmsRouteCreator;
-import com.softwareag.eda.nerv.jms.support.UniversalMessagingSupport;
 import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
 import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath:/META-INF/spring/beans.xml", "classpath:/META-INF/spring/jms-beans.xml", "classpath:/META-INF/spring/nerv-jms-test-context.xml" })
 public class JmsTest {
 
 	private static final Logger logger = LoggerFactory.getLogger(JmsTest.class);
@@ -34,41 +40,52 @@ public class JmsTest {
 	
 	private final JmsChannelProvider jmsChannelProvider = new JmsChannelProvider(componentNameProvider);
 	
-	private final String type = "JmsTest";
+	@Resource
+	private String type;
 	
 	private final String body = "JmsTestBody";
 	
-	private NERVConnection jmsConnection = NERV.instance().createChannelConnection(jmsChannelProvider.channel(type));
-
-	private BasicConsumer jmsConsumer = new BasicConsumer();
+	@Resource
+	private NERV nerv;
 	
-	private Subscription jmsSubscription = new DefaultSubscription(type, jmsConsumer);
+	@Resource
+	private JmsComponentCreator componentCreator;
+	
+	private NERVConnection jmsConnection;
+	
+	@Resource
+	private NERVConnection nervConnection;
+
+	@Resource
+	private BasicConsumer jmsConsumer;
+	
+	@Resource
+	private Subscription jmsSubscription;
+	
+	@Resource
+	private Component jmsComponent;
 	
 	@Before
 	public void before() {
-		CamelContext context = NERV.instance().getContextProvider().context();
-		String url = "nsp://localhost:9000";
-		UniversalMessagingSupport connectionFactoryProvider = new UniversalMessagingSupport(url );
-		JmsComponentCreator componentCreator = new JmsComponentCreator(connectionFactoryProvider, connectionFactoryProvider);
-		Component component = componentCreator.createComponent(url, null);
-		context.addComponent(JMS_COMPONENT_NAME, component);
+		CamelContext context = nerv.getContextProvider().context();
+		context.addComponent(JMS_COMPONENT_NAME, jmsComponent);
+		jmsConnection = nerv.createChannelConnection(jmsChannelProvider.channel(type));
 	}
 
 	@Test
 	public void test() throws Exception {
-		NERVConnection connection = NERV.instance().getDefaultConnection();
 		BasicConsumer consumer = new PublishNotificationConsumer();
 		String expectedType = PublishNotification.TYPE;
 		Subscription subscription = new DefaultSubscription(expectedType, consumer);
-		connection.subscribe(subscription);
-		jmsConnection.unsubscribe(jmsSubscription);
+		nervConnection.subscribe(subscription);
+		jmsConnection.subscribe(jmsSubscription);
 		try {
 			Event sentEvent = new Event(type, body);
-			connection.publish(sentEvent);
+			nervConnection.publish(sentEvent);
 			validatePublishNotificationEvent(consumer, expectedType, sentEvent);
 			validateJmsEvent();
 		} finally {
-			connection.unsubscribe(subscription);
+			nervConnection.unsubscribe(subscription);
 			jmsConnection.unsubscribe(jmsSubscription);
 		}
 	}
