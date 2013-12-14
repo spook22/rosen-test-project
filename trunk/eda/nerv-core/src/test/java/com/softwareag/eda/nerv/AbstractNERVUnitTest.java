@@ -7,6 +7,9 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.softwareag.eda.nerv.connection.NERVConnection;
 import com.softwareag.eda.nerv.consumer.BasicConsumer;
@@ -16,6 +19,8 @@ import com.softwareag.eda.nerv.help.TestHelper;
 import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
 import com.softwareag.eda.nerv.task.PublishTask;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "classpath:/META-INF/spring/beans.xml", "classpath:/META-INF/spring/camel-context.xml" })
 public class AbstractNERVUnitTest {
 
 	protected String type = "myType";
@@ -50,12 +55,10 @@ public class AbstractNERVUnitTest {
 		pubSub(expectedMessages, consumersCount, threadsCount, timeout, false);
 	}
 
-	protected void pubSub(int expectedMessages, int consumersCount, int threadsCount, int timeout, boolean filter)
-			throws Exception {
+	protected void pubSub(int expectedMessages, int consumersCount, int threadsCount, int timeout, boolean filter) throws Exception {
 		List<BasicConsumer> consumers = new ArrayList<BasicConsumer>();
 		for (int count = 0; count < consumersCount; count++) {
-			BasicConsumer consumer = filter ? new FilteredConsumer(expectedMessages, body) : new BasicConsumer(
-					expectedMessages);
+			BasicConsumer consumer = filter ? new FilteredConsumer(expectedMessages, body) : new BasicConsumer(expectedMessages);
 			connection.subscribe(new DefaultSubscription(type, consumer));
 			consumers.add(consumer);
 		}
