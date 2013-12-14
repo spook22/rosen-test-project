@@ -15,7 +15,7 @@ import com.softwareag.eda.nerv.help.TestHelper;
 import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/META-INF/spring/beans.xml", "classpath:/META-INF/spring/DirectTest-context.xml" })
+@ContextConfiguration(locations = { "classpath:/META-INF/spring/beans.xml", "classpath:/META-INF/spring/camel-context.xml" })
 public class DirectTest {
 
 	private final String type = "DirectTestType";
