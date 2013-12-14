@@ -10,7 +10,7 @@ import com.softwareag.eda.nerv.component.DefaultComponentNameProvider;
 public class JmsChannelProviderUnitTest {
 
 	@Test
-	public void test() {
+	public void testChannel() {
 		String internalType = JmsChannelProvider.INTERNAL_NAMESPACE_PREFIX + "/WebM/Test";
 		String delimiter = JmsChannelProvider.DEFAULT_DELIMITER;
 		ComponentNameProvider componentNameProvider = new DefaultComponentNameProvider("nervDefaultJms");
