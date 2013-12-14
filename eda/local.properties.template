@@ -1,0 +1,3 @@
+#systemProp.http.proxyHost=sofdev01.eur.ad.sag
+#systemProp.http.proxyPort=3128
+#systemProp.http.nonProxyHosts=*.eur.ad.sag|localhost
