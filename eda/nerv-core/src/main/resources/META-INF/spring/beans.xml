@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
-	<camelContext id="nervDefault" trace="false" autoStartup="true" xmlns="http://camel.apache.org/schema/spring">
+	<bean id="traceFormatter"
+		class="org.apache.camel.processor.interceptor.DefaultTraceFormatter">
+		<property name="showBody" value="true" />
+		<property name="showBodyType" value="false" />
+		<property name="showBreadCrumb" value="false" />
+		<property name="maxChars" value="100" />
+	</bean>
+
+	<camelContext id="nervDefault" trace="false" autoStartup="true"
+		xmlns="http://camel.apache.org/schema/spring">
 		<route>
 			<from uri="direct-vm:nerv" />
 			<process ref="headersDecorator" />
@@ -13,7 +23,7 @@
 			</dynamicRouter>
 		</route>
 	</camelContext>
-	
+
 	<bean name="eventIdHeaderDecorator" class="com.softwareag.eda.nerv.event.EventIdHeaderDecorator" />
 	<bean name="startHeaderDecorator" class="com.softwareag.eda.nerv.event.StartHeaderDecorator">
 		<constructor-arg name="decorator" ref="eventIdHeaderDecorator" />
@@ -21,9 +31,10 @@
 	<bean name="headersDecorator" class="com.softwareag.eda.nerv.event.EventHeadersDecorator">
 		<constructor-arg name="decorator" ref="startHeaderDecorator" />
 	</bean>
-	
-	<bean name="channelMapper" class="com.softwareag.eda.nerv.channel.EventTypeToChannelMapper" />
-	
+
+	<bean name="channelMapper"
+		class="com.softwareag.eda.nerv.channel.EventTypeToChannelMapper" />
+
 	<bean name="nervDynamicRouter" class="com.softwareag.eda.nerv.route.NERVDynamicRouter" />
 
 </beans>
