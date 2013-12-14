@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
-	<camelContext id="nervDefault" autoStartup="true" xmlns="http://camel.apache.org/schema/spring">
+	<camelContext id="nervDefault" trace="false" autoStartup="true" xmlns="http://camel.apache.org/schema/spring">
 		<route>
 			<from uri="direct-vm:nerv" />
 			<process ref="headersDecorator" />
