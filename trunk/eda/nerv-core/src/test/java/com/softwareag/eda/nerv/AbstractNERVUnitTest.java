@@ -20,7 +20,7 @@ import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
 import com.softwareag.eda.nerv.task.PublishTask;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/META-INF/spring/beans.xml", "classpath:/META-INF/spring/camel-context.xml" })
+@ContextConfiguration(locations = { "classpath:/META-INF/spring/nerv-core-context.xml", "classpath:/META-INF/spring/nerv-core-test-context.xml" })
 public class AbstractNERVUnitTest {
 
 	protected String type = "myType";
