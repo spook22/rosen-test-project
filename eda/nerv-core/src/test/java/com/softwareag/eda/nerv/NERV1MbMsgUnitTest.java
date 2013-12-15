@@ -4,7 +4,6 @@ import java.io.InputStream;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,12 +47,6 @@ public class NERV1MbMsgUnitTest extends AbstractNERVUnitTest {
 	@Test
 	public void testPubSub10kMsgs() throws Exception {
 		pubSub(10000);
-	}
-
-	@Ignore
-	@Test
-	public void testPubSub10kMsgs10Threads() throws Exception {
-		pubSub(10000, 1, 10);
 	}
 
 	@Test

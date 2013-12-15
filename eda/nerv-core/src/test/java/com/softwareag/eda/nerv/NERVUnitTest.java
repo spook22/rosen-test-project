@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNotNull;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.softwareag.eda.nerv.connection.NERVConnection;
@@ -19,22 +18,10 @@ import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
 import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 
 public class NERVUnitTest extends AbstractNERVUnitTest {
-	
+
 	@Test
 	public void testPubSub10kMsgs2Consumers() throws Exception {
 		pubSub(10000, 2, 1);
-	}
-
-	@Ignore
-	@Test
-	public void testPubSub100kMsgs() throws Exception {
-		pubSub(100000);
-	}
-
-	@Ignore
-	@Test
-	public void testPubSub100kMsgs10Threads() throws Exception {
-		pubSub(100000, 1, 10);
 	}
 
 	@Test
