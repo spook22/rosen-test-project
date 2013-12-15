@@ -30,7 +30,7 @@ public class NERVDefaultRouteBuilder extends RouteBuilder {
 		definition = definition.process(new EventTypeToChannelMapper());
 		definition.setId("nervChannelMapper");
 
-		definition = definition.process(new EventsInterceptor());
+		definition = definition.process(EventsInterceptor.instance());
 		definition.setId("nervEventsInterceptor");
 
 		DynamicRouterDefinition<RouteDefinition> dynamicRouteDefinition = definition.dynamicRouter().method(
