@@ -7,12 +7,9 @@ import javax.annotation.Resource;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.Component;
-import org.apache.camel.Endpoint;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -22,18 +19,13 @@ import com.softwareag.eda.nerv.component.DefaultComponentNameProvider;
 import com.softwareag.eda.nerv.connection.NERVConnection;
 import com.softwareag.eda.nerv.consumer.BasicConsumer;
 import com.softwareag.eda.nerv.event.Event;
-import com.softwareag.eda.nerv.event.PublishNotification;
 import com.softwareag.eda.nerv.help.TestHelper;
 import com.softwareag.eda.nerv.jms.JmsComponentCreator;
-import com.softwareag.eda.nerv.jms.route.JmsRouteCreator;
-import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
 import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:/META-INF/spring/nerv-core-context.xml", "classpath:/META-INF/spring/nerv-jms-context.xml", "classpath:/META-INF/spring/nerv-jms-test-context.xml" })
 public class JmsTest {
-
-	private static final Logger logger = LoggerFactory.getLogger(JmsTest.class);
 	
 	private static final String JMS_COMPONENT_NAME = "nervDefaultJms";
 	
@@ -91,24 +83,6 @@ public class JmsTest {
 		assertEquals(eventsCount, jmsConsumer.getEvents().size());
 		assertEquals(type, jmsConsumer.getEvents().get(0).getType());
 		assertTrue(jmsConsumer.getEvents().get(0).getBody() instanceof String);
-	}
-
-	private class PublishNotificationConsumer extends BasicConsumer {
-
-		private JmsRouteCreator routeCreator = new JmsRouteCreator(NERV.instance().getContextProvider(), componentNameProvider);
-
-		@Override
-		public void consume(Event event) {
-			super.consume(event);
-			logger.debug("Received event: " + event.toString());
-			PublishNotification notification = (PublishNotification) event.getBody();
-			try {
-				routeCreator.onPublish(notification.getOperation(), notification.getChannel(), notification.getEvent());
-			} catch (Exception e) {
-				logger.error(
-						"Cannot process notification. Most probably JMS route creation failed for published event.", e);
-			}
-		}
 	}
 
 }
