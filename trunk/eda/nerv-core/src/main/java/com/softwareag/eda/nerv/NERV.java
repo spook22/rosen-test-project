@@ -55,7 +55,17 @@ public class NERV {
 	private NERV() throws NERVException {
 		contextProvider = new SimpleContextProvider();
 		defaultConnection = getDefaultConnection();
+		startRoutes();
 		logger.info("NERV was successfully initialized.");
+	}
+
+	private void startRoutes() throws NERVException {
+		try {
+			NERVDefaultRouteBuilder routeBuilder = new NERVDefaultRouteBuilder("direct-vm:nerv");
+			contextProvider.context().addRoutes(routeBuilder);
+		} catch (Exception e) {
+			throw new NERVException("Cannot start NERV routes.", e);
+		}
 	}
 
 	public final NERVConnection getDefaultConnection() throws NERVException {
