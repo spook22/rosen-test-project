@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.Component;
+import org.apache.camel.Endpoint;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +30,7 @@ import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
 import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/META-INF/spring/beans.xml", "classpath:/META-INF/spring/jms-beans.xml", "classpath:/META-INF/spring/nerv-jms-test-context.xml" })
+@ContextConfiguration(locations = { "classpath:/META-INF/spring/nerv-core-context.xml", "classpath:/META-INF/spring/nerv-jms-context.xml", "classpath:/META-INF/spring/nerv-jms-test-context.xml" })
 public class JmsTest {
 
 	private static final Logger logger = LoggerFactory.getLogger(JmsTest.class);
@@ -74,18 +75,12 @@ public class JmsTest {
 
 	@Test
 	public void test() throws Exception {
-		BasicConsumer consumer = new PublishNotificationConsumer();
-		String expectedType = PublishNotification.TYPE;
-		Subscription subscription = new DefaultSubscription(expectedType, consumer);
-		nervConnection.subscribe(subscription);
 		jmsConnection.subscribe(jmsSubscription);
 		try {
 			Event sentEvent = new Event(type, body);
 			nervConnection.publish(sentEvent);
-			validatePublishNotificationEvent(consumer, expectedType, sentEvent);
 			validateJmsEvent();
 		} finally {
-			nervConnection.unsubscribe(subscription);
 			jmsConnection.unsubscribe(jmsSubscription);
 		}
 	}
@@ -96,16 +91,6 @@ public class JmsTest {
 		assertEquals(eventsCount, jmsConsumer.getEvents().size());
 		assertEquals(type, jmsConsumer.getEvents().get(0).getType());
 		assertTrue(jmsConsumer.getEvents().get(0).getBody() instanceof String);
-	}
-
-	private void validatePublishNotificationEvent(BasicConsumer consumer, String expectedType, Event sentEvent) {
-		int eventsCount = 1;
-		TestHelper.waitForEvents(consumer, eventsCount, 1000);
-		assertEquals(eventsCount, consumer.getEvents().size());
-		assertEquals(expectedType, consumer.getEvents().get(0).getType());
-		assertTrue(consumer.getEvents().get(0).getBody() instanceof PublishNotification);
-		PublishNotification notification = (PublishNotification) consumer.getEvents().get(0).getBody();
-		assertEquals(sentEvent, notification.getEvent());
 	}
 
 	private class PublishNotificationConsumer extends BasicConsumer {
