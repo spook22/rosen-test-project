@@ -2,9 +2,9 @@ package com.softwareag.eda.nerv.connection;
 
 import org.junit.Test;
 
-import com.softwareag.eda.nerv.SimpleContextProvider;
 import com.softwareag.eda.nerv.channel.StaticChannelProvider;
 import com.softwareag.eda.nerv.component.SpringComponentResolver;
+import com.softwareag.eda.nerv.context.SimpleContextProvider;
 import com.softwareag.eda.nerv.help.TestHelper;
 
 public class VMConnectionUnitTest {
