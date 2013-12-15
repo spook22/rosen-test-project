@@ -11,6 +11,7 @@ import com.softwareag.eda.nerv.component.SpringComponentResolver;
 import com.softwareag.eda.nerv.connection.DefaultConnection;
 import com.softwareag.eda.nerv.connection.NERVConnection;
 import com.softwareag.eda.nerv.connection.VMConnection;
+import com.softwareag.eda.nerv.context.ContextProvider;
 import com.softwareag.eda.nerv.publish.NERVPublisher;
 import com.softwareag.eda.nerv.publish.Publisher;
 import com.softwareag.eda.nerv.subscribe.handler.DefaultSubscriptionHandler;

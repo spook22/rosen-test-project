@@ -14,10 +14,10 @@ import org.apache.camel.impl.DefaultMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.softwareag.eda.nerv.ContextProvider;
 import com.softwareag.eda.nerv.NERVException;
 import com.softwareag.eda.nerv.channel.ChannelProvider;
 import com.softwareag.eda.nerv.component.ComponentResolver;
+import com.softwareag.eda.nerv.context.ContextProvider;
 import com.softwareag.eda.nerv.event.Event;
 
 public class NERVPublisher implements Publisher {

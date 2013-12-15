@@ -1,8 +1,8 @@
 package com.softwareag.eda.nerv.connection;
 
-import com.softwareag.eda.nerv.ContextProvider;
 import com.softwareag.eda.nerv.channel.ChannelProvider;
 import com.softwareag.eda.nerv.component.ComponentResolver;
+import com.softwareag.eda.nerv.context.ContextProvider;
 import com.softwareag.eda.nerv.event.EventDecorator;
 import com.softwareag.eda.nerv.event.EventIdHeaderDecorator;
 import com.softwareag.eda.nerv.event.StartHeaderDecorator;

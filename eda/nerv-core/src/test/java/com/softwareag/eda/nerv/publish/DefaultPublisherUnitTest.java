@@ -11,12 +11,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.softwareag.eda.nerv.ContextProvider;
 import com.softwareag.eda.nerv.SimpleContextProvider;
 import com.softwareag.eda.nerv.channel.ChannelProvider;
 import com.softwareag.eda.nerv.channel.VMChannelProvider;
 import com.softwareag.eda.nerv.component.SpringComponentResolver;
 import com.softwareag.eda.nerv.consumer.BasicConsumer;
+import com.softwareag.eda.nerv.context.ContextProvider;
 import com.softwareag.eda.nerv.event.Event;
 import com.softwareag.eda.nerv.event.EventIdHeaderDecorator;
 import com.softwareag.eda.nerv.event.Header;

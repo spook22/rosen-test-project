@@ -4,8 +4,8 @@ import java.util.Map;
 
 import org.apache.camel.ServiceStatus;
 
-import com.softwareag.eda.nerv.ContextProvider;
 import com.softwareag.eda.nerv.NERVException;
+import com.softwareag.eda.nerv.context.ContextProvider;
 import com.softwareag.eda.nerv.event.Event;
 import com.softwareag.eda.nerv.publish.Publisher;
 import com.softwareag.eda.nerv.subscribe.handler.SubscriptionHandler;

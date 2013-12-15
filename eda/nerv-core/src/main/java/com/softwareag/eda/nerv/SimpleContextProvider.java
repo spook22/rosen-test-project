@@ -7,6 +7,8 @@ import org.apache.camel.spi.CamelContextNameStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.softwareag.eda.nerv.context.ContextProvider;
+
 public class SimpleContextProvider implements ContextProvider {
 
 	private static final Logger logger = LoggerFactory.getLogger(SimpleContextProvider.class);
