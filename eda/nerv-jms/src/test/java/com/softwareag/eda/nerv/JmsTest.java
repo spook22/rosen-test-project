@@ -20,44 +20,39 @@ import com.softwareag.eda.nerv.connection.NERVConnection;
 import com.softwareag.eda.nerv.consumer.BasicConsumer;
 import com.softwareag.eda.nerv.event.Event;
 import com.softwareag.eda.nerv.help.TestHelper;
-import com.softwareag.eda.nerv.jms.JmsComponentCreator;
+import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
 import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/META-INF/spring/nerv-core-context.xml", "classpath:/META-INF/spring/nerv-jms-context.xml", "classpath:/META-INF/spring/nerv-jms-test-context.xml" })
+@ContextConfiguration(locations = { "classpath:/META-INF/spring/nerv-core-context.xml",
+		"classpath:/META-INF/spring/nerv-jms-context.xml", "classpath:/META-INF/spring/nerv-jms-test-context.xml" })
 public class JmsTest {
-	
+
 	private static final String JMS_COMPONENT_NAME = "nervDefaultJms";
-	
+
 	private final ComponentNameProvider componentNameProvider = new DefaultComponentNameProvider(JMS_COMPONENT_NAME);
-	
+
 	private final JmsChannelProvider jmsChannelProvider = new JmsChannelProvider(componentNameProvider);
-	
-	@Resource
-	private String type;
-	
+
+	private final String type = "JmsTestType";
+
 	private final String body = "JmsTestBody";
-	
+
 	@Resource
 	private NERV nerv;
-	
-	@Resource
-	private JmsComponentCreator componentCreator;
-	
-	private NERVConnection jmsConnection;
-	
+
 	@Resource
 	private NERVConnection nervConnection;
 
 	@Resource
-	private BasicConsumer jmsConsumer;
-	
-	@Resource
-	private Subscription jmsSubscription;
-	
-	@Resource
 	private Component jmsComponent;
-	
+
+	private NERVConnection jmsConnection;
+
+	private final BasicConsumer jmsConsumer = new BasicConsumer();
+
+	private final Subscription jmsSubscription = new DefaultSubscription(type, jmsConsumer);
+
 	@Before
 	public void before() {
 		CamelContext context = nerv.getContextProvider().context();
@@ -76,7 +71,7 @@ public class JmsTest {
 			jmsConnection.unsubscribe(jmsSubscription);
 		}
 	}
-	
+
 	private void validateJmsEvent() {
 		int eventsCount = 1;
 		TestHelper.waitForEvents(jmsConsumer, eventsCount, 10000);
