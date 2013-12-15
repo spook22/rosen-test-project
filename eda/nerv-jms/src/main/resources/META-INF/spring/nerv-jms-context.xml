@@ -2,7 +2,22 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+	
+	<bean name="nervDefaultContextProvider" class="com.softwareag.eda.nerv.SimpleContextProvider">
+		<constructor-arg name="context" ref="nervDefaultContext" />
+	</bean>
+	
+	<bean name="jmsComponentNameProvider" class="com.softwareag.eda.nerv.component.DefaultComponentNameProvider">
+		<constructor-arg name="componentName" value="nervDefaultJms" />
+	</bean>
+	
+	<bean name="jmsRouteCreator" class="com.softwareag.eda.nerv.jms.route.JmsRouteCreator">
+		<constructor-arg name="contextProvider" ref="nervDefaultContextProvider" />
+		<constructor-arg name="componentNameProvider" ref="jmsComponentNameProvider" />
+	</bean>
 
-	<bean name="jmsSupportInterceptor" class="com.softwareag.eda.nerv.jms.intercept.JmsSupportInterceptor" />
+	<bean name="jmsSupportInterceptor" class="com.softwareag.eda.nerv.jms.intercept.JmsSupportInterceptor">
+		<constructor-arg name="routeCreator" ref="jmsRouteCreator" />
+	</bean>
 
 </beans>
