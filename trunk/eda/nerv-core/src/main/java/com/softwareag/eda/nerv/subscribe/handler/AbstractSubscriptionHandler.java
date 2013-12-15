@@ -11,10 +11,10 @@ import org.apache.camel.CamelContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.softwareag.eda.nerv.ContextProvider;
 import com.softwareag.eda.nerv.NERVException;
 import com.softwareag.eda.nerv.channel.ChannelProvider;
 import com.softwareag.eda.nerv.consume.Consumer;
+import com.softwareag.eda.nerv.context.ContextProvider;
 import com.softwareag.eda.nerv.subscribe.route.AbstractRoute;
 import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 

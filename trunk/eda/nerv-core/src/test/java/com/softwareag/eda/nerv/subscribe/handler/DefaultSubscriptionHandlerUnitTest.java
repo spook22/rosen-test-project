@@ -4,12 +4,12 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import com.softwareag.eda.nerv.ContextProvider;
 import com.softwareag.eda.nerv.SimpleContextProvider;
 import com.softwareag.eda.nerv.channel.ChannelProvider;
 import com.softwareag.eda.nerv.channel.VMChannelProvider;
 import com.softwareag.eda.nerv.component.SpringComponentResolver;
 import com.softwareag.eda.nerv.consumer.BasicConsumer;
+import com.softwareag.eda.nerv.context.ContextProvider;
 import com.softwareag.eda.nerv.help.TestHelper;
 import com.softwareag.eda.nerv.publish.DefaultPublisher;
 import com.softwareag.eda.nerv.publish.Publisher;

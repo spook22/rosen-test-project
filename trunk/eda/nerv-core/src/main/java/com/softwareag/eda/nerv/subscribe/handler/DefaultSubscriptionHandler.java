@@ -2,9 +2,9 @@ package com.softwareag.eda.nerv.subscribe.handler;
 
 import java.util.Set;
 
-import com.softwareag.eda.nerv.ContextProvider;
 import com.softwareag.eda.nerv.channel.ChannelProvider;
 import com.softwareag.eda.nerv.consume.Consumer;
+import com.softwareag.eda.nerv.context.ContextProvider;
 import com.softwareag.eda.nerv.subscribe.DefaultEventProcessor;
 import com.softwareag.eda.nerv.subscribe.route.DefaultSubscriptionRoute;
 

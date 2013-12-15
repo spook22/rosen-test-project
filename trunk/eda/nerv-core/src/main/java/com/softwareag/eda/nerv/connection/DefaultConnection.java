@@ -1,6 +1,6 @@
 package com.softwareag.eda.nerv.connection;
 
-import com.softwareag.eda.nerv.ContextProvider;
+import com.softwareag.eda.nerv.context.ContextProvider;
 import com.softwareag.eda.nerv.publish.Publisher;
 import com.softwareag.eda.nerv.subscribe.handler.SubscriptionHandler;
 
