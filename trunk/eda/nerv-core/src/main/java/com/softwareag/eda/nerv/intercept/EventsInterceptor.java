@@ -1,10 +1,12 @@
-package com.softwareag.eda.nerv;
+package com.softwareag.eda.nerv.intercept;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+
+import com.softwareag.eda.nerv.NERV;
 
 public class EventsInterceptor implements Processor {
 

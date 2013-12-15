@@ -3,10 +3,6 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
-	<camelContext id="nervJms" trace="false" autoStartup="true" xmlns="http://camel.apache.org/schema/spring">
-		<interceptFrom uri="direct-vm:nerv">
-			<to uri="stream:out" />
-		</interceptFrom>
-	</camelContext>
+	<bean name="jmsSupportInterceptor" class="com.softwareag.eda.nerv.jms.intercept.JmsSupportInterceptor" />
 
 </beans>
