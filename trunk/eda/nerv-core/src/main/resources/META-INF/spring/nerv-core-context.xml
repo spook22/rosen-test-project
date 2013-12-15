@@ -10,14 +10,14 @@
 		<property name="maxChars" value="100" />
 	</bean>
 
-	<camelContext id="nervDefault" trace="false" autoStartup="true" xmlns="http://camel.apache.org/schema/spring">
-		<route>
-			<from uri="direct-vm:nerv" />
-			<process ref="headersDecorator" />
-			<process ref="channelMapper" />
-			<process ref="nervEventsInterceptor" />
+	<camelContext id="nervDefaultContext" trace="false" autoStartup="true" xmlns="http://camel.apache.org/schema/spring">
+		<route id="nervDefaultRoute">
+			<from id="nervDirectVm" uri="direct-vm:nerv" />
+			<process id="nervHeadersDecorator" ref="nervHeadersDecorator" />
+			<process id="nervChannelMapper" ref="nervChannelMapper" />
+			<process id="nervEventsInterceptor" ref="nervEventsInterceptor" />
 			<dynamicRouter>
-				<method ref="nervDynamicRouter" />
+				<method id="nervDynamicRouter" ref="nervDynamicRouter" />
 			</dynamicRouter>
 		</route>
 	</camelContext>
@@ -28,11 +28,11 @@
 		<constructor-arg name="decorator" ref="eventIdHeaderDecorator" />
 	</bean>
 	
-	<bean name="headersDecorator" class="com.softwareag.eda.nerv.event.EventHeadersDecorator">
+	<bean name="nervHeadersDecorator" class="com.softwareag.eda.nerv.event.EventHeadersDecorator">
 		<constructor-arg name="decorator" ref="startHeaderDecorator" />
 	</bean>
 
-	<bean name="channelMapper" class="com.softwareag.eda.nerv.channel.EventTypeToChannelMapper" />
+	<bean name="nervChannelMapper" class="com.softwareag.eda.nerv.channel.EventTypeToChannelMapper" />
 
 	<bean name="nervDynamicRouter" class="com.softwareag.eda.nerv.route.NERVDynamicRouter" />
 		
