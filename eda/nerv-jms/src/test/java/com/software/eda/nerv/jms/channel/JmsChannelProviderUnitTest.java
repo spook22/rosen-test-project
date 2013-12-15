@@ -1,4 +1,4 @@
-package com.software.eda.nerv.channel;
+package com.software.eda.nerv.jms.channel;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;

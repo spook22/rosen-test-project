@@ -1,4 +1,4 @@
-package com.softwareag.eda.nerv;
+package com.softwareag.eda.nerv.jms;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.softwareag.eda.nerv.NERV;
 import com.softwareag.eda.nerv.component.ComponentNameProvider;
 import com.softwareag.eda.nerv.component.DefaultComponentNameProvider;
 import com.softwareag.eda.nerv.connection.NERVConnection;
