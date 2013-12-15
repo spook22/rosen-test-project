@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.softwareag.eda.nerv.NERVException;
-import com.softwareag.eda.nerv.channel.JmsChannelProvider;
 import com.softwareag.eda.nerv.component.ComponentNameProvider;
 import com.softwareag.eda.nerv.context.ContextProvider;
+import com.softwareag.eda.nerv.jms.channel.JmsChannelProvider;
 import com.softwareag.eda.nerv.jmx.JmxHelper;
 import com.softwareag.eda.nerv.route.RouteCreator;
 

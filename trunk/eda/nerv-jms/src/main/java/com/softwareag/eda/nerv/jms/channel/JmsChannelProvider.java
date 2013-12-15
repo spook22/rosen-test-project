@@ -1,9 +1,10 @@
-package com.softwareag.eda.nerv.channel;
+package com.softwareag.eda.nerv.jms.channel;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.softwareag.eda.nerv.channel.ChannelProvider;
 import com.softwareag.eda.nerv.component.ComponentNameProvider;
 
 public class JmsChannelProvider implements ChannelProvider {
