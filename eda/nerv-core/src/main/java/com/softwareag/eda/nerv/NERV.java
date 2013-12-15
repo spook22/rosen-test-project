@@ -60,10 +60,12 @@ public class NERV {
 
 	public final NERVConnection getDefaultConnection() throws NERVException {
 		if (defaultConnection == null) {
-			if (Boolean.TRUE.toString().equals(System.getProperty(PROP_CREATE_DEFAULT_CONNECTION, Boolean.TRUE.toString()))) {
+			if (Boolean.TRUE.toString().equals(
+					System.getProperty(PROP_CREATE_DEFAULT_CONNECTION, Boolean.TRUE.toString()))) {
 				createDefaultConnection();
 			} else {
-				throw new NERVException("Default connection has not been set. Make sure NERV has been properly initialized.");
+				throw new NERVException(
+						"Default connection has not been set. Make sure NERV has been properly initialized.");
 			}
 		}
 		return defaultConnection;
@@ -76,8 +78,10 @@ public class NERV {
 
 	private synchronized void createDefaultConnection() {
 		if (defaultConnection == null) {
-			Publisher publisher = new NERVPublisher(getContextProvider(), new StaticChannelProvider("direct-vm:nerv"), new SpringComponentResolver());
-			SubscriptionHandler subscriptionHandler = new DefaultSubscriptionHandler(getContextProvider(), getChannelProvider());
+			Publisher publisher = new NERVPublisher(getContextProvider(), new StaticChannelProvider("direct-vm:nerv"),
+					new SpringComponentResolver());
+			SubscriptionHandler subscriptionHandler = new DefaultSubscriptionHandler(getContextProvider(),
+					getChannelProvider());
 			setDefaultConnection(new DefaultConnection(getContextProvider(), publisher, subscriptionHandler));
 		}
 	}
@@ -100,7 +104,7 @@ public class NERV {
 		return new VMConnection(getContextProvider(), new StaticChannelProvider(channel), new SpringComponentResolver());
 	}
 
-	protected ContextProvider getContextProvider() {
+	public ContextProvider getContextProvider() {
 		return contextProvider;
 	}
 

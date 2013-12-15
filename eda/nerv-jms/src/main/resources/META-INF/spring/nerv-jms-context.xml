@@ -3,9 +3,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 	
-	<bean name="nervDefaultContextProvider" class="com.softwareag.eda.nerv.SimpleContextProvider">
-		<constructor-arg name="context" ref="nervDefaultContext" />
-	</bean>
+    <bean name="nerv" class="com.softwareag.eda.nerv.NERV" factory-method="instance" />
+	
+	<bean name="nervDefaultContextProvider" factory-bean="nerv" factory-method="getContextProvider" />
 	
 	<bean name="jmsComponentNameProvider" class="com.softwareag.eda.nerv.component.DefaultComponentNameProvider">
 		<constructor-arg name="componentName" value="nervDefaultJms" />
@@ -39,7 +39,5 @@
 			<null />
 		</constructor-arg>
 	</bean>
-	
-    <bean name="nerv" class="com.softwareag.eda.nerv.NERV" factory-method="instance" />
 
 </beans>
