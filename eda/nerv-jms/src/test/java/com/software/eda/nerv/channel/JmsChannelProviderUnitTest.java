@@ -3,9 +3,9 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import com.softwareag.eda.nerv.channel.JmsChannelProvider;
 import com.softwareag.eda.nerv.component.ComponentNameProvider;
 import com.softwareag.eda.nerv.component.DefaultComponentNameProvider;
+import com.softwareag.eda.nerv.jms.channel.JmsChannelProvider;
 
 public class JmsChannelProviderUnitTest {
 
