@@ -15,6 +15,7 @@
 			<from uri="direct-vm:nerv" />
 			<process ref="headersDecorator" />
 			<process ref="channelMapper" />
+			<process ref="nervEventsInterceptor" />
 			<dynamicRouter>
 				<method ref="nervDynamicRouter" />
 			</dynamicRouter>
@@ -22,9 +23,11 @@
 	</camelContext>
 
 	<bean name="eventIdHeaderDecorator" class="com.softwareag.eda.nerv.event.EventIdHeaderDecorator" />
+	
 	<bean name="startHeaderDecorator" class="com.softwareag.eda.nerv.event.StartHeaderDecorator">
 		<constructor-arg name="decorator" ref="eventIdHeaderDecorator" />
 	</bean>
+	
 	<bean name="headersDecorator" class="com.softwareag.eda.nerv.event.EventHeadersDecorator">
 		<constructor-arg name="decorator" ref="startHeaderDecorator" />
 	</bean>
@@ -32,5 +35,7 @@
 	<bean name="channelMapper" class="com.softwareag.eda.nerv.channel.EventTypeToChannelMapper" />
 
 	<bean name="nervDynamicRouter" class="com.softwareag.eda.nerv.route.NERVDynamicRouter" />
+		
+    <bean name="nervEventsInterceptor" class="com.softwareag.eda.nerv.intercept.EventsInterceptor" factory-method="instance" />
 
 </beans>
