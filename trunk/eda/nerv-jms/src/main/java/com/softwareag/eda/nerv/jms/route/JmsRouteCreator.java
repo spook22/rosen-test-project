@@ -14,8 +14,9 @@ import com.softwareag.eda.nerv.component.ComponentNameProvider;
 import com.softwareag.eda.nerv.event.Event;
 import com.softwareag.eda.nerv.jmx.JmxHelper;
 import com.softwareag.eda.nerv.publish.EventPublishListener;
+import com.softwareag.eda.nerv.route.RouteCreator;
 
-public class JmsRouteCreator implements EventPublishListener {
+public class JmsRouteCreator implements RouteCreator, EventPublishListener {
 	
 	private static final Logger logger = LoggerFactory.getLogger(JmsRouteCreator.class);
 
@@ -57,12 +58,13 @@ public class JmsRouteCreator implements EventPublishListener {
 		}
 	}
 
-	private void createRoute(String channel, String eventType) throws NERVException {
+	@Override
+	public void createRoute(String from, String eventType) throws NERVException {
 		String jmsChannel = jmsChannelProvider.channel(eventType);
 		if (logger.isInfoEnabled()) {
-			logger.info(String.format("Creating JMS route for event type %s from channel %s to JMS channel %s.", eventType, channel, jmsChannel));
+			logger.info(String.format("Creating JMS route for event type %s from channel %s to JMS channel %s.", eventType, from, jmsChannel));
 		}
-		JmsRouteBuilder builder = new JmsRouteBuilder(channel, jmsChannel);
+		JmsRouteBuilder builder = new JmsRouteBuilder(from, jmsChannel);
 		try {
 			contextProvider.context().addRoutes(builder);
 		} catch (Exception e) {
