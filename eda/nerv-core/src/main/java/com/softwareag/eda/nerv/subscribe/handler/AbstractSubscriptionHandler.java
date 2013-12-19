@@ -19,7 +19,7 @@ import com.softwareag.eda.nerv.subscribe.route.AbstractRoute;
 import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 
 public abstract class AbstractSubscriptionHandler<T extends AbstractRoute> implements SubscriptionHandler {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(AbstractSubscriptionHandler.class);
 
 	protected final Map<String, Set<T>> subscriptions = Collections.synchronizedMap(new HashMap<String, Set<T>>());
@@ -76,9 +76,7 @@ public abstract class AbstractSubscriptionHandler<T extends AbstractRoute> imple
 		Consumer consumer = subscription.consumer();
 		T route = findRoute(channel, consumer);
 		if (route == null) {
-			if (logger.isInfoEnabled()) {
-				logger.info(String.format("Creating subscription for channel %s.", channel));
-			}
+			logger.info(String.format("Creating subscription for channel %s.", channel));
 			route = createSubscripion(channel, consumer);
 			addSubscription(route);
 			try {
