@@ -36,11 +36,21 @@ public class EventUnitTest {
 
 	@Test(expected = NERVException.class)
 	public void testEventMissingType() {
-		new Event(new HashMap<String, Object>(), "test");
+		new Event((String) null, body);
 	}
 
 	@Test(expected = NERVException.class)
 	public void testEventMissingBody() {
+		new Event(type, null);
+	}
+
+	@Test(expected = NERVException.class)
+	public void testEventMapMissingType() {
+		new Event(new HashMap<String, Object>(), "test");
+	}
+
+	@Test(expected = NERVException.class)
+	public void testEventMapMissingBody() {
 		Map<String, Object> headers = new HashMap<>();
 		headers.put(Header.TYPE.getName(), type);
 		new Event(headers, null);
