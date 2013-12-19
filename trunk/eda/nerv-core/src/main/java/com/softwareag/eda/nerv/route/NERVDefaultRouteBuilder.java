@@ -1,4 +1,4 @@
-package com.softwareag.eda.nerv;
+package com.softwareag.eda.nerv.route;
 
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.DynamicRouterDefinition;
@@ -9,7 +9,6 @@ import com.softwareag.eda.nerv.event.EventHeadersDecorator;
 import com.softwareag.eda.nerv.event.EventIdHeaderDecorator;
 import com.softwareag.eda.nerv.event.StartHeaderDecorator;
 import com.softwareag.eda.nerv.intercept.EventsInterceptor;
-import com.softwareag.eda.nerv.route.NERVDynamicRouter;
 
 public class NERVDefaultRouteBuilder extends RouteBuilder {
 
