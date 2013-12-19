@@ -14,6 +14,12 @@ public class Event {
 	private final Object body;
 
 	public Event(String type, Object body) {
+		if (type == null) {
+			throw new NERVException("Event type is missing.");
+		}
+		if (body == null) {
+			throw new NERVException("Event body is missing.");
+		}
 		this.headers.put(Header.TYPE.getName(), type);
 		this.body = body;
 	}
