@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.apache.camel.util.CaseInsensitiveMap;
 
+import com.softwareag.eda.nerv.NERVException;
+
 public class Event {
 
 	private final Map<String, Object> headers = new CaseInsensitiveMap();
@@ -16,7 +18,16 @@ public class Event {
 		this.body = body;
 	}
 
-	public Event(Map<String, Object> headers, Object body) {
+	public Event(Map<String, Object> headers, Object body) throws NERVException {
+		if (headers == null) {
+			throw new NERVException("Headers cannot be null. The type header is mandatory.");
+		}
+		if (headers.get(Header.TYPE.getName()) == null) {
+			throw new NERVException("Event type is missing.");
+		}
+		if (body == null) {
+			throw new NERVException("Event body is missing.");
+		}
 		this.headers.putAll(headers);
 		this.body = body;
 	}
