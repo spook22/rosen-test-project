@@ -13,9 +13,4 @@ public class DefaultComponentNameProvider implements ComponentNameProvider {
 		return componentName;
 	}
 
-	@Override
-	public String toString() {
-		return componentName();
-	}
-
 }
