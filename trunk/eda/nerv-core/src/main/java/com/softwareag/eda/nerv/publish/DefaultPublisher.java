@@ -1,8 +1,6 @@
 package com.softwareag.eda.nerv.publish;
 
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.camel.CamelContext;
@@ -18,19 +16,14 @@ import org.slf4j.LoggerFactory;
 
 import com.softwareag.eda.nerv.NERVException;
 import com.softwareag.eda.nerv.channel.ChannelProvider;
-import com.softwareag.eda.nerv.channel.VMChannelProvider;
 import com.softwareag.eda.nerv.component.ComponentResolver;
 import com.softwareag.eda.nerv.context.ContextProvider;
 import com.softwareag.eda.nerv.event.Event;
 import com.softwareag.eda.nerv.event.EventDecorator;
-import com.softwareag.eda.nerv.event.PublishNotification;
-import com.softwareag.eda.nerv.publish.EventPublishListener.PublishOperation;
 
 public class DefaultPublisher implements Publisher {
 
 	private static final Logger logger = LoggerFactory.getLogger(DefaultPublisher.class);
-
-	private final ChannelProvider internalProvider = new VMChannelProvider();
 
 	private final ContextProvider contextProvider;
 
@@ -41,8 +34,6 @@ public class DefaultPublisher implements Publisher {
 	private EventDecorator decorator;
 
 	private final ConcurrentHashMap<String, Producer> producersCache = new ConcurrentHashMap<String, Producer>();
-
-	private final Set<EventPublishListener> eventPublishListeners = new HashSet<EventPublishListener>();
 
 	public DefaultPublisher(ContextProvider contextProvider, ChannelProvider channelProvider, ComponentResolver componentResolver) {
 		this(contextProvider, channelProvider, componentResolver, null);
@@ -80,41 +71,7 @@ public class DefaultPublisher implements Publisher {
 		if (decorator != null) {
 			decorator.decorate(event);
 		}
-		String channel = channelProvider.channel(event.getType());
-		notifyListeners(PublishOperation.PRE_PUBLISH, channel, event);
-		publishNotification(channel, event);
-		send(channel, event);
-		notifyListeners(PublishOperation.POST_PUBLISH, channel, event);
-	}
-
-	private void publishNotification(String channel, Event event) {
-		try {
-			if (logger.isDebugEnabled()) {
-				logger.debug(String.format("Publishing internal notification."));
-			}
-			Event internalEvent = createNotificationEvent(PublishOperation.PRE_PUBLISH, channel, event);
-			send(internalProvider.channel(internalEvent.getType()), internalEvent);
-		} catch (Exception e) {
-			logger.error("Could not publish notification.", e);
-		}
-	}
-
-	private Event createNotificationEvent(PublishOperation operation, String channel, Event event) {
-		return new Event(PublishNotification.TYPE, new PublishNotification(operation, channel, event));
-	}
-
-	public void registerEventPublishListner(EventPublishListener listener) {
-		eventPublishListeners.add(listener);
-	}
-
-	public void unregisterEventPublishListner(EventPublishListener listener) {
-		eventPublishListeners.add(listener);
-	}
-
-	private void notifyListeners(PublishOperation operation, String channel, Event event) {
-		for (EventPublishListener eventPublishListener : eventPublishListeners) {
-			eventPublishListener.onPublish(operation, channel, event);
-		}
+		send(channelProvider.channel(event.getType()), event);
 	}
 
 	private Producer getProducer(String uri) throws Exception {
