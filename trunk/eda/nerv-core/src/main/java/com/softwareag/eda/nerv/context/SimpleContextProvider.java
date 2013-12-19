@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 
 public class SimpleContextProvider implements ContextProvider {
 
+	public static final String NAME_TEMPLATE = "com.softwareag.eda.nerv.default.context";
+
 	private static final Logger logger = LoggerFactory.getLogger(SimpleContextProvider.class);
 
 	private final CamelContext context;
@@ -26,7 +28,7 @@ public class SimpleContextProvider implements ContextProvider {
 
 	private CamelContext createContext() {
 		CamelContext context = new DefaultCamelContext();
-		CamelContextNameStrategy nameStrategy = new DefaultCamelContextNameStrategy("com.softwareag.eda.nerv.default.context");
+		CamelContextNameStrategy nameStrategy = new DefaultCamelContextNameStrategy(NAME_TEMPLATE);
 		context.setNameStrategy(nameStrategy);
 		context.getShutdownStrategy().setShutdownNowOnTimeout(true);
 		return context;
