@@ -14,18 +14,6 @@ public class EventTypeToChannelMapper implements Processor {
 
 	private final ChannelProvider channelProvider = new VMChannelProvider();
 
-	public String getTypeHeader() {
-		return typeHeader;
-	}
-
-	public String getChannelHeader() {
-		return channelHeader;
-	}
-
-	public ChannelProvider getChannelProvider() {
-		return channelProvider;
-	}
-
 	@Override
 	public void process(Exchange exchange) throws Exception {
 		Message in = exchange.getIn();
