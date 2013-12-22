@@ -25,7 +25,7 @@ import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
 import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/META-INF/spring/nerv-jms-test-context.xml" })
+@ContextConfiguration
 public class JmsTest {
 
 	private static final String JMS_COMPONENT_NAME = "nervDefaultJms";
