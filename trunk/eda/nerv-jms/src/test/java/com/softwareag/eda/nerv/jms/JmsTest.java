@@ -5,8 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import javax.annotation.Resource;
 
-import org.apache.camel.CamelContext;
-import org.apache.camel.Component;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,9 +42,6 @@ public class JmsTest {
 	@Resource
 	private NERVConnection nervConnection;
 
-	@Resource
-	private Component jmsComponent;
-
 	private NERVConnection jmsConnection;
 
 	private final BasicConsumer jmsConsumer = new BasicConsumer();
@@ -55,8 +50,6 @@ public class JmsTest {
 
 	@Before
 	public void before() {
-		CamelContext context = nerv.getContextProvider().context();
-		context.addComponent(JMS_COMPONENT_NAME, jmsComponent);
 		jmsConnection = nerv.createChannelConnection(jmsChannelProvider.channel(type));
 	}
 
