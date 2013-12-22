@@ -6,8 +6,7 @@ dependencies {
 	)
 	compile fileTree(dir: 'libs', include: '**/*.jar')
 	testCompile(
-		project(':nerv-core').sourceSets.test.output,
+		"junit:junit:$junitVersion",
 		"org.springframework:spring-test:$springVersion",
-		'junit:junit:4.11',
 	)
 }
