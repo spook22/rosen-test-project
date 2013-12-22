@@ -7,5 +7,42 @@
             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
    
     <bean name="nervConnection" factory-bean="nerv" factory-method="getDefaultConnection" />
+	
+    <bean name="nerv" class="com.softwareag.eda.nerv.NERV" factory-method="instance" />
+	
+	<bean name="nervDefaultContextProvider" factory-bean="nerv" factory-method="getContextProvider" />
+	
+	<bean name="jmsComponentNameProvider" class="com.softwareag.eda.nerv.component.DefaultComponentNameProvider">
+		<constructor-arg name="componentName" value="nervDefaultJms" />
+	</bean>
+	
+	<bean name="jmsRouteCreator" class="com.softwareag.eda.nerv.jms.route.JmsRouteCreator">
+		<constructor-arg name="contextProvider" ref="nervDefaultContextProvider" />
+		<constructor-arg name="componentNameProvider" ref="jmsComponentNameProvider" />
+	</bean>
+
+	<bean name="jmsSupportInterceptor" class="com.softwareag.eda.nerv.jms.intercept.JmsSupportInterceptor">
+		<constructor-arg name="routeCreator" ref="jmsRouteCreator" />
+	</bean>
+
+	<bean name="jmsProviderUrl" class="java.lang.String">
+		<constructor-arg index="0" value="nsp://localhost:9000" />
+	</bean>
+
+	<bean name="umSupport" class="com.softwareag.eda.nerv.jms.support.UniversalMessagingSupport">
+		<constructor-arg name="providerUrl" ref="jmsProviderUrl" />
+	</bean>
+
+	<bean name="jmsComponentCreator" class="com.softwareag.eda.nerv.jms.JmsComponentCreator">
+		<constructor-arg name="connectionFactoryProvider" ref="umSupport" />
+		<constructor-arg name="destinationResolver" ref="umSupport" />
+	</bean>
+
+	<bean name="jmsComponent" factory-bean="jmsComponentCreator" factory-method="createComponent">
+		<constructor-arg index="0" value="nsp://localhost:9000" />
+		<constructor-arg index="1">
+			<null />
+		</constructor-arg>
+	</bean>
 
 </beans>
