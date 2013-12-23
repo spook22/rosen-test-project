@@ -8,6 +8,7 @@ import com.softwareag.eda.nerv.component.DefaultComponentNameProvider;
 import com.softwareag.eda.nerv.jms.intercept.JmsSupportInterceptor;
 import com.softwareag.eda.nerv.jms.route.JmsRouteCreator;
 import com.softwareag.eda.nerv.jms.support.UniversalMessagingSupport;
+import com.softwareag.eda.nerv.properties.NERVPropertiesProvider;
 
 public class JmsSupport {
 
@@ -17,8 +18,10 @@ public class JmsSupport {
 
 	public JmsSupport() {
 		super();
-		String jmsComponentName = "nervDefaultJms";
-		String providerUrl = "nsp://localhost:9000";
+		String jmsComponentName = NERVPropertiesProvider.instance().getProperty(
+				NERVPropertiesProvider.DEFAULT_JMS_COMPONENT_NAME);
+		String providerUrl = NERVPropertiesProvider.instance().getProperty(
+				NERVPropertiesProvider.DEFAULT_JMS_PROVIDER_URL);
 		NERV nerv = NERV.instance();
 
 		ComponentNameProvider componentNameProvider = new DefaultComponentNameProvider(jmsComponentName);
