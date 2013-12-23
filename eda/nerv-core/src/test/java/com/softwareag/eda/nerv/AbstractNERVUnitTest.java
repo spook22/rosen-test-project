@@ -59,7 +59,7 @@ public class AbstractNERVUnitTest {
 			connection.subscribe(new DefaultSubscription(type, consumer));
 			consumers.add(consumer);
 		}
-		Thread.sleep(500);
+		Thread.sleep(100);
 		int msgsPerThread = expectedMessages / threadsCount;
 		for (int count = 0; count < threadsCount; count++) {
 			new Thread(new PublishTask(type, body, msgsPerThread)).start();
