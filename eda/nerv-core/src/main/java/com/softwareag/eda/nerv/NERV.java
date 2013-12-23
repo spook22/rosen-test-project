@@ -106,7 +106,7 @@ public class NERV {
 		defaultConnection = connection;
 	}
 
-	public final synchronized void close() {
+	protected final synchronized void close() {
 		if (defaultConnection != null) {
 			defaultConnection.close();
 			defaultConnection = null;
