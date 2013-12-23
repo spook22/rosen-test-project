@@ -2,6 +2,7 @@ package com.softwareag.eda.nerv;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +13,6 @@ import com.softwareag.eda.nerv.connection.NERVConnection;
 import com.softwareag.eda.nerv.consumer.BasicConsumer;
 import com.softwareag.eda.nerv.event.Event;
 import com.softwareag.eda.nerv.event.Header;
-import com.softwareag.eda.nerv.help.SystemPropertyChanger;
 import com.softwareag.eda.nerv.help.TestHelper;
 import com.softwareag.eda.nerv.subscribe.subscription.DefaultSubscription;
 import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
@@ -57,33 +57,14 @@ public class NERVUnitTest extends AbstractNERVUnitTest {
 		}
 	}
 
-	private static SystemPropertyChanger propertyChanger = new SystemPropertyChanger(
-			NERV.PROP_CREATE_DEFAULT_CONNECTION);
-
 	@Test
 	public void testGetDefaultConnection() throws Exception {
-		propertyChanger.change(Boolean.TRUE.toString());
-		try {
-			NERVConnection connection = NERV.instance().getDefaultConnection();
-			assertNotNull(connection);
-			TestHelper.testConnection(connection, null, 5);
-			connection = NERV.instance().getDefaultConnection();
-			assertNotNull(connection);
-			TestHelper.testConnection(connection, null, 5);
-		} finally {
-			propertyChanger.revert();
-		}
-	}
-
-	@Test(expected = NERVException.class)
-	public void testGetDefaultConnectionNotInitialized() throws Exception {
-		propertyChanger.change(Boolean.FALSE.toString());
-		try {
-			NERV.instance().close();
-			NERV.instance().getDefaultConnection();
-		} finally {
-			propertyChanger.revert();
-		}
+		NERVConnection connection = NERV.instance().getDefaultConnection();
+		assertNotNull(connection);
+		TestHelper.testConnection(connection, null, 5);
+		connection = NERV.instance().getDefaultConnection();
+		assertNotNull(connection);
+		TestHelper.testConnection(connection, null, 5);
 	}
 
 	@Test(expected = NERVException.class)
@@ -92,22 +73,11 @@ public class NERVUnitTest extends AbstractNERVUnitTest {
 		NERV.instance().setDefaultConnection(null);
 	}
 
-	@Test(expected = NERVException.class)
 	public void testDestroyDefaultConnection() {
-		propertyChanger.change(Boolean.TRUE.toString());
-		try {
-			NERVConnection connection = NERV.instance().getDefaultConnection();
-			assertNotNull(connection);
-		} finally {
-			propertyChanger.revert();
-		}
-		propertyChanger.change(Boolean.FALSE.toString());
-		try {
-			NERV.instance().close();
-			NERV.instance().getDefaultConnection();
-		} finally {
-			propertyChanger.revert();
-		}
+		NERVConnection connection = NERV.instance().getDefaultConnection();
+		assertNotNull(connection);
+		NERV.instance().close();
+		assertNull(NERV.instance().defaultConnection);
 	}
 
 	@Test
