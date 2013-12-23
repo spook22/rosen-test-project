@@ -1,11 +1,11 @@
 package com.softwareag.eda.nerv.jms.channel;
+
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
 import com.softwareag.eda.nerv.component.ComponentNameProvider;
 import com.softwareag.eda.nerv.component.DefaultComponentNameProvider;
-import com.softwareag.eda.nerv.jms.channel.JmsChannelProvider;
 
 public class JmsChannelProviderUnitTest {
 
@@ -15,7 +15,8 @@ public class JmsChannelProviderUnitTest {
 		String delimiter = JmsChannelProvider.DEFAULT_DELIMITER;
 		ComponentNameProvider componentNameProvider = new DefaultComponentNameProvider("nervDefaultJms");
 		JmsChannelProvider provider = new JmsChannelProvider(componentNameProvider);
-		String expectedChannel = componentNameProvider + ":topic:" + "Event" + delimiter + "WebM" + delimiter + "Test";
+		String expectedChannel = componentNameProvider.componentName() + ":topic:" + "Event" + delimiter + "WebM"
+				+ delimiter + "Test";
 		String channel = provider.channel(internalType);
 		assertEquals(expectedChannel, channel);
 	}
