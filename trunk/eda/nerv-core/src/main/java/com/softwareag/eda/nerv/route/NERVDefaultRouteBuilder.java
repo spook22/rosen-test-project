@@ -1,8 +1,6 @@
 package com.softwareag.eda.nerv.route;
 
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.model.DynamicRouterDefinition;
-import org.apache.camel.model.RouteDefinition;
 
 import com.softwareag.eda.nerv.channel.EventTypeToChannelMapper;
 import com.softwareag.eda.nerv.event.EventHeadersDecorator;
@@ -20,22 +18,15 @@ public class NERVDefaultRouteBuilder extends RouteBuilder {
 
 	@Override
 	public void configure() throws Exception {
-		RouteDefinition definition = from(fromEndpoint).routeId("nervDefaultRoute");
-		EventHeadersDecorator eventHeadersProcessor = new EventHeadersDecorator(new StartHeaderDecorator(
-				new EventIdHeaderDecorator()));
-		definition = definition.process(eventHeadersProcessor);
-		definition.setId("nervHeadersDecorator");
-
-		definition = definition.process(new EventTypeToChannelMapper());
-		definition.setId("nervChannelMapper");
-
-		definition = definition.process(EventsInterceptor.instance());
-		definition.setId("nervEventsInterceptor");
-
-		DynamicRouterDefinition<RouteDefinition> dynamicRouteDefinition = definition.dynamicRouter().method(
-				new NERVDynamicRouter());
-		dynamicRouteDefinition.setId("nervDynamicRouter");
-		definition = dynamicRouteDefinition.end();
+		StartHeaderDecorator startHeaderDecorator = new StartHeaderDecorator(new EventIdHeaderDecorator());
+		EventHeadersDecorator eventHeadersProcessor = new EventHeadersDecorator(startHeaderDecorator);
+		from(fromEndpoint).routeId("nervDefaultRoute")
+			.process(eventHeadersProcessor)
+			.process(new EventTypeToChannelMapper())
+			.process(EventsInterceptor.instance())
+			.dynamicRouter()
+				.method(new NERVDynamicRouter())
+			.end();
 	}
 
 }

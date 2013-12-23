@@ -79,7 +79,7 @@ public class NERVUnitTest extends AbstractNERVUnitTest {
 	public void testGetDefaultConnectionNotInitialized() throws Exception {
 		propertyChanger.change(Boolean.FALSE.toString());
 		try {
-			NERV.instance().destroyDefaultConnection();
+			NERV.instance().close();
 			NERV.instance().getDefaultConnection();
 		} finally {
 			propertyChanger.revert();
@@ -103,7 +103,7 @@ public class NERVUnitTest extends AbstractNERVUnitTest {
 		}
 		propertyChanger.change(Boolean.FALSE.toString());
 		try {
-			NERV.instance().destroyDefaultConnection();
+			NERV.instance().close();
 			NERV.instance().getDefaultConnection();
 		} finally {
 			propertyChanger.revert();
