@@ -3,8 +3,6 @@ package com.softwareag.eda.nerv;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.softwareag.eda.nerv.channel.ChannelProvider;
-import com.softwareag.eda.nerv.channel.DirectChannelProvider;
 import com.softwareag.eda.nerv.channel.StaticChannelProvider;
 import com.softwareag.eda.nerv.channel.VMChannelProvider;
 import com.softwareag.eda.nerv.component.SpringComponentResolver;
@@ -22,12 +20,6 @@ import com.softwareag.eda.nerv.subscribe.handler.SubscriptionHandler;
 public class NERV {
 
 	private static final Logger logger = LoggerFactory.getLogger(NERV.class);
-
-	public static final String PROP_CHANNEL_TYPE = "nerv.channel.type";
-
-	public static final String PROP_CHANNEL_TYPE_DIRECT = "direct";
-
-	public static final String PROP_CHANNEL_TYPE_VM = "vm";
 
 	private static NERV instance;
 
@@ -49,9 +41,7 @@ public class NERV {
 		}
 	}
 
-	public static final String PROP_CREATE_DEFAULT_CONNECTION = "create.default.connection";
-
-	private NERVConnection defaultConnection;
+	protected NERVConnection defaultConnection;
 
 	private final ContextProvider contextProvider;
 
@@ -62,6 +52,7 @@ public class NERV {
 		logger.info("NERV was successfully initialized.");
 	}
 
+	// TODO Should this be part of the connection and not NERV?
 	private void startRoutes() throws NERVException {
 		try {
 			NERVDefaultRouteBuilder routeBuilder = new NERVDefaultRouteBuilder("direct-vm:nerv");
@@ -73,20 +64,9 @@ public class NERV {
 
 	public final NERVConnection getDefaultConnection() throws NERVException {
 		if (defaultConnection == null) {
-			if (Boolean.TRUE.toString().equals(
-					System.getProperty(PROP_CREATE_DEFAULT_CONNECTION, Boolean.TRUE.toString()))) {
-				createDefaultConnection();
-			} else {
-				throw new NERVException(
-						"Default connection has not been set. Make sure NERV has been properly initialized.");
-			}
+			createDefaultConnection();
 		}
 		return defaultConnection;
-	}
-
-	private ChannelProvider getChannelProvider() {
-		String channelType = System.getProperty(PROP_CHANNEL_TYPE, PROP_CHANNEL_TYPE_VM);
-		return channelType.equals(PROP_CHANNEL_TYPE_DIRECT) ? new DirectChannelProvider() : new VMChannelProvider();
 	}
 
 	private synchronized void createDefaultConnection() {
@@ -94,7 +74,7 @@ public class NERV {
 			Publisher publisher = new NERVPublisher(getContextProvider(), new StaticChannelProvider("direct-vm:nerv"),
 					new SpringComponentResolver());
 			SubscriptionHandler subscriptionHandler = new DefaultSubscriptionHandler(getContextProvider(),
-					getChannelProvider());
+					new VMChannelProvider());
 			setDefaultConnection(new DefaultConnection(getContextProvider(), publisher, subscriptionHandler));
 		}
 	}
