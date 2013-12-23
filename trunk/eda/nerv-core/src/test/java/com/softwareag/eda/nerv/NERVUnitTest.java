@@ -20,8 +20,8 @@ import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 public class NERVUnitTest extends AbstractNERVUnitTest {
 
 	@Test
-	public void testPubSub10kMsgs2Consumers() throws Exception {
-		pubSub(10000, 2, 1);
+	public void testPubSub100Msgs2Consumers() throws Exception {
+		pubSub(100, 2, 1);
 	}
 
 	@Test

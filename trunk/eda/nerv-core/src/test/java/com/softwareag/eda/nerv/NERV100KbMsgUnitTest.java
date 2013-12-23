@@ -45,18 +45,18 @@ public class NERV100KbMsgUnitTest extends AbstractNERVUnitTest {
 	}
 
 	@Test
-	public void testPubSub10kMsgs() throws Exception {
-		pubSub(10000, 1, 1);
+	public void testPubSub100Msgs() throws Exception {
+		pubSub(100, 1, 1);
 	}
 
 	@Test
-	public void testPubSub10kMsgs10Threads() throws Exception {
-		pubSub(10000, 1, 10);
+	public void testPubSub100Msgs2Threads() throws Exception {
+		pubSub(100, 1, 2);
 	}
 
 	@Test
-	public void testPubSub10kMsgs2Consumers10Threads() throws Exception {
-		pubSub(10000, 2, 10);
+	public void testPubSub100Msgs2Consumers2Threads() throws Exception {
+		pubSub(100, 2, 2);
 	}
 
 }
