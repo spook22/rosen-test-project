@@ -2,7 +2,7 @@
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.osgi.org/xmlns/blueprint/v1.0.0 http://www.osgi.org/xmlns/blueprint/v1.0.0/blueprint.xsd">
 	
-    <bean id="nerv" class="com.softwareag.eda.nerv.NERV" factory-method="instance" destroy-method="close"/>
+    <bean id="nerv" class="com.softwareag.eda.nerv.NERV" factory-method="instance" />
    
     <bean id="nervConnection" factory-ref="nerv" factory-method="getDefaultConnection" destroy-method="close"/>
 
