@@ -44,7 +44,7 @@ public class NERV {
 
 	protected static synchronized void destroy() {
 		if (instance != null) {
-			instance.destroyDefaultConnection();
+			instance.close();
 			instance = null;
 		}
 	}
@@ -106,7 +106,7 @@ public class NERV {
 		defaultConnection = connection;
 	}
 
-	protected final synchronized void destroyDefaultConnection() {
+	public final synchronized void close() {
 		if (defaultConnection != null) {
 			defaultConnection.close();
 			defaultConnection = null;
