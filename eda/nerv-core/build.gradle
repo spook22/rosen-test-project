@@ -9,5 +9,7 @@ dependencies {
 	)
 	testCompile(
 		"junit:junit:$junitVersion",
+		"org.apache.camel:camel-test:$camelVersion",
+		"org.springframework:spring-test:$springVersion",
 	)
 }
