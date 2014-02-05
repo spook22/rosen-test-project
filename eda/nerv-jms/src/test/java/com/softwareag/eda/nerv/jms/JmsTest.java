@@ -44,7 +44,9 @@ public class JmsTest {
 
 	private NERVConnection jmsConnection;
 
-	private final BasicConsumer jmsConsumer = new BasicConsumer();
+	private final int eventsCount = 20000;
+
+	private final BasicConsumer jmsConsumer = new BasicConsumer(eventsCount);
 
 	private final Subscription jmsSubscription = new DefaultSubscription(type, jmsConsumer);
 
@@ -57,17 +59,18 @@ public class JmsTest {
 	public void test() throws Exception {
 		jmsConnection.subscribe(jmsSubscription);
 		try {
-			Event sentEvent = new Event(type, body);
-			nervConnection.publish(sentEvent);
-			validateJmsEvent();
+			for (int i = 0; i < eventsCount; i++) {
+				Event sentEvent = new Event(type, body);
+				nervConnection.publish(sentEvent);
+			}
+			validateJmsEvents(eventsCount);
 		} finally {
 			jmsConnection.unsubscribe(jmsSubscription);
 		}
 	}
 
-	private void validateJmsEvent() {
-		int eventsCount = 1;
-		TestHelper.waitForEvents(jmsConsumer, eventsCount, 10000);
+	private void validateJmsEvents(int eventsCount) {
+		TestHelper.waitForEvents(jmsConsumer, eventsCount, 20000);
 		assertEquals(eventsCount, jmsConsumer.getEvents().size());
 		assertEquals(type, jmsConsumer.getEvents().get(0).getType());
 		assertTrue(jmsConsumer.getEvents().get(0).getBody() instanceof String);
