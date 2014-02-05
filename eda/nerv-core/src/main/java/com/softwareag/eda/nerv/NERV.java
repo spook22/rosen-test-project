@@ -13,7 +13,6 @@ import com.softwareag.eda.nerv.context.ContextProvider;
 import com.softwareag.eda.nerv.context.SimpleContextProvider;
 import com.softwareag.eda.nerv.publish.NERVPublisher;
 import com.softwareag.eda.nerv.publish.Publisher;
-import com.softwareag.eda.nerv.route.NERVDefaultRouteBuilder;
 import com.softwareag.eda.nerv.subscribe.handler.DefaultSubscriptionHandler;
 import com.softwareag.eda.nerv.subscribe.handler.SubscriptionHandler;
 
@@ -48,18 +47,7 @@ public class NERV {
 	private NERV() throws NERVException {
 		contextProvider = new SimpleContextProvider();
 		defaultConnection = getDefaultConnection();
-		startRoutes();
 		logger.info("NERV was successfully initialized.");
-	}
-
-	// TODO Should this be part of the connection and not NERV?
-	private void startRoutes() throws NERVException {
-		try {
-			NERVDefaultRouteBuilder routeBuilder = new NERVDefaultRouteBuilder("direct-vm:nerv");
-			contextProvider.context().addRoutes(routeBuilder);
-		} catch (Exception e) {
-			throw new NERVException("Cannot start NERV routes.", e);
-		}
 	}
 
 	public final NERVConnection getDefaultConnection() throws NERVException {
@@ -71,10 +59,8 @@ public class NERV {
 
 	private synchronized void createDefaultConnection() {
 		if (defaultConnection == null) {
-			Publisher publisher = new NERVPublisher(getContextProvider(), new StaticChannelProvider("direct-vm:nerv"),
-					new SpringComponentResolver());
-			SubscriptionHandler subscriptionHandler = new DefaultSubscriptionHandler(getContextProvider(),
-					new VMChannelProvider());
+			Publisher publisher = new NERVPublisher(getContextProvider(), new StaticChannelProvider("direct-vm:nerv"), new SpringComponentResolver());
+			SubscriptionHandler subscriptionHandler = new DefaultSubscriptionHandler(getContextProvider(), new VMChannelProvider());
 			setDefaultConnection(new DefaultConnection(getContextProvider(), publisher, subscriptionHandler));
 		}
 	}

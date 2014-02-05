@@ -2,6 +2,7 @@ package com.softwareag.eda.nerv.connection;
 
 import java.util.Map;
 
+import org.apache.camel.CamelContext;
 import org.apache.camel.ServiceStatus;
 
 import com.softwareag.eda.nerv.NERVException;
@@ -11,7 +12,7 @@ import com.softwareag.eda.nerv.publish.Publisher;
 import com.softwareag.eda.nerv.subscribe.handler.SubscriptionHandler;
 import com.softwareag.eda.nerv.subscribe.subscription.Subscription;
 
-public abstract class AbstractConnection implements NERVConnection {
+public abstract class AbstractConnection implements NERVConnection, ContextProvider {
 
 	private final ContextProvider contextProvider;
 
@@ -66,6 +67,11 @@ public abstract class AbstractConnection implements NERVConnection {
 		} catch (Exception e) {
 			throw new NERVException("Cannot stop Camel context.", e);
 		}
+	}
+
+	@Override
+	public CamelContext context() {
+		return contextProvider.context();
 	}
 
 }
