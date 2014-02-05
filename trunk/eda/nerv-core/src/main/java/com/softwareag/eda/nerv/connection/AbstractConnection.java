@@ -53,6 +53,11 @@ public abstract class AbstractConnection implements NERVConnection, ContextProvi
 	@Override
 	public void subscribe(Subscription subscription) throws NERVException {
 		subscriptionHandler.subscribe(subscription);
+		try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// Ignore.
+		}
 	}
 
 	@Override
