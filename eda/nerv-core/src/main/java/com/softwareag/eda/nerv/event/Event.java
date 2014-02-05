@@ -3,13 +3,11 @@ package com.softwareag.eda.nerv.event;
 import java.util.Collections;
 import java.util.Map;
 
-import org.apache.camel.util.CaseInsensitiveMap;
-
 import com.softwareag.eda.nerv.NERVException;
 
 public class Event {
 
-	private final Map<String, Object> headers = new CaseInsensitiveMap();
+	private Map<String, Object> headers;
 
 	private final Object body;
 
@@ -34,7 +32,7 @@ public class Event {
 		if (body == null) {
 			throw new NERVException("Event body is missing.");
 		}
-		this.headers.putAll(headers);
+		this.headers = headers;
 		this.body = body;
 	}
 
