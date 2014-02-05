@@ -23,7 +23,7 @@ public class PerfTest extends CamelTestSupport {
 
 	private static final String expectedBody = "testBody";
 
-	private static int expectedCount = 10000000;
+	private static int expectedCount = 500000;
 
 	@EndpointInject(uri = "vm:result")
 	protected Endpoint resultEndpoint;
