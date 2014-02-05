@@ -19,6 +19,7 @@ import com.softwareag.eda.nerv.channel.ChannelProvider;
 import com.softwareag.eda.nerv.component.ComponentResolver;
 import com.softwareag.eda.nerv.context.ContextProvider;
 import com.softwareag.eda.nerv.event.Event;
+import com.softwareag.eda.nerv.route.NERVDefaultRouteBuilder;
 
 public class NERVPublisher implements Publisher {
 
@@ -36,6 +37,17 @@ public class NERVPublisher implements Publisher {
 		this.contextProvider = contextProvider;
 		this.channelProvider = channelProvider;
 		this.componentResolver = componentResolver;
+		startRoutes();
+	}
+
+	private void startRoutes() throws NERVException {
+		try {
+			// FIXME Obviously ChannelProvider is bad.
+			NERVDefaultRouteBuilder routeBuilder = new NERVDefaultRouteBuilder(channelProvider.channel(""));
+			context().addRoutes(routeBuilder);
+		} catch (Exception e) {
+			throw new NERVException("Cannot start NERV routes.", e);
+		}
 	}
 
 	private CamelContext context() {
