@@ -18,8 +18,6 @@ public class EventHeadersDecorator implements Processor {
 		Message in = exchange.getIn();
 		Event event = new Event(in.getHeaders(), in.getBody());
 		decorator.decorate(event);
-		in.setHeaders(event.getHeaders());
-		in.setBody(event.getBody());
 	}
 
 }
