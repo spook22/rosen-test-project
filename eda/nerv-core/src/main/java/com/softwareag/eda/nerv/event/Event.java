@@ -1,13 +1,14 @@
 package com.softwareag.eda.nerv.event;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.softwareag.eda.nerv.NERVException;
 
 public class Event {
 
-	private Map<String, Object> headers;
+	private Map<String, Object> headers = new HashMap<>();
 
 	private final Object body;
 
