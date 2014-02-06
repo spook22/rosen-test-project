@@ -35,8 +35,7 @@ public class UmNativeApiPerfTest {
 		} catch (nChannelNotFoundException e) {
 			// Ignore.
 		}
-		// channelAttributes.setMaxEvents(0);
-		// channelAttributes.setTTL(0);
+		channelAttributes.setTTL(1000);
 		channelAttributes.setType(nChannelAttributes.MIXED_TYPE);
 		channel = session.createChannel(channelAttributes);
 

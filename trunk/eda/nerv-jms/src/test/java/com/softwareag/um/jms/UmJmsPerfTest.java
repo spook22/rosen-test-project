@@ -42,6 +42,7 @@ public class UmJmsPerfTest {
 		session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 		destination = session.createTopic(this.getClass().getSimpleName());
 		producer = session.createProducer(destination);
+		producer.setTimeToLive(1000);
 		consumer = session.createConsumer(destination);
 		message = session.createTextMessage("Test");
 
