@@ -19,7 +19,7 @@ import com.pcbsys.nirvana.nJMS.TopicConnectionFactoryImpl;
 
 public class UmJmsPerfTest {
 
-	private static final int msgCount = 1000000;
+	public static final int COUNT = 1000000;
 
 	protected ConnectionFactory factory = new TopicConnectionFactoryImpl("nsp://localhost:9000");
 
@@ -64,7 +64,7 @@ public class UmJmsPerfTest {
 
 	@Test
 	public void testJmsPerfNoConsumer() throws Exception {
-		for (int i = 0; i < msgCount; i++) {
+		for (int i = 0; i < COUNT; i++) {
 			producer.send(message);
 		}
 	}
@@ -72,7 +72,7 @@ public class UmJmsPerfTest {
 	@Test
 	public void testJmsPerfNoConsumerNoPersistence() throws Exception {
 		message.setJMSDeliveryMode(DeliveryMode.NON_PERSISTENT);
-		for (int i = 0; i < msgCount; i++) {
+		for (int i = 0; i < COUNT; i++) {
 			producer.send(message);
 		}
 	}
@@ -86,7 +86,7 @@ public class UmJmsPerfTest {
 		};
 		consumer.setMessageListener(listener);
 		try {
-			for (int i = 0; i < msgCount; i++) {
+			for (int i = 0; i < COUNT; i++) {
 				producer.send(message);
 			}
 		} finally {
