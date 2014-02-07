@@ -7,14 +7,13 @@ import org.apache.camel.EndpointInject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Processor;
-import org.apache.camel.Produce;
 import org.apache.camel.Producer;
-import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultExchange;
 import org.apache.camel.impl.DefaultMessage;
 import org.apache.camel.test.junit4.CamelTestSupport;
 import org.apache.camel.util.UnitOfWorkHelper;
+import org.junit.Before;
 import org.junit.Test;
 
 public class PerfTest extends CamelTestSupport {
@@ -23,15 +22,16 @@ public class PerfTest extends CamelTestSupport {
 
 	private static final String expectedBody = "testBody";
 
-	private static int expectedCount = 500000;
+	private static int expectedCount = 300000;
 
 	@EndpointInject(uri = "vm:result")
 	protected Endpoint resultEndpoint;
 
-	@Produce(uri = directStart)
-	protected ProducerTemplate template;
-
 	protected DefaultProcessor processor = new DefaultProcessor(expectedCount);
+
+	protected Producer producer;
+
+	protected Exchange exchange;
 
 	@Override
 	protected RouteBuilder createRouteBuilder() {
@@ -43,20 +43,16 @@ public class PerfTest extends CamelTestSupport {
 		};
 	}
 
-	@Test
-	public void testDirectComponent() throws Exception {
-		Producer producer = context.getEndpoint(directStart).createProducer();
-		Exchange exchange = createExchange();
-		for (int i = 0; i < expectedCount; i++) {
-			producer.process(exchange);
-		}
+	@Before
+	public void before() throws Exception {
+		producer = context.getEndpoint(directStart).createProducer();
+		exchange = createExchange();
 	}
 
 	@Test
-	public void testProcessor() throws Exception {
-		Exchange exchange = createExchange();
+	public void testDirectComponent() throws Exception {
 		for (int i = 0; i < expectedCount; i++) {
-			processor.process(exchange);
+			producer.process(exchange);
 		}
 	}
 
