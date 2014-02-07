@@ -1,12 +1,9 @@
 package com.softwareag.camel;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 import org.apache.camel.Endpoint;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
-import org.apache.camel.Processor;
 import org.apache.camel.Producer;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultExchange;
@@ -27,9 +24,9 @@ public class CamelPerfTest extends CamelTestSupport {
 
 	private static final String expectedBody = "testBody";
 
-	private static int expectedCount = 300000;
+	private static int expectedCount = 1000;
 
-	@EndpointInject(uri = "vm:result")
+	@EndpointInject(uri = "vm:testPerformance")
 	protected Endpoint resultEndpoint;
 
 	protected DefaultProcessor processor = new DefaultProcessor(expectedCount);
@@ -43,7 +40,7 @@ public class CamelPerfTest extends CamelTestSupport {
 		return new RouteBuilder() {
 			@Override
 			public void configure() {
-				from(directStart).process(processor);
+				from(directStart).process(processor).to(resultEndpoint);
 			}
 		};
 	}
@@ -68,33 +65,6 @@ public class CamelPerfTest extends CamelTestSupport {
 		message.setBody(expectedBody);
 		exchange.setIn(message);
 		return exchange;
-	}
-
-	public static class DefaultProcessor implements Processor {
-
-		protected final Object lock = new Object();
-
-		protected final int expectedMessages;
-
-		protected final AtomicInteger receivedMessages = new AtomicInteger();
-
-		public Object getLock() {
-			return lock;
-		}
-
-		public DefaultProcessor() {
-			this(0);
-		}
-
-		public DefaultProcessor(int expectedMessages) {
-			this.expectedMessages = expectedMessages;
-		}
-
-		@Override
-		public void process(Exchange exchange) throws Exception {
-			receivedMessages.incrementAndGet();
-		}
-
 	}
 
 }
