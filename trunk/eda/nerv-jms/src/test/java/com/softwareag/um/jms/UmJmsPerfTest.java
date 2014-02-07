@@ -1,12 +1,12 @@
 package com.softwareag.um.jms;
 
+import static org.junit.Assert.assertEquals;
+
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.DeliveryMode;
 import javax.jms.Destination;
-import javax.jms.Message;
 import javax.jms.MessageConsumer;
-import javax.jms.MessageListener;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
@@ -19,7 +19,7 @@ import com.pcbsys.nirvana.nJMS.TopicConnectionFactoryImpl;
 
 public class UmJmsPerfTest {
 
-	public static final int COUNT = 100000;
+	public static final int COUNT = 300000;
 
 	protected ConnectionFactory factory = new TopicConnectionFactoryImpl("nsp://localhost:9000");
 
@@ -51,9 +51,10 @@ public class UmJmsPerfTest {
 
 	private void warmup() throws Exception {
 		// Send 10k messages to warmup UM.
-		for (int i = 0; i < 10000; i++) {
+		for (int i = 0; i < 1000; i++) {
 			producer.send(message);
 		}
+		Thread.sleep(2000);
 	}
 
 	@After
@@ -80,29 +81,37 @@ public class UmJmsPerfTest {
 
 	@Test
 	public void testJmsPerfWithConsumer() throws Exception {
-		MessageListener listener = new MessageListener() {
-			@Override
-			public void onMessage(Message message) {
-			}
-		};
+		JmsMessageListener listener = new JmsMessageListener(COUNT);
 		consumer.setMessageListener(listener);
 		for (int i = 0; i < COUNT; i++) {
 			producer.send(message);
 		}
+
+		int receivedEvents = listener.getReceivedEvents();
+		if (receivedEvents < COUNT) {
+			synchronized (listener.getLock()) {
+				listener.getLock().wait(20000);
+			}
+		}
+		assertEquals(COUNT, listener.getReceivedEvents());
 	}
 
 	@Test
 	public void testJmsPerfWithConsumerNoPersistence() throws Exception {
-		MessageListener listener = new MessageListener() {
-			@Override
-			public void onMessage(Message message) {
-			}
-		};
+		JmsMessageListener listener = new JmsMessageListener(COUNT);
 		consumer.setMessageListener(listener);
 		message.setJMSDeliveryMode(DeliveryMode.NON_PERSISTENT);
 		for (int i = 0; i < COUNT; i++) {
 			producer.send(message);
 		}
+
+		int receivedEvents = listener.getReceivedEvents();
+		if (receivedEvents < COUNT) {
+			synchronized (listener.getLock()) {
+				listener.getLock().wait(20000);
+			}
+		}
+		assertEquals(COUNT, listener.getReceivedEvents());
 	}
 
 }
