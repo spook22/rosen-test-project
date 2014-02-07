@@ -47,8 +47,9 @@ public class UmNativeApiPerfTest {
 
 	private void warmup() throws Exception {
 		// Send 10k messages to warmup UM.
-		for (int i = 0; i < 10000; i++) {
+		for (int i = 0; i < 1000; i++) {
 		}
+		Thread.sleep(1000);
 	}
 
 	@After
