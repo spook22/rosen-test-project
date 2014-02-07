@@ -13,6 +13,10 @@ public class DefaultProcessor implements Processor {
 
 	protected final AtomicInteger receivedMessages = new AtomicInteger();
 
+	public int getReceivedMessages() {
+		return receivedMessages.get();
+	}
+
 	public Object getLock() {
 		return lock;
 	}
@@ -27,7 +31,15 @@ public class DefaultProcessor implements Processor {
 
 	@Override
 	public void process(Exchange exchange) throws Exception {
-		receivedMessages.incrementAndGet();
+		synchronized (lock) {
+			if (receivedMessages.incrementAndGet() >= expectedMessages) {
+				lock.notify();
+			}
+		}
+	}
+
+	public void clean() {
+		receivedMessages.set(0);
 	}
 
 }

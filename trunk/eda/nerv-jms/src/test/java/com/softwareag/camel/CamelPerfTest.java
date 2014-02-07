@@ -1,5 +1,7 @@
 package com.softwareag.camel;
 
+import javax.annotation.Resource;
+
 import org.apache.camel.Endpoint;
 import org.apache.camel.EndpointInject;
 import org.apache.camel.Exchange;
@@ -24,12 +26,14 @@ public class CamelPerfTest extends CamelTestSupport {
 
 	private static final String expectedBody = "testBody";
 
-	private static int expectedCount = 1000;
+	@Resource
+	private Integer expectedCount;
 
 	@EndpointInject(uri = "vm:testPerformance")
 	protected Endpoint resultEndpoint;
 
-	protected DefaultProcessor processor = new DefaultProcessor(expectedCount);
+	@Resource
+	private DefaultProcessor jmsProcessor;
 
 	protected Producer producer;
 
@@ -40,7 +44,7 @@ public class CamelPerfTest extends CamelTestSupport {
 		return new RouteBuilder() {
 			@Override
 			public void configure() {
-				from(directStart).process(processor).to(resultEndpoint);
+				from(directStart).to(resultEndpoint);
 			}
 		};
 	}
@@ -49,6 +53,15 @@ public class CamelPerfTest extends CamelTestSupport {
 	public void before() throws Exception {
 		producer = context.getEndpoint(directStart).createProducer();
 		exchange = createExchange();
+		warmup();
+	}
+
+	private void warmup() throws Exception {
+		for (int i = 0; i < 10; i++) {
+			producer.process(exchange);
+		}
+		Thread.sleep(1000);
+		jmsProcessor.clean();
 	}
 
 	@Test
@@ -56,6 +69,14 @@ public class CamelPerfTest extends CamelTestSupport {
 		for (int i = 0; i < expectedCount; i++) {
 			producer.process(exchange);
 		}
+
+		int receivedEvents = jmsProcessor.getReceivedMessages();
+		if (receivedEvents < expectedCount) {
+			synchronized (jmsProcessor.getLock()) {
+				jmsProcessor.getLock().wait(60000);
+			}
+		}
+		assertEquals(expectedCount.intValue(), jmsProcessor.getReceivedMessages());
 	}
 
 	private Exchange createExchange() {
