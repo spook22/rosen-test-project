@@ -19,7 +19,7 @@ import com.pcbsys.nirvana.nJMS.TopicConnectionFactoryImpl;
 
 public class UmJmsPerfTest {
 
-	public static final int COUNT = 1000000;
+	public static final int COUNT = 100000;
 
 	protected ConnectionFactory factory = new TopicConnectionFactoryImpl("nsp://localhost:9000");
 
