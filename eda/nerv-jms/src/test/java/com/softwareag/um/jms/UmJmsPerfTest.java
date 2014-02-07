@@ -86,12 +86,22 @@ public class UmJmsPerfTest {
 			}
 		};
 		consumer.setMessageListener(listener);
-		try {
-			for (int i = 0; i < COUNT; i++) {
-				producer.send(message);
+		for (int i = 0; i < COUNT; i++) {
+			producer.send(message);
+		}
+	}
+
+	@Test
+	public void testJmsPerfWithConsumerNoPersistence() throws Exception {
+		MessageListener listener = new MessageListener() {
+			@Override
+			public void onMessage(Message message) {
 			}
-		} finally {
-			consumer.close();
+		};
+		consumer.setMessageListener(listener);
+		message.setJMSDeliveryMode(DeliveryMode.NON_PERSISTENT);
+		for (int i = 0; i < COUNT; i++) {
+			producer.send(message);
 		}
 	}
 
