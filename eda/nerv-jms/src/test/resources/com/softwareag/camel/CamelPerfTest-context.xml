@@ -8,19 +8,25 @@
             
     <import resource="component.xml"/>
     
-    <context:component-scan base-package="com.softwareag.camel"/>
+    <bean name="eventsCount" class="java.lang.Integer">
+    	<constructor-arg index="0" value="10000" />
+    </bean>
+    
+    <bean id="jmsProcessor" class="com.softwareag.camel.DefaultProcessor">
+    	<constructor-arg name="expectedMessages" ref="eventsCount" />
+    </bean>
 	
 	<camelContext id="defaultContext" xmlns="http://camel.apache.org/schema/spring" autoStartup="true">
         <route id="emitRoute">
-            <from uri="vm:testPerformance?concurrentConsumers=10" />
+            <from uri="vm:testPerformance?concurrentConsumers=1" />
             <to uri="jms:topic:testPerformance?disableReplyTo=true" />
         </route>
-		<!-- <route id="consumeRoute">
+		<route id="consumeRoute">
 			<from uri="jms:topic:testPerformance?asyncConsumer=true" />
-			<threads poolSize="5">
-			    <process ref="simpleProcessor" />
+			<threads poolSize="1">
+			    <process ref="jmsProcessor" />
 			</threads>
-		</route> -->
+		</route>
 	</camelContext>
 
 </beans>
