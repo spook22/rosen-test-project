@@ -15,7 +15,12 @@ import org.apache.camel.test.junit4.CamelTestSupport;
 import org.apache.camel.util.UnitOfWorkHelper;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration
 public class PerfTest extends CamelTestSupport {
 
 	private static final String directStart = "direct:start";
