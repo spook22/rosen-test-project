@@ -10,6 +10,7 @@ import com.pcbsys.nirvana.client.nChannel;
 import com.pcbsys.nirvana.client.nChannelAttributes;
 import com.pcbsys.nirvana.client.nChannelNotFoundException;
 import com.pcbsys.nirvana.client.nConsumeEvent;
+import com.pcbsys.nirvana.client.nEventListener;
 import com.pcbsys.nirvana.client.nSession;
 import com.pcbsys.nirvana.client.nSessionAttributes;
 import com.pcbsys.nirvana.client.nSessionFactory;
@@ -66,6 +67,33 @@ public class UmNativeApiPerfTest {
 
 	@Test
 	public void testNativeApiPerfNoConsumerNoPersistence() throws Exception {
+		event.setPersistant(false);
+		for (int i = 0; i < COUNT; i++) {
+			channel.publish(event);
+		}
+	}
+
+	@Test
+	public void testNativeApiPerfWithConsumer() throws Exception {
+		nEventListener listener = new nEventListener() {
+			@Override
+			public void go(nConsumeEvent event) {
+			}
+		};
+		channel.addSubscriber(listener);
+		for (int i = 0; i < COUNT; i++) {
+			channel.publish(event);
+		}
+	}
+
+	@Test
+	public void testNativeApiPerfWithConsumerNoPersistence() throws Exception {
+		nEventListener listener = new nEventListener() {
+			@Override
+			public void go(nConsumeEvent event) {
+			}
+		};
+		channel.addSubscriber(listener);
 		event.setPersistant(false);
 		for (int i = 0; i < COUNT; i++) {
 			channel.publish(event);
