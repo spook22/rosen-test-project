@@ -84,7 +84,7 @@ public class UmNativeApiPerfTest {
 		int receivedEvents = listener.getReceivedEvents();
 		if (receivedEvents < COUNT) {
 			synchronized (listener.getLock()) {
-				listener.wait(20000);
+				listener.getLock().wait(20000);
 			}
 		}
 		assertEquals(COUNT, listener.getReceivedEvents());
@@ -102,7 +102,7 @@ public class UmNativeApiPerfTest {
 		int receivedEvents = listener.getReceivedEvents();
 		if (receivedEvents < COUNT) {
 			synchronized (listener.getLock()) {
-				listener.wait(20000);
+				listener.getLock().wait(20000);
 			}
 		}
 		assertEquals(COUNT, listener.getReceivedEvents());
