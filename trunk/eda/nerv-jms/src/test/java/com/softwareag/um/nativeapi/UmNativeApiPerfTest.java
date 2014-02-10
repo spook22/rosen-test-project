@@ -60,21 +60,6 @@ public class UmNativeApiPerfTest {
 	}
 
 	@Test
-	public void testNativeApiPerfNoConsumer() throws Exception {
-		for (int i = 0; i < COUNT; i++) {
-			channel.publish(event);
-		}
-	}
-
-	@Test
-	public void testNativeApiPerfNoConsumerNoPersistence() throws Exception {
-		event.setPersistant(false);
-		for (int i = 0; i < COUNT; i++) {
-			channel.publish(event);
-		}
-	}
-
-	@Test
 	public void testNativeApiPerfWithConsumer() throws Exception {
 		EventListener listener = new EventListener(COUNT);
 		channel.addSubscriber(listener);

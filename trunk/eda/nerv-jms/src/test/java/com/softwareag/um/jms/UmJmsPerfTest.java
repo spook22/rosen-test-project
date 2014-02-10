@@ -65,21 +65,6 @@ public class UmJmsPerfTest {
 	}
 
 	@Test
-	public void testJmsPerfNoConsumer() throws Exception {
-		for (int i = 0; i < COUNT; i++) {
-			producer.send(message);
-		}
-	}
-
-	@Test
-	public void testJmsPerfNoConsumerNoPersistence() throws Exception {
-		message.setJMSDeliveryMode(DeliveryMode.NON_PERSISTENT);
-		for (int i = 0; i < COUNT; i++) {
-			producer.send(message);
-		}
-	}
-
-	@Test
 	public void testJmsPerfWithConsumer() throws Exception {
 		JmsMessageListener listener = new JmsMessageListener(COUNT);
 		consumer.setMessageListener(listener);
