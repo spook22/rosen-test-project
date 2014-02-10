@@ -7,6 +7,7 @@
             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
             
     <import resource="component.xml"/>
+    <import resource="sjms-component.xml"/>
     
     <bean name="eventsCount" class="java.lang.Integer">
     	<constructor-arg index="0" value="10000" />
@@ -17,6 +18,7 @@
     </bean>
 	
 	<camelContext id="defaultContext" xmlns="http://camel.apache.org/schema/spring" autoStartup="true">
+	 	<template id="producerTemplate" />
         <route id="emitRoute">
             <from uri="vm:testPerformance?concurrentConsumers=1" />
             <to uri="jms:topic:testPerformance?disableReplyTo=true" />
@@ -26,6 +28,15 @@
 			<threads poolSize="1">
 			    <process ref="jmsProcessor" />
 			</threads>
+		</route>
+		
+        <route id="emitRouteSjms">
+            <from uri="vm:testPerformanceSjms?concurrentConsumers=10" />
+            <to uri="sjms:topic:testPerformanceSjms?producerCount=10&amp;ttl=1000&amp;synchronous=false" />
+        </route>
+		<route id="consumeRouteSjms">
+			<from uri="sjms:topic:testPerformanceSjms?consumerCount=1&amp;ttl=1000&amp;synchronous=false" />
+			<process ref="jmsProcessor" />
 		</route>
 	</camelContext>
 
