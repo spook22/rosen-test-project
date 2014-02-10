@@ -19,23 +19,30 @@
 	
 	<camelContext id="defaultContext" xmlns="http://camel.apache.org/schema/spring" autoStartup="true">
 	 	<template id="producerTemplate" />
+	 	
+	 	<endpoint id="vmJmsEndpoint" uri="vm:testPerformance?concurrentConsumers=1" />
+	 	<endpoint id="jmsEndpoint" uri="jms:topic:testPerformance?disableReplyTo=true&amp;asyncConsumer=true" />
+	 	
+	 	<endpoint id="vmSjmsEndpoint" uri="vm:testPerformanceSjms?size=10000&amp;blockWhenFull=true&amp;concurrentConsumers=10" />
+	 	<endpoint id="sjmsEndpoint" uri="sjms:topic:testPerformanceSjms?ttl=1000&amp;synchronous=false" />
+	 	
         <route id="emitRoute">
-            <from uri="vm:testPerformance?concurrentConsumers=1" />
-            <to uri="jms:topic:testPerformance?disableReplyTo=true" />
+            <from ref="vmJmsEndpoint" />
+            <to ref="jmsEndpoint" />
         </route>
 		<route id="consumeRoute">
-			<from uri="jms:topic:testPerformance?asyncConsumer=true" />
+			<from ref="jmsEndpoint" />
 			<threads poolSize="1">
 			    <process ref="jmsProcessor" />
 			</threads>
 		</route>
 		
         <route id="emitRouteSjms">
-            <from uri="vm:testPerformanceSjms?concurrentConsumers=10" />
-            <to uri="sjms:topic:testPerformanceSjms?producerCount=10&amp;ttl=1000&amp;synchronous=false" />
+            <from ref="vmSjmsEndpoint" />
+            <to ref="sjmsEndpoint" />
         </route>
 		<route id="consumeRouteSjms">
-			<from uri="sjms:topic:testPerformanceSjms?consumerCount=1&amp;ttl=1000&amp;synchronous=false" />
+			<from ref="sjmsEndpoint" />
 			<process ref="jmsProcessor" />
 		</route>
 	</camelContext>

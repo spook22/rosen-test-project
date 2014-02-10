@@ -6,16 +6,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.jms.DeliveryMode;
 
-import org.apache.camel.Exchange;
-import org.apache.camel.Message;
-import org.apache.camel.Producer;
+import org.apache.camel.Endpoint;
 import org.apache.camel.ProducerTemplate;
-import org.apache.camel.impl.DefaultExchange;
-import org.apache.camel.impl.DefaultMessage;
 import org.apache.camel.test.junit4.CamelTestSupport;
-import org.apache.camel.util.UnitOfWorkHelper;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -36,45 +29,17 @@ public class CamelPerfTest extends CamelTestSupport {
 	@Resource
 	protected ProducerTemplate template;
 
-	protected Producer producer;
+	@Resource(name = "vmSjmsEndpoint")
+	protected Endpoint vmSjmsEndpoint;
 
-	protected Exchange exchange;
-
-	@Before
-	public void before() throws Exception {
-		producer = context.getEndpoint("vm:testPerformanceSjms").createProducer();
-		exchange = createExchange();
-		warmup();
-	}
-
-	private void warmup() throws Exception {
-		for (int i = 0; i < 10; i++) {
-			producer.process(exchange);
-		}
-		Thread.sleep(1000);
-		jmsProcessor.clean();
-	}
-
-	@Ignore
-	@Test
-	public void testVmToJmsComponent() throws Exception {
-		for (int i = 0; i < expectedCount; i++) {
-			producer.process(exchange);
-		}
-
-		int receivedEvents = jmsProcessor.getReceivedMessages();
-		if (receivedEvents < expectedCount) {
-			synchronized (jmsProcessor.getLock()) {
-				jmsProcessor.getLock().wait(60000);
-			}
-		}
-		assertEquals(expectedCount.intValue(), jmsProcessor.getReceivedMessages());
-	}
+	@Resource(name = "sjmsEndpoint")
+	protected Endpoint sjmsEndpoint;
 
 	@Test
 	public void testVmToSjmsComponent() throws Exception {
 		log.info("Expected count set to " + expectedCount);
-		template.setDefaultEndpointUri("sjms:topic:testPerformanceSjms?producerCount=10&ttl=1000&synchronous=false");
+		template.setDefaultEndpoint(vmSjmsEndpoint);
+
 		Map<String, Object> headers = new HashMap<>();
 		headers.put("JMSDeliveryMode", DeliveryMode.NON_PERSISTENT);
 		for (int i = 0; i < expectedCount; i++) {
@@ -84,19 +49,10 @@ public class CamelPerfTest extends CamelTestSupport {
 		int receivedEvents = jmsProcessor.getReceivedMessages();
 		if (receivedEvents < expectedCount) {
 			synchronized (jmsProcessor.getLock()) {
-				jmsProcessor.getLock().wait(60000);
+				jmsProcessor.getLock().wait(240000);
 			}
 		}
 		assertEquals(expectedCount.intValue(), jmsProcessor.getReceivedMessages());
-	}
-
-	private Exchange createExchange() {
-		Exchange exchange = new DefaultExchange(context);
-		exchange.setUnitOfWork(UnitOfWorkHelper.createUoW(exchange));
-		Message message = new DefaultMessage();
-		message.setBody(expectedBody);
-		exchange.setIn(message);
-		return exchange;
 	}
 
 }
