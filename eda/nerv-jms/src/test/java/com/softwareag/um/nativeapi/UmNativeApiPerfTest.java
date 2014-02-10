@@ -1,6 +1,7 @@
 package com.softwareag.um.nativeapi;
 
 import static com.softwareag.um.jms.UmJmsPerfTest.COUNT;
+import static com.softwareag.um.jms.UmJmsPerfTest.WAIT;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
@@ -36,7 +37,7 @@ public class UmNativeApiPerfTest {
 		} catch (nChannelNotFoundException e) {
 			// Ignore.
 		}
-		channelAttributes.setTTL(1000);
+		channelAttributes.setTTL(10000);
 		channelAttributes.setType(nChannelAttributes.MIXED_TYPE);
 		channel = session.createChannel(channelAttributes);
 
@@ -70,7 +71,7 @@ public class UmNativeApiPerfTest {
 		int receivedEvents = listener.getReceivedEvents();
 		if (receivedEvents < COUNT) {
 			synchronized (listener.getLock()) {
-				listener.getLock().wait(20000);
+				listener.getLock().wait(WAIT);
 			}
 		}
 		assertEquals(COUNT, listener.getReceivedEvents());
@@ -88,7 +89,7 @@ public class UmNativeApiPerfTest {
 		int receivedEvents = listener.getReceivedEvents();
 		if (receivedEvents < COUNT) {
 			synchronized (listener.getLock()) {
-				listener.getLock().wait(20000);
+				listener.getLock().wait(WAIT);
 			}
 		}
 		assertEquals(COUNT, listener.getReceivedEvents());

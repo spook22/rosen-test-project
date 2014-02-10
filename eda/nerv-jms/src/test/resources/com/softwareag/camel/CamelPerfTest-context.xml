@@ -10,7 +10,7 @@
     <import resource="sjms-component.xml"/>
     
     <bean name="eventsCount" class="java.lang.Integer">
-    	<constructor-arg index="0" value="300000" />
+    	<constructor-arg index="0" value="1000000" />
     </bean>
     
     <bean id="jmsProcessor" class="com.softwareag.camel.DefaultProcessor">
@@ -24,7 +24,7 @@
 	 	<endpoint id="jmsEndpoint" uri="jms:topic:testPerformance?disableReplyTo=true&amp;asyncConsumer=true" />
 	 	
 	 	<endpoint id="vmSjmsEndpoint" uri="vm:testPerformanceSjms?size=10000&amp;blockWhenFull=true&amp;concurrentConsumers=1" />
-	 	<endpoint id="sjmsEndpoint" uri="sjms:topic:testPerformanceSjms?ttl=10000&amp;synchronous=true" />
+	 	<endpoint id="sjmsEndpoint" uri="sjms:topic:testPerformanceSjms?ttl=10000&amp;synchronous=false" />
 	 	
         <route id="emitRoute">
             <from ref="vmJmsEndpoint" />
