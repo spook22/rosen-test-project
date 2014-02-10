@@ -2,17 +2,16 @@ package com.softwareag.camel;
 
 import javax.annotation.Resource;
 
-import org.apache.camel.Endpoint;
-import org.apache.camel.EndpointInject;
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.Producer;
-import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.ProducerTemplate;
 import org.apache.camel.impl.DefaultExchange;
 import org.apache.camel.impl.DefaultMessage;
 import org.apache.camel.test.junit4.CamelTestSupport;
 import org.apache.camel.util.UnitOfWorkHelper;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -22,36 +21,24 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration
 public class CamelPerfTest extends CamelTestSupport {
 
-	private static final String directStart = "direct:start";
-
 	private static final String expectedBody = "testBody";
 
 	@Resource
 	private Integer expectedCount;
 
-	@EndpointInject(uri = "vm:testPerformance")
-	protected Endpoint resultEndpoint;
-
 	@Resource
 	private DefaultProcessor jmsProcessor;
+
+	@Resource
+	protected ProducerTemplate template;
 
 	protected Producer producer;
 
 	protected Exchange exchange;
 
-	@Override
-	protected RouteBuilder createRouteBuilder() {
-		return new RouteBuilder() {
-			@Override
-			public void configure() {
-				from(directStart).to(resultEndpoint);
-			}
-		};
-	}
-
 	@Before
 	public void before() throws Exception {
-		producer = context.getEndpoint(directStart).createProducer();
+		producer = context.getEndpoint("vm:testPerformanceSjms").createProducer();
 		exchange = createExchange();
 		warmup();
 	}
@@ -64,8 +51,9 @@ public class CamelPerfTest extends CamelTestSupport {
 		jmsProcessor.clean();
 	}
 
+	@Ignore
 	@Test
-	public void testDirectComponent() throws Exception {
+	public void testVmToJmsComponent() throws Exception {
 		for (int i = 0; i < expectedCount; i++) {
 			producer.process(exchange);
 		}
@@ -74,6 +62,23 @@ public class CamelPerfTest extends CamelTestSupport {
 		if (receivedEvents < expectedCount) {
 			synchronized (jmsProcessor.getLock()) {
 				jmsProcessor.getLock().wait(60000);
+			}
+		}
+		assertEquals(expectedCount.intValue(), jmsProcessor.getReceivedMessages());
+	}
+
+	@Test
+	public void testVmToSjmsComponent() throws Exception {
+		log.info("Expected count set to " + expectedCount);
+		template.setDefaultEndpointUri("sjms:topic:testPerformanceSjms?producerCount=1&ttl=1000&synchronous=true");
+		for (int i = 0; i < expectedCount; i++) {
+			template.sendBody(expectedBody);
+		}
+
+		int receivedEvents = jmsProcessor.getReceivedMessages();
+		if (receivedEvents < expectedCount) {
+			synchronized (jmsProcessor.getLock()) {
+				jmsProcessor.getLock().wait(180000);
 			}
 		}
 		assertEquals(expectedCount.intValue(), jmsProcessor.getReceivedMessages());
