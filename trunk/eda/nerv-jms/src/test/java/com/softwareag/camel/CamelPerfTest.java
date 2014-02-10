@@ -9,6 +9,8 @@ import javax.jms.DeliveryMode;
 import org.apache.camel.Endpoint;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.test.junit4.CamelTestSupport;
+import org.apache.camel.util.CaseInsensitiveMap;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -35,35 +37,44 @@ public class CamelPerfTest extends CamelTestSupport {
 	@Resource(name = "sjmsEndpoint")
 	protected Endpoint sjmsEndpoint;
 
-	@Test
-	public void testVmToSjmsNoPersistence() throws Exception {
+	@Before
+	public void before() throws Exception {
 		log.info("Expected count set to " + expectedCount);
 		template.setDefaultEndpoint(vmSjmsEndpoint);
 
-		Map<String, Object> headers = new HashMap<>();
-		headers.put("JMSDeliveryMode", DeliveryMode.NON_PERSISTENT);
-		for (int i = 0; i < expectedCount; i++) {
-			template.sendBodyAndHeaders(expectedBody, headers);
-		}
+		// for (int i = 0; i < 1000; i++) {
+		// template.sendBody(expectedBody);
+		// }
+		// Thread.sleep(5000);
 
-		int receivedEvents = jmsProcessor.getReceivedMessages();
-		if (receivedEvents < expectedCount) {
-			synchronized (jmsProcessor.getLock()) {
-				jmsProcessor.getLock().wait(20000);
-			}
-		}
-		assertEquals(expectedCount.intValue(), jmsProcessor.getReceivedMessages());
+		jmsProcessor.clean();
+		assertEquals(0, jmsProcessor.getReceivedMessages());
+	}
+
+	@Test
+	public void testVmToSjmsNoPersistence() throws Exception {
+		Map<String, Object> headers = new CaseInsensitiveMap();
+		headers.put("JMSDeliveryMode", DeliveryMode.NON_PERSISTENT);
+		send(headers);
+		validate();
 	}
 
 	@Test
 	public void testVmToSjmsPersistence() throws Exception {
-		log.info("Expected count set to " + expectedCount);
-		template.setDefaultEndpoint(vmSjmsEndpoint);
+		send(null);
+		validate();
+	}
 
-		for (int i = 0; i < expectedCount; i++) {
-			template.sendBody(expectedBody);
+	private void send(Map<String, Object> headers) throws Exception {
+		if (headers == null) {
+			headers = new HashMap<>();
 		}
+		for (int i = 0; i < expectedCount; i++) {
+			template.sendBodyAndHeaders(expectedBody, headers);
+		}
+	}
 
+	private void validate() throws Exception {
 		int receivedEvents = jmsProcessor.getReceivedMessages();
 		if (receivedEvents < expectedCount) {
 			synchronized (jmsProcessor.getLock()) {
