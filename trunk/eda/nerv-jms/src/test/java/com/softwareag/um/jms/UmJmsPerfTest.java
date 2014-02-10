@@ -19,7 +19,9 @@ import com.pcbsys.nirvana.nJMS.TopicConnectionFactoryImpl;
 
 public class UmJmsPerfTest {
 
-	public static final int COUNT = 300000;
+	public static final int COUNT = 1000000;
+
+	public static final int WAIT = 60000;
 
 	protected ConnectionFactory factory = new TopicConnectionFactoryImpl("nsp://localhost:9000");
 
@@ -42,7 +44,7 @@ public class UmJmsPerfTest {
 		session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 		destination = session.createTopic(this.getClass().getSimpleName());
 		producer = session.createProducer(destination);
-		producer.setTimeToLive(1000);
+		producer.setTimeToLive(10000);
 		consumer = session.createConsumer(destination);
 		message = session.createTextMessage("Test");
 
@@ -75,7 +77,7 @@ public class UmJmsPerfTest {
 		int receivedEvents = listener.getReceivedEvents();
 		if (receivedEvents < COUNT) {
 			synchronized (listener.getLock()) {
-				listener.getLock().wait(20000);
+				listener.getLock().wait(WAIT);
 			}
 		}
 		assertEquals(COUNT, listener.getReceivedEvents());
@@ -93,7 +95,7 @@ public class UmJmsPerfTest {
 		int receivedEvents = listener.getReceivedEvents();
 		if (receivedEvents < COUNT) {
 			synchronized (listener.getLock()) {
-				listener.getLock().wait(20000);
+				listener.getLock().wait(WAIT);
 			}
 		}
 		assertEquals(COUNT, listener.getReceivedEvents());
