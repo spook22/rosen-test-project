@@ -40,7 +40,7 @@ public class CamelPerfTest extends CamelTestSupport {
 	@Before
 	public void before() throws Exception {
 		log.info("Expected count set to " + expectedCount);
-		template.setDefaultEndpoint(vmSjmsEndpoint);
+		template.setDefaultEndpoint(sjmsEndpoint);
 
 		// for (int i = 0; i < 1000; i++) {
 		// template.sendBody(expectedBody);
