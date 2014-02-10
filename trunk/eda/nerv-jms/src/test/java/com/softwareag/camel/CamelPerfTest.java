@@ -1,6 +1,10 @@
 package com.softwareag.camel;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
+import javax.jms.DeliveryMode;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
@@ -70,15 +74,17 @@ public class CamelPerfTest extends CamelTestSupport {
 	@Test
 	public void testVmToSjmsComponent() throws Exception {
 		log.info("Expected count set to " + expectedCount);
-		template.setDefaultEndpointUri("sjms:topic:testPerformanceSjms?producerCount=1&ttl=1000&synchronous=true");
+		template.setDefaultEndpointUri("sjms:topic:testPerformanceSjms?producerCount=10&ttl=1000&synchronous=false");
+		Map<String, Object> headers = new HashMap<>();
+		headers.put("JMSDeliveryMode", DeliveryMode.NON_PERSISTENT);
 		for (int i = 0; i < expectedCount; i++) {
-			template.sendBody(expectedBody);
+			template.sendBodyAndHeaders(expectedBody, headers);
 		}
 
 		int receivedEvents = jmsProcessor.getReceivedMessages();
 		if (receivedEvents < expectedCount) {
 			synchronized (jmsProcessor.getLock()) {
-				jmsProcessor.getLock().wait(180000);
+				jmsProcessor.getLock().wait(60000);
 			}
 		}
 		assertEquals(expectedCount.intValue(), jmsProcessor.getReceivedMessages());
