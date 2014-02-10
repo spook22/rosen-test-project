@@ -65,7 +65,7 @@ public class UmJmsPerfTest {
 	}
 
 	@Test
-	public void testJmsPerfPersistence() throws Exception {
+	public void testJmsPersistence() throws Exception {
 		JmsMessageListener listener = new JmsMessageListener(COUNT);
 		consumer.setMessageListener(listener);
 		for (int i = 0; i < COUNT; i++) {
@@ -82,7 +82,7 @@ public class UmJmsPerfTest {
 	}
 
 	@Test
-	public void testJmsPerfNoPersistence() throws Exception {
+	public void testJmsNoPersistence() throws Exception {
 		JmsMessageListener listener = new JmsMessageListener(COUNT);
 		consumer.setMessageListener(listener);
 		message.setJMSDeliveryMode(DeliveryMode.NON_PERSISTENT);

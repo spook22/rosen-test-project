@@ -60,7 +60,7 @@ public class UmNativeApiPerfTest {
 	}
 
 	@Test
-	public void testNativeApiPerfPersistence() throws Exception {
+	public void testNativePersistence() throws Exception {
 		EventListener listener = new EventListener(COUNT);
 		channel.addSubscriber(listener);
 		for (int i = 0; i < COUNT; i++) {
@@ -77,7 +77,7 @@ public class UmNativeApiPerfTest {
 	}
 
 	@Test
-	public void testNativeApiPerfNoPersistence() throws Exception {
+	public void testNativeNoPersistence() throws Exception {
 		EventListener listener = new EventListener(COUNT);
 		channel.addSubscriber(listener);
 		event.setPersistant(false);
