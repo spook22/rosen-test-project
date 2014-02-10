@@ -49,7 +49,7 @@ public class CamelPerfTest extends CamelTestSupport {
 		int receivedEvents = jmsProcessor.getReceivedMessages();
 		if (receivedEvents < expectedCount) {
 			synchronized (jmsProcessor.getLock()) {
-				jmsProcessor.getLock().wait(240000);
+				jmsProcessor.getLock().wait(20000);
 			}
 		}
 		assertEquals(expectedCount.intValue(), jmsProcessor.getReceivedMessages());
