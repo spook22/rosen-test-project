@@ -36,7 +36,7 @@ public class CamelPerfTest extends CamelTestSupport {
 	protected Endpoint sjmsEndpoint;
 
 	@Test
-	public void testVmToSjmsComponent() throws Exception {
+	public void testVmToSjmsNoPersistence() throws Exception {
 		log.info("Expected count set to " + expectedCount);
 		template.setDefaultEndpoint(vmSjmsEndpoint);
 
@@ -44,6 +44,24 @@ public class CamelPerfTest extends CamelTestSupport {
 		headers.put("JMSDeliveryMode", DeliveryMode.NON_PERSISTENT);
 		for (int i = 0; i < expectedCount; i++) {
 			template.sendBodyAndHeaders(expectedBody, headers);
+		}
+
+		int receivedEvents = jmsProcessor.getReceivedMessages();
+		if (receivedEvents < expectedCount) {
+			synchronized (jmsProcessor.getLock()) {
+				jmsProcessor.getLock().wait(20000);
+			}
+		}
+		assertEquals(expectedCount.intValue(), jmsProcessor.getReceivedMessages());
+	}
+
+	@Test
+	public void testVmToSjmsPersistence() throws Exception {
+		log.info("Expected count set to " + expectedCount);
+		template.setDefaultEndpoint(vmSjmsEndpoint);
+
+		for (int i = 0; i < expectedCount; i++) {
+			template.sendBody(expectedBody);
 		}
 
 		int receivedEvents = jmsProcessor.getReceivedMessages();
