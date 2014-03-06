@@ -25,6 +25,18 @@ public class CamelUmPerfTest extends CamelTestSupport {
 		resultEndpoint.assertIsSatisfied();
 	}
 
+	@Test
+	public void testMultiple() throws Exception {
+		String expectedBody = "CamelUmPerfTest";
+		int messageCount = 10000;
+		resultEndpoint.expectedMessageCount(messageCount);
+		template.setDefaultEndpointUri("um:topic:CamelUmPerfTest");
+		for (int i = 0; i < messageCount; i++) {
+			template.sendBody(expectedBody);
+		}
+		resultEndpoint.assertIsSatisfied();
+	}
+
 	@Override
 	protected RouteBuilder createRouteBuilder() {
 		return new RouteBuilder() {
