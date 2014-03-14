@@ -12,6 +12,7 @@ import com.pcbsys.nirvana.client.nSessionFactory;
 public class UmComponent extends UriEndpointComponent {
 
 	private String rname;
+	private nSession session;
 
 	public UmComponent() {
 		super(UmEndpoint.class);
@@ -33,14 +34,28 @@ public class UmComponent extends UriEndpointComponent {
 	}
 
 	protected nSession createSession() {
+		if (session != null) {
+			return session;
+		}
 		try {
 			String[] RNAME = { rname };
 			nSessionAttributes sessionAttributes = new nSessionAttributes(RNAME);
-			nSession session = nSessionFactory.create(sessionAttributes);
+			session = nSessionFactory.create(sessionAttributes);
 			session.init();
 			return session;
 		} catch (Exception e) {
 			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public void stop() throws Exception {
+		try {
+			if (session != null) {
+				session.close();
+			}
+		} finally {
+			super.stop();
 		}
 	}
 
