@@ -34,6 +34,7 @@ public class UmEndpoint extends DefaultEndpoint {
 	}
 
 	protected final boolean topic;
+	private nChannel channel;
 
 	public UmEndpoint(String endpointUri, UmComponent component) {
 		super(endpointUri, component);
@@ -77,15 +78,18 @@ public class UmEndpoint extends DefaultEndpoint {
 	}
 
 	protected nChannel getChannel() throws Exception {
-		nSession session = getComponent().createSession();
-		nChannelAttributes channelAttributes = new nChannelAttributes(getDestinationName());
-		try {
-			return session.findChannel(channelAttributes);
-		} catch (nChannelNotFoundException e) {
-			channelAttributes.setTTL(10000);
-			channelAttributes.setType(nChannelAttributes.MIXED_TYPE);
-			return session.createChannel(channelAttributes);
+		if (channel == null) {
+			nSession session = getComponent().createSession();
+			nChannelAttributes channelAttributes = new nChannelAttributes(getDestinationName());
+			try {
+				channel = session.findChannel(channelAttributes);
+			} catch (nChannelNotFoundException e) {
+				channelAttributes.setTTL(10000);
+				channelAttributes.setType(nChannelAttributes.MIXED_TYPE);
+				channel = session.createChannel(channelAttributes);
+			}
 		}
+		return channel;
 	}
 
 }
