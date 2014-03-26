@@ -1,5 +1,8 @@
 package com.softwareag;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Measurement {
 
 	private final long timestamp;
@@ -9,6 +12,8 @@ public class Measurement {
 	private final int eventsCount;
 
 	private final long milliseconds;
+
+	private final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 	public Measurement(long timestamp, String testName, int eventsCount, long milliseconds) {
 		super();
@@ -36,7 +41,8 @@ public class Measurement {
 
 	@Override
 	public String toString() {
-		return timestamp + "," + testName + "," + eventsCount + "," + milliseconds + "," + (eventsCount / milliseconds * 1000);
+		return timestamp + "," + format.format(new Date(timestamp)) + "," + testName + "," + eventsCount + "," + milliseconds + ","
+				+ (eventsCount / milliseconds * 1000);
 	}
 
 }
