@@ -67,7 +67,7 @@ public class UmJmsPerfTest {
 		send();
 		waitForConsumption();
 		validate();
-		record("testJmsNoPersistence", System.currentTimeMillis() - start);
+		record("testJmsPersistence", System.currentTimeMillis() - start);
 	}
 
 	@Test

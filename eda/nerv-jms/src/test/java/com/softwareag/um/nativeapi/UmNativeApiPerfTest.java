@@ -15,6 +15,8 @@ import com.pcbsys.nirvana.client.nConsumeEvent;
 import com.pcbsys.nirvana.client.nSession;
 import com.pcbsys.nirvana.client.nSessionAttributes;
 import com.pcbsys.nirvana.client.nSessionFactory;
+import com.softwareag.Measurement;
+import com.softwareag.Utils;
 
 public class UmNativeApiPerfTest {
 
@@ -23,6 +25,8 @@ public class UmNativeApiPerfTest {
 	protected nChannel channel;
 
 	protected nConsumeEvent event;
+
+	protected EventListener listener;
 
 	@Before
 	public void before() throws Exception {
@@ -53,37 +57,52 @@ public class UmNativeApiPerfTest {
 
 	@Test
 	public void testNativePersistence() throws Exception {
-		EventListener listener = new EventListener(COUNT);
-		channel.addSubscriber(listener);
-		for (int i = 0; i < COUNT; i++) {
-			channel.publish(event);
-		}
-
-		int receivedEvents = listener.getReceivedEvents();
-		if (receivedEvents < COUNT) {
-			synchronized (listener.getLock()) {
-				listener.getLock().wait(WAIT);
-			}
-		}
-		assertEquals(COUNT, listener.getReceivedEvents());
+		configure();
+		long start = System.currentTimeMillis();
+		send();
+		waitForConsumption();
+		validate();
+		record("testNativePersistence", System.currentTimeMillis() - start);
 	}
 
 	@Test
 	public void testNativeNoPersistence() throws Exception {
-		EventListener listener = new EventListener(COUNT);
-		channel.addSubscriber(listener);
+		configure();
 		event.setPersistant(false);
+		long start = System.currentTimeMillis();
+		send();
+		waitForConsumption();
+		validate();
+		record("testNativeNoPersistence", System.currentTimeMillis() - start);
+	}
+
+	private void configure() throws Exception {
+		listener = new EventListener(COUNT);
+		channel.addSubscriber(listener);
+	}
+
+	private void send() throws Exception {
 		for (int i = 0; i < COUNT; i++) {
 			channel.publish(event);
 		}
+	}
 
+	private void waitForConsumption() throws Exception {
 		int receivedEvents = listener.getReceivedEvents();
 		if (receivedEvents < COUNT) {
 			synchronized (listener.getLock()) {
 				listener.getLock().wait(WAIT);
 			}
 		}
+	}
+
+	private void validate() {
 		assertEquals(COUNT, listener.getReceivedEvents());
+	}
+
+	private void record(String testName, long milliseconds) {
+		Measurement measurement = new Measurement(System.currentTimeMillis(), testName, COUNT, milliseconds);
+		Utils.record(measurement);
 	}
 
 }
