@@ -16,6 +16,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.pcbsys.nirvana.nJMS.TopicConnectionFactoryImpl;
+import com.softwareag.Measurement;
+import com.softwareag.Utils;
 
 public class UmJmsPerfTest {
 
@@ -36,6 +38,8 @@ public class UmJmsPerfTest {
 	protected MessageConsumer consumer;
 
 	protected TextMessage message;
+
+	protected JmsMessageListener listener;
 
 	@Before
 	public void before() throws Exception {
@@ -58,37 +62,52 @@ public class UmJmsPerfTest {
 
 	@Test
 	public void testJmsPersistence() throws Exception {
-		JmsMessageListener listener = new JmsMessageListener(COUNT);
-		consumer.setMessageListener(listener);
-		for (int i = 0; i < COUNT; i++) {
-			producer.send(message);
-		}
-
-		int receivedEvents = listener.getReceivedEvents();
-		if (receivedEvents < COUNT) {
-			synchronized (listener.getLock()) {
-				listener.getLock().wait(WAIT);
-			}
-		}
-		assertEquals(COUNT, listener.getReceivedEvents());
+		long start = System.currentTimeMillis();
+		configure();
+		send();
+		waitForConsumption();
+		validate();
+		record("testJmsNoPersistence", System.currentTimeMillis() - start);
 	}
 
 	@Test
 	public void testJmsNoPersistence() throws Exception {
-		JmsMessageListener listener = new JmsMessageListener(COUNT);
-		consumer.setMessageListener(listener);
+		configure();
 		message.setJMSDeliveryMode(DeliveryMode.NON_PERSISTENT);
+		long start = System.currentTimeMillis();
+		send();
+		waitForConsumption();
+		validate();
+		record("testJmsNoPersistence", System.currentTimeMillis() - start);
+	}
+
+	private void configure() throws Exception {
+		listener = new JmsMessageListener(COUNT);
+		consumer.setMessageListener(listener);
+	}
+
+	private void send() throws Exception {
 		for (int i = 0; i < COUNT; i++) {
 			producer.send(message);
 		}
+	}
 
+	private void waitForConsumption() throws Exception {
 		int receivedEvents = listener.getReceivedEvents();
 		if (receivedEvents < COUNT) {
 			synchronized (listener.getLock()) {
 				listener.getLock().wait(WAIT);
 			}
 		}
+	}
+
+	private void validate() {
 		assertEquals(COUNT, listener.getReceivedEvents());
+	}
+
+	private void record(String testName, long milliseconds) {
+		Measurement measurement = new Measurement(System.currentTimeMillis(), testName, COUNT, milliseconds);
+		Utils.record(measurement);
 	}
 
 }
