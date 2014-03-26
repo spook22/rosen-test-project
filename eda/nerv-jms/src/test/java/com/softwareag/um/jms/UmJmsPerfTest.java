@@ -62,8 +62,8 @@ public class UmJmsPerfTest {
 
 	@Test
 	public void testJmsPersistence() throws Exception {
-		long start = System.currentTimeMillis();
 		configure();
+		long start = System.currentTimeMillis();
 		send();
 		waitForConsumption();
 		validate();
