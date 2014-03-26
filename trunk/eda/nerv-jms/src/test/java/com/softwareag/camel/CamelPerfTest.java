@@ -16,6 +16,9 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.softwareag.Measurement;
+import com.softwareag.Utils;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration
 public class CamelPerfTest extends CamelTestSupport {
@@ -55,14 +58,18 @@ public class CamelPerfTest extends CamelTestSupport {
 	public void testVmToSjmsNoPersistence() throws Exception {
 		Map<String, Object> headers = new CaseInsensitiveMap();
 		headers.put("JMSDeliveryMode", DeliveryMode.NON_PERSISTENT);
+		long start = System.currentTimeMillis();
 		send(headers);
 		validate();
+		record("testVmToSjmsNoPersistence", System.currentTimeMillis() - start);
 	}
 
 	@Test
 	public void testVmToSjmsPersistence() throws Exception {
+		long start = System.currentTimeMillis();
 		send(null);
 		validate();
+		record("testVmToSjmsPersistence", System.currentTimeMillis() - start);
 	}
 
 	private void send(Map<String, Object> headers) throws Exception {
@@ -82,6 +89,11 @@ public class CamelPerfTest extends CamelTestSupport {
 			}
 		}
 		assertEquals(expectedCount.intValue(), jmsProcessor.getReceivedMessages());
+	}
+
+	private void record(String testName, long milliseconds) {
+		Measurement measurement = new Measurement(System.currentTimeMillis(), testName, expectedCount, milliseconds);
+		Utils.record(measurement);
 	}
 
 }
