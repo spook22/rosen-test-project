@@ -47,16 +47,6 @@ public class UmJmsPerfTest {
 		producer.setTimeToLive(10000);
 		consumer = session.createConsumer(destination);
 		message = session.createTextMessage("Test");
-
-		warmup();
-	}
-
-	private void warmup() throws Exception {
-		// Send 10k messages to warmup UM.
-		for (int i = 0; i < 1000; i++) {
-			producer.send(message);
-		}
-		Thread.sleep(2000);
 	}
 
 	@After
