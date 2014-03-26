@@ -36,7 +36,7 @@ public class Measurement {
 
 	@Override
 	public String toString() {
-		return timestamp + "," + testName + "," + eventsCount + "," + milliseconds + "," + (eventsCount / milliseconds / 1000);
+		return timestamp + "," + testName + "," + eventsCount + "," + milliseconds + "," + (eventsCount / milliseconds * 1000);
 	}
 
 }
