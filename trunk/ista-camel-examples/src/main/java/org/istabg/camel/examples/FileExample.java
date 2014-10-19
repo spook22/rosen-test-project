@@ -6,13 +6,17 @@ import org.apache.camel.impl.DefaultCamelContext;
 
 public class FileExample {
 	
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception {		
 		CamelContext context = new DefaultCamelContext();
 		context.addRoutes(new RouteBuilder() {
 			
 			@Override
 			public void configure() throws Exception {
-				from("file:inbox/orders").to("file:outbox/orders");
+				from("file:inbox/orders")
+					.choice()
+						.when(xpath("/order/product = 'widget'")).to("file:outbox/orders/widgets")
+						.otherwise().to("file:outbox/orders/gadgets")
+					.end();
 			}
 		});
 		context.start();
