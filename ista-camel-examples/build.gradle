@@ -16,6 +16,10 @@ dependencies {
     	"org.slf4j:slf4j-log4j12:$slf4jVersion",
 		"org.apache.camel:camel-stream:$camelVersion",		
 	)
+	testCompile(
+		"org.apache.camel:camel-test:$camelVersion",
+		"org.apache.camel:camel-test-spring:$camelVersion",
+	)
 }
 
 task wrapper(type: Wrapper) {
