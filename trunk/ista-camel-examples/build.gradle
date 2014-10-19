@@ -19,6 +19,7 @@ dependencies {
 	testCompile(
 		"org.apache.camel:camel-test:$camelVersion",
 		"org.apache.camel:camel-test-spring:$camelVersion",
+		"org.apache.camel:camel-test-blueprint:$camelVersion",
 	)
 }
 
