@@ -8,6 +8,14 @@ repositories {
 }
 
 dependencies {
+	compile(
+		"org.apache.camel:camel-core:$camelVersion",
+		"org.apache.camel:camel-spring:$camelVersion",
+	)
+	runtime(
+    	"org.slf4j:slf4j-log4j12:$slf4jVersion",
+		"org.apache.camel:camel-stream:$camelVersion",		
+	)
 }
 
 task wrapper(type: Wrapper) {
