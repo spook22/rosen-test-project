@@ -12,7 +12,7 @@ public class FileExample {
 			
 			@Override
 			public void configure() throws Exception {
-				from("file:inbox/orders?initialDelay=0").to("file:outbox/orders");
+				from("file:inbox/orders").to("file:outbox/orders");
 			}
 		});
 		context.start();
