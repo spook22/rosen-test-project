@@ -5,7 +5,10 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.security.MessageDigest;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class CompareApplication {
 
@@ -15,10 +18,13 @@ public class CompareApplication {
 		watch.start();
 		String suffix = "_MyData";
 		compare.diff("D:\\" + suffix, "F:\\" + suffix);
+		compare.printResult();
 		watch.stopAndPrint();
 	}
 
 	private final boolean useChecksum;
+
+	private final Set<File> result = new TreeSet<>();
 
 	public CompareApplication(boolean useChecksum) {
 		super();
@@ -73,16 +79,18 @@ public class CompareApplication {
 					String cSum1 = checksum(file);
 					String cSum2 = checksum(fComp);
 					if (!cSum1.equals(cSum2)) {
-						System.out.println(file.getName() + "\t\t" + "different");
+						System.out.println(file.getName() + "\t\t\t\t" + "different");
 					}
 				}
 			} else {
-				System.out.println(file.getName() + "\t\t" + "only in " + file.getParent());
+				result.add(file);
 			}
 		}
-		for (String key : map.keySet()) {
-			File file = map.remove(key);
-			System.out.println(file.getName() + "\t\t" + "only in " + file.getParent());
+		Iterator<File> iter = map.values().iterator();
+		while (iter.hasNext()) {
+			File file = iter.next();
+			result.add(file);
+			iter.remove();
 		}
 	}
 
@@ -109,6 +117,16 @@ public class CompareApplication {
 			throw new RuntimeException("File or directory cannot be null.");
 		} else if (!file.exists()) {
 			throw new RuntimeException("File or directory " + file.getAbsolutePath() + " does not exist.");
+		}
+	}
+
+	private String onlyInMsg(File file) {
+		return String.format("%-50s exists only in %s", file.getName(), file.getParent());
+	}
+
+	public void printResult() {
+		for (File file : result) {
+			System.out.println(onlyInMsg(file));
 		}
 	}
 
