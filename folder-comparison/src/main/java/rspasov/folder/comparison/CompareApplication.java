@@ -24,7 +24,7 @@ public class CompareApplication {
 
 	private final boolean useChecksum;
 
-	private final Set<File> result = new TreeSet<>();
+	protected final Set<File> result = new TreeSet<>();
 
 	public CompareApplication(boolean useChecksum) {
 		super();
