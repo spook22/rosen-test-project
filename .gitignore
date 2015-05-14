@@ -1,5 +1,6 @@
 **/gradle/
 **/gradlew/
+**/gradlew
 **/gradlew.bat
 **/.gradle/
 **/.project
