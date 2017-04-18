@@ -14,6 +14,7 @@ public class LinkedList<T> {
 		this.last = last();
 	}
 
+	@SafeVarargs
 	public LinkedList(T... data) {
 		if (data != null) {
 			for (T datum : data) {
