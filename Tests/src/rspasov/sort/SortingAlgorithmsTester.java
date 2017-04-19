@@ -7,7 +7,7 @@ public class SortingAlgorithmsTester {
 	private static boolean printArr = false;
 	
 	public static void main(String[] args) {
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 100; i++) {
 			int[] arr = generateArray(1000);
 			heapSort(arr);
 			checkOrder(arr);
@@ -32,18 +32,23 @@ public class SortingAlgorithmsTester {
 	private static void buildHeap(int[] arr, int length) {
 		int index = 0;
 		while (index < length) {
+			int swapIndex = index;
 			// For each element, compare the parent with its left and right child and swap it with the smallest element of them three.
-			int childIndex = index * 2 + 1;
-			if (childIndex < length && arr[index] < arr[childIndex]) { // Compare with left child
+			int childIndex = index * 2 + 1; // Compare with left child
+			if (childIndex < length && arr[swapIndex] < arr[childIndex]) { 
+				swapIndex = childIndex;
+			}
+			childIndex = index * 2 + 2; // Compare with right child
+			if (childIndex < length && arr[swapIndex] < arr[childIndex]) {
 				swap(arr, index, childIndex);
 				siftUp(arr, index);
 			}
-			childIndex = index * 2 + 2;
-			if (childIndex < length && arr[index] < arr[childIndex]) { // Compare with right child
-				swap(arr, index, childIndex);
+			if (swapIndex != index) {
+				swap(arr, index, swapIndex);
 				siftUp(arr, index);
+			} else {
+				index++;
 			}
-			index++;
 		}
 		checkHeap(arr, length);
 	}
