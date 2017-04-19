@@ -1,17 +1,45 @@
 package rspasov.sort;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Arrays;
 
 public class SortingAlgorithmsTester {
 	
 	private static boolean printArr = false;
 	
+	private static class StopWatch {
+		Instant start, end;
+		
+		public void start() {
+			start = now();
+		}
+		
+		public void end() {
+			end = now();
+		}
+
+		private Instant now() {
+			return Instant.now();
+		}
+		
+		public void printDuration() {
+			end();
+			System.out.println(Duration.between(start, end).getSeconds());
+		}
+		
+	}
+	
+	private static StopWatch stopWatch = new StopWatch();
+	
 	public static void main(String[] args) {
+		stopWatch.start();
 		for (int i = 0; i < 100; i++) {
 			int[] arr = generateArray(1000);
 			heapSort(arr);
 			checkOrder(arr);
 		}
+		stopWatch.printDuration();
 	}
 	
 	private static void print(int[] arr) {
