@@ -47,6 +47,30 @@ public class SortingAlgorithmsTester {
 			System.out.println(Arrays.toString(arr));
 		}
 	}
+
+	private static int[] generateArray(int size) {
+		int[] result = new int[size];
+		for (int index = 0; index < size; index++) {
+			result[index] = (int) Math.round(Math.random() * size);
+		}
+		print(result);
+		return result;
+	}
+	
+	private static void checkOrder(int[] arr) {
+		for (int index = 0; index < arr.length - 1; index++) {
+			if (arr[index] > arr[index + 1]) {
+				throw new RuntimeException("Array is not sorted at index " + index + ". Array: " + Arrays.toString(arr));
+			}
+		}
+	}
+
+	private static void swap(int[] arr, int i, int j) {
+		int temp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = temp;
+		print(arr);
+	}
 	
 	public static void heapSort(int[] arr) {
 		buildHeap(arr, arr.length);
@@ -101,30 +125,6 @@ public class SortingAlgorithmsTester {
 			index = parentIndex;
 			parentIndex = (index - 1) / 2;
 		}
-	}
-
-	private static int[] generateArray(int size) {
-		int[] result = new int[size];
-		for (int index = 0; index < size; index++) {
-			result[index] = (int) Math.round(Math.random() * size);
-		}
-		print(result);
-		return result;
-	}
-	
-	private static void checkOrder(int[] arr) {
-		for (int index = 0; index < arr.length - 1; index++) {
-			if (arr[index] > arr[index + 1]) {
-				throw new RuntimeException("Array is not sorted at index " + index + ". Array: " + Arrays.toString(arr));
-			}
-		}
-	}
-
-	private static void swap(int[] arr, int i, int j) {
-		int temp = arr[i];
-		arr[i] = arr[j];
-		arr[j] = temp;
-		print(arr);
 	}
 	
 
