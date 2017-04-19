@@ -68,9 +68,10 @@ public class SortingAlgorithmsTester {
 	
 	private static void siftUp(int[] arr, int index) {
 		int parentIndex = (index - 1) / 2;
-		if (parentIndex >= 0 && arr[parentIndex] < arr[index]) {
+		while (parentIndex >= 0 && arr[parentIndex] < arr[index]) {
 			swap(arr, parentIndex, index);
-			siftUp(arr, parentIndex);
+			index = parentIndex;
+			parentIndex = (index - 1) / 2;
 		}
 	}
 
