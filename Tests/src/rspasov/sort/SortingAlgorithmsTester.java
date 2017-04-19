@@ -33,13 +33,19 @@ public class SortingAlgorithmsTester {
 	private static StopWatch stopWatch = new StopWatch();
 	
 	public static void main(String[] args) {
+		int size = 100000;
+		
+		int[] arr = generateArray(size);
 		stopWatch.start();
-		for (int i = 0; i < 100; i++) {
-			int[] arr = generateArray(1000);
-			heapSort(arr);
-			checkOrder(arr);
-		}
+		heapSort(arr);
 		stopWatch.printDuration();
+		checkOrder(arr);
+		
+		arr = generateArray(size);
+		stopWatch.start();
+		selectionSort(arr);
+		stopWatch.printDuration();
+		checkOrder(arr);
 	}
 	
 	private static void print(int[] arr) {
@@ -75,9 +81,9 @@ public class SortingAlgorithmsTester {
 	public static void heapSort(int[] arr) {
 		buildHeap(arr, arr.length);
 		int index = arr.length - 1;
-		while (index > 0 ) {
-			swap(arr, 0, index);
-			buildHeap(arr, index--);
+		while (index >= 0) {
+			swap(arr, 0, index--);
+			siftDown(arr, 0, index);
 		}
 	}
 
@@ -118,12 +124,44 @@ public class SortingAlgorithmsTester {
 		}
 	}
 	
-	private static void siftUp(int[] arr, int index) {
-		int parentIndex = (index - 1) / 2;
-		while (parentIndex >= 0 && arr[parentIndex] < arr[index]) {
-			swap(arr, parentIndex, index);
-			index = parentIndex;
-			parentIndex = (index - 1) / 2;
+	private static void siftUp(int[] arr, int childIndex) {
+		int parentIndex = (childIndex - 1) / 2;
+		while (parentIndex >= 0 && arr[parentIndex] < arr[childIndex]) {
+			swap(arr, parentIndex, childIndex);
+			childIndex = parentIndex;
+			parentIndex = (childIndex - 1) / 2;
+		}
+	}
+	
+	private static void siftDown(int[] arr, int parentIndex, int end) {
+		int childIndex = parentIndex * 2 + 1;
+		while (childIndex <= end) {
+			int swapIndex = parentIndex;
+			if (arr[swapIndex] < arr[childIndex]) {
+				swapIndex = childIndex;
+			}
+			if (childIndex + 1 <= end && arr[swapIndex] < arr[childIndex + 1]) {
+				swapIndex = childIndex + 1;
+			}
+			if (swapIndex == parentIndex) {
+				return;
+			} else {
+				swap(arr, parentIndex, swapIndex);
+				parentIndex = swapIndex;
+				childIndex = parentIndex * 2 + 1;
+			}
+		}
+	}
+	
+	public static void selectionSort(int[] arr) {
+		for (int i = 0; i < arr.length - 1; i++) {
+			int minIndex = i;
+			for (int j = i + 1; j < arr.length; j++) {
+				if (arr[minIndex] > arr[j]) {
+					minIndex = j;
+				}
+			}
+			swap(arr, i, minIndex);
 		}
 	}
 	
