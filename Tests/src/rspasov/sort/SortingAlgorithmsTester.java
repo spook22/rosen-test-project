@@ -46,6 +46,12 @@ public class SortingAlgorithmsTester {
 		selectionSort(arr);
 		stopWatch.printDuration();
 		checkOrder(arr);
+		
+		arr = generateArray(size);
+		stopWatch.start();
+		insertionSort(arr);
+		stopWatch.printDuration();
+		checkOrder(arr);
 	}
 	
 	private static void print(int[] arr) {
@@ -162,6 +168,14 @@ public class SortingAlgorithmsTester {
 				}
 			}
 			swap(arr, i, minIndex);
+		}
+	}
+	
+	public static void insertionSort(int[] arr) {
+		for (int i = 0; i < arr.length; i++) {
+			for (int j = i; j > 0 && arr[j - 1] > arr[j]; j--) {
+				swap(arr, j - 1, j);
+			}
 		}
 	}
 	
