@@ -7,11 +7,13 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
 import org.junit.runners.model.TestTimedOutException;
 
+@Ignore
 public class TestClassA {
 
 	@ClassRule
