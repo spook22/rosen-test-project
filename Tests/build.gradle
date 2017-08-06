@@ -1,0 +1,38 @@
+import org.gradle.plugins.ide.eclipse.model.SourceFolder
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+repositories {
+    mavenCentral()
+}
+
+tasks.eclipse.dependsOn(cleanEclipse)
+
+eclipse.classpath.file.whenMerged { classpath ->
+	classpath.entries.each {
+		if (it instanceof SourceFolder) {
+			it.excludes << '**/.svn/' << '**/*.gradle'
+		}
+	}
+}
+	
+defaultTasks 'build', 'eclipse'
+
+description = "Rosen Spasov's main test playground."
+version='1.0'
+group = 'rspasov'
+
+dependencies {
+	testCompile(
+		"junit:junit:4.12",
+		"io.takari.junit:takari-cpsuite:1.2.7",
+	)
+}
+
+task createDirs {
+	doLast {
+		sourceSets*.java.srcDirs*.each { it.mkdirs() }
+		sourceSets*.resources.srcDirs*.each { it.mkdirs() }
+	}
+}

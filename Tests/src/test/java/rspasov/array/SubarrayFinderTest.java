@@ -8,7 +8,7 @@ public class SubarrayFinderTest {
 
 	@Test
 	public void testIsSubArray() {
-		int size = 100000000;
+		int size = 100000;
 		int[] first = new int[size];
 		int[] second = new int[size / 2];
 		for (int i = 0; i < size; i++) {
@@ -17,8 +17,6 @@ public class SubarrayFinderTest {
 				second[i - (size / 2)] = i;
 			}
 		}
-		// System.out.println(Arrays.toString(first));
-		// System.out.println(Arrays.toString(second));
 		for (int i = 0; i < 100; i++) {
 			assertTrue(SubArrayFinder.isSubArray(first, second));
 		}

@@ -10,6 +10,7 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
+import org.junit.runners.model.TestTimedOutException;
 
 public class TestClassA {
 
@@ -44,19 +45,19 @@ public class TestClassA {
 		System.out.println("testA");
 	}
 
-	@Test(timeout = 1000)
+	@Test(timeout = 1000, expected = TestTimedOutException.class)
 	public void testB() throws Exception {
 		System.out.println("testB");
 		Thread.sleep(1500);
 	}
 
-	@Test
+	@Test(expected = TestTimedOutException.class)
 	public void testC() throws Exception {
 		System.out.println("testC");
 		Thread.sleep(2500);
 	}
 
-	@Test
+	@Test(expected = InterruptedException.class)
 	public void testD() throws Exception {
 		System.out.println("testD");
 		Thread.sleep(2500);

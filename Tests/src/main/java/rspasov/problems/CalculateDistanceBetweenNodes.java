@@ -3,11 +3,9 @@ package rspasov.problems;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import org.junit.Test;
-
 public class CalculateDistanceBetweenNodes {
 
-	private static class BinaryTree {
+	public static class BinaryTree {
 		private int data;
 		private BinaryTree left;
 		private BinaryTree right;
@@ -67,33 +65,5 @@ public class CalculateDistanceBetweenNodes {
 		}
 
 		return queue1.size() + queue2.size();
-	}
-
-	@Test
-	public void test() {
-		BinaryTree tree = null;
-		int[] values = new int[] { 5, 6, 3, 1, 2, 4 };
-		for (int value : values) {
-			if (tree == null) {
-				tree = new BinaryTree(value);
-			} else {
-				tree.add(value);
-			}
-		}
-		System.out.println(tree);
-		System.out.println(calculateDistance(tree, 3, 2));
-
-		System.out.println();
-		values = new int[] { 9, 7, 5, 3, 1 };
-		tree = null;
-		for (int value : values) {
-			if (tree == null) {
-				tree = new BinaryTree(value);
-			} else {
-				tree.add(value);
-			}
-		}
-		System.out.println(tree);
-		System.out.println("Distance: " + calculateDistance(tree, 7, 20));
 	}
 }
