@@ -10,10 +10,14 @@ repositories {
 
 tasks.eclipse.dependsOn(cleanEclipse)
 
-eclipse.classpath.file.whenMerged { classpath ->
-	classpath.entries.each {
-		if (it instanceof SourceFolder) {
-			it.excludes << '**/.svn/' << '**/*.gradle'
+eclipse {
+	classpath {
+		file.whenMerged { classpath ->
+			classpath.entries.each {
+				if (it instanceof SourceFolder) {
+					it.excludes << '**/.svn/' << '**/*.gradle'
+				}
+			}
 		}
 	}
 }
