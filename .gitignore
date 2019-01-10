@@ -10,5 +10,6 @@
 **/build/
 **/bin/
 **/target/
+**/.idea/
 .metadata/
 .recommenders/
