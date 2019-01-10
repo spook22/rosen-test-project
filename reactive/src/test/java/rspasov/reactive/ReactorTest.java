@@ -1,7 +1,5 @@
 package rspasov.reactive;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 import reactor.core.publisher.Mono;
