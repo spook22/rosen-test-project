@@ -1,11 +1,8 @@
 package rspasov.java8;
 
-import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.function.Supplier;
 
 public class Concurrency {
 
@@ -31,19 +28,9 @@ public class Concurrency {
             executor.execute(slowTask);
             executor.submit(slowTask).get(); // Returns null as Runnable.run() returns void.
 
-            Callable<String> logMessageTask = () -> msg();
-            Future<String> future = executor.submit(logMessageTask);
-            System.out.println(future.get());
-
-            CompletableFuture<Void> voidFuture = CompletableFuture.runAsync(slowTask, executor);
-            System.out.println(voidFuture.get());
-            // CompletableFuture.runAsync(logMessageTask, executor); // Does not compile.
-
-            Supplier<String> logMessageSupplier = () -> msg();
-            CompletableFuture<String> cFuture = CompletableFuture.supplyAsync(logMessageSupplier,
-                    executor);
-            System.out.println(cFuture.get());
-
+            System.out.println(executor.submit(() -> msg()).get());
+            System.out.println(CompletableFuture.runAsync(slowTask, executor));
+            System.out.println(CompletableFuture.supplyAsync(() -> msg(), executor).join());
         } finally {
             executor.shutdown();
         }
