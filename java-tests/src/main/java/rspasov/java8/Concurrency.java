@@ -10,6 +10,11 @@ public class Concurrency {
         return "Executing task in thread: " + Thread.currentThread().getName();
     }
 
+    private static void print(Object msg) {
+        System.out.println(msg);
+        ;
+    }
+
     public static void main(String[] args) throws Exception {
         ExecutorService executor = Executors.newFixedThreadPool(2);
         try {
@@ -34,6 +39,24 @@ public class Concurrency {
         } finally {
             executor.shutdown();
         }
+
+        testChaining();
+    }
+
+    private static void testChaining() {
+
+        CompletableFuture<Void> vf =
+                CompletableFuture.runAsync(() -> {
+                    print("runAsync");
+                })
+                        .thenAccept(value -> {
+                            print("thenAccept " + value);
+                        });
+
+        vf.thenRun(() -> {
+            print("thenRun");
+        });
+
     }
 
 }
